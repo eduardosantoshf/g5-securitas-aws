@@ -14,8 +14,6 @@ export default class DicomNodes extends React.Component {
       document.getElementById(
         'description'
       ).innerHTML = node.data().description;
-      document.getElementById('ae_title').innerHTML = node.data().ae_title;
-      document.getElementById('usage_type').innerHTML = node.data().usage_type;
     });
   }
   componentWillUnmount() {
@@ -29,41 +27,33 @@ export default class DicomNodes extends React.Component {
       {
         data: {
           id: 'one',
-          label: 'Viewer-2',
-          description: 'Another user using our viewer',
-          ae_title: 'AETITULO 2',
-          usage_type: 'Retrieve',
+          label: 'Camera-1',
+          description: 'Samsung Camera',
         },
         style: { color: 'SkyBlue', 'font-size': '10px' },
       },
       {
         data: {
           id: 'two',
-          label: 'MI4WEB Server',
+          label: 'Client 123123',
           type: 'comp',
-          ae_title: 'AETITULO SERVER PARÇA',
-          description: 'Temos aqui o SERVER que tem muitas coisas para se ver',
-          usage_type: 'Both',
+          description: 'Cliente number 123123',
         },
         style: { color: 'SkyBlue', 'font-size': '10px' },
       },
       {
         data: {
           id: 'three',
-          label: 'Viewer-1',
-          ae_title: 'AETITULO 1',
-          description: 'One user using our viewer',
-          usage_type: 'Retrieve',
+          label: 'Camera-2',
+          description: 'Sony Camera',
         },
         style: { color: 'SkyBlue', 'font-size': '10px' },
       },
       {
         data: {
           id: 'four',
-          label: 'Echocardiogram Machine',
-          ae_title: 'AETITULO 1',
-          description: 'Machine to perform exams on patients',
-          usage_type: 'Retrieve',
+          label: 'Camera-3',
+          description: 'Canon Camera',
         },
         style: { color: 'SkyBlue', 'font-size': '10px' },
       },

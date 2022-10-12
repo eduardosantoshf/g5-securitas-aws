@@ -10,7 +10,7 @@ export default function App() {
   const layout = { name: 'cose-bilkent' };
   return (
     <>
-      <span className="titleDashboard">DICOM Nodes</span>
+      <span className="titleDashboard">Camera Nodes</span>
       <span id="greyer">
         (Click on the nodes to get information of each one)
       </span>
@@ -30,12 +30,6 @@ export default function App() {
             </p>
             <p style={{ color: 'white' }}>
               Description: <span className="info" id="description"></span>
-            </p>
-            <p style={{ color: 'white' }}>
-              AE Title: <span className="info" id="ae_title"></span>
-            </p>
-            <p style={{ color: 'white' }}>
-              Usage Type: <span className="info" id="usage_type"></span>
             </p>
           </div>
         </div>
