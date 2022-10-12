@@ -32,7 +32,7 @@ function InterfaceLogin({ hide }) {
         <br />
         <br />
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" href="http://localhost:3000/dashboard" >
             Submit
           </button>
         </div>
@@ -45,4 +45,4 @@ InterfaceLogin.propTypes = {
   hide: PropTypes.func,
 };
 
-export { InterfaceLogin };
+export default InterfaceLogin ;
