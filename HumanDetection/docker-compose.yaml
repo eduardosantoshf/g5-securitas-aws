@@ -21,6 +21,7 @@ services:
             - '15672:15672'
 
     redis:
+        container_name: "redis_db"
         image: redis:6.2-alpine
         restart: always
         ports:
