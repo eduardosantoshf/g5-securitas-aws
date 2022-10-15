@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
-import './UsersAccounts.css';
+import './Users.css';
 import Popup from 'reactjs-popup';
 import api from '../../ApiConnections/apiManageAccess';
 
-function UsersAccounts() {
+function Users() {
   const [data, setData] = React.useState([]);
 
   const loadTheFuckingData = () => {
@@ -21,10 +21,6 @@ function UsersAccounts() {
 
   const history = useHistory();
 
-  const initDashboard = () => {
-    history.push('/users');
-  };
-
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
@@ -33,6 +29,7 @@ function UsersAccounts() {
       sortable: false,
       width: 225,
     },
+    /*
     {
       field: 'hospital',
       headerName: 'Hospital',
@@ -43,16 +40,18 @@ function UsersAccounts() {
       headerName: 'License Number',
       width: 200,
     },
+    */
     {
       field: 'email',
       headerName: 'Email',
       width: 225,
     },
+    /*
     {
       field: 'type_user',
       headerName: 'Job',
       width: 225,
-    },
+    },*/
     {
       field: 'action',
       headerName: 'Action',
@@ -113,13 +112,55 @@ function UsersAccounts() {
 
   return (
     <>
-      <h2 className="title">Current Accounts</h2>
+      <h2 className="title">Users</h2>
       <div className="btns-wrapper">
         <div className="btns">
-          <button className="request" onClick={initDashboard}>
-            Request Accounts
-          </button>
-          <button className="current active">Current Accounts</button>
+        <Popup
+              trigger={<button className="request"> Add </button>}
+              modal
+              nested
+            >
+              {close => (
+                <div className="modal">
+                  <button className="close" onClick={close}>
+                    &times;
+                  </button>
+                  <div className="header"> Add User </div>
+                  <div className="header" style={{ color: "white", borderBottomWidth: 0 }}>
+                      <div style={{float:"left"}}>
+                        <label for="fname">Full Name</label>
+                      </div>
+                      <div >
+                        <input type="text" id="fname" name="fullname" placeholder="Full Name"/>
+                      </div>
+                      <div style={{float:"left"}}>
+                        <label for="fname">Email</label>
+                      </div>
+                      <div >
+                        <input type="text" id="email" name="email" placeholder="Email"/>
+                      </div>
+                  </div>
+                  <div className="actions">
+                    <button
+                      className="declineBtn"
+                      onClick={() => {
+                        close();
+                      }}
+                    >
+                      Create
+                    </button>
+                    <button
+                      className="acceptBtn"
+                      onClick={() => {
+                        close();
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Popup>
         </div>
       </div>
       <div className="userList">
@@ -131,8 +172,9 @@ function UsersAccounts() {
           getRowId={row => row.email}
         />
       </div>
+
     </>
   );
 }
 
-export default UsersAccounts;
+export default Users;

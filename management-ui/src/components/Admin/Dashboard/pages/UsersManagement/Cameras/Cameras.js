@@ -1,12 +1,12 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { useHistory } from 'react-router-dom';
-import './UsersRequests.css';
+import './Cameras.css';
 import api from '../../ApiConnections/apiManageAccess';
 
 import Popup from 'reactjs-popup';
 
-function UsersRequests() {
+function Cameras() {
   const [data, setData] = React.useState([]);
 
   const loadTheFuckingData = () => {
@@ -23,7 +23,7 @@ function UsersRequests() {
   const history = useHistory();
 
   const initDashboard = () => {
-    history.push('/currentUsers');
+    history.push('/users');
   };
 
   const handleDelete = id => {
@@ -176,4 +176,4 @@ function UsersRequests() {
   );
 }
 
-export default UsersRequests;
+export default Cameras;

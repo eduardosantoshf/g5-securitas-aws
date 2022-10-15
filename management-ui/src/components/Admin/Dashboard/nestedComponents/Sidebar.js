@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
 import TreeRounded from "@material-ui/icons/AccountTreeRounded";
 import DashboardOut from "@material-ui/icons/BarChartRounded";
-import ContentCopyRoundedIcon from "@material-ui/icons/ComputerRounded";
+import Camera from '@material-ui/icons/Camera';
 
 import { slide as Menu } from "react-burger-menu";
 
@@ -14,21 +14,21 @@ function Sidebar() {
   const history = useHistory();
 
   const initDashboard = () => {
-    history.push("/dashboard");
+    history.push("/");
   };
 
-  const users = () => {
-    history.push("/users");
+  const cameras = () => {
+    history.push("/cameras");
   };
 
   const nodes = () => {
     history.push("/nodes");
   };
 
-/*  const extInstall = () => {
-    history.push("/extInstallation");
+  const users = () => {
+    history.push("/users");
   };
-*/
+
 
   return (
     <Menu>
@@ -39,9 +39,15 @@ function Sidebar() {
         </span>
       </a>
       <a className="menu-item" onClick={users}>
-        <span className="lefti">List Cameras </span>
+        <span className="lefti">Users </span>
         <span className="righti">
           <PeopleRoundedIcon />
+        </span>
+      </a>
+      <a className="menu-item" onClick={cameras}>
+        <span className="lefti">List Cameras </span>
+        <span className="righti">
+          <Camera />
         </span>
       </a>
       <a className="menu-item" onClick={nodes}>
@@ -53,14 +59,5 @@ function Sidebar() {
     </Menu>
   );
 }
-
-/*
-      <a className="menu-item" onClick={extInstall}>
-        <span className="lefti">Extensions Installation </span>
-        <span className="righti">
-          <ContentCopyRoundedIcon />
-        </span>
-      </a>
-*/
 
 export default Sidebar;
