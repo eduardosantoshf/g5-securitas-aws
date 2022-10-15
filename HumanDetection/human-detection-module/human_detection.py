@@ -12,7 +12,6 @@ import kombu
 from kombu.mixins import ConsumerMixin
 import datetime
 import os
-import glob
 import redis
 
 
