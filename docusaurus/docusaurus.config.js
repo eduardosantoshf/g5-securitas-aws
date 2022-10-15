@@ -72,7 +72,7 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          //{to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/eduardosantoshf/es-project',
             label: 'GitHub',
