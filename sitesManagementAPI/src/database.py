@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 #    Port: 3306
 #    Default database: test
 #
-SQLALCHEMY_DATABASE_URL = "mariadb+mariadbconnector://test:123@127.0.0.1:3306/test"
+SQLALCHEMY_DATABASE_URL = "mariadb+mariadbconnector://root:mypass@127.0.0.1:3306/test"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, echo=True
