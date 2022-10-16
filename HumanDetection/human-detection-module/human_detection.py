@@ -58,14 +58,14 @@ class Human_Detection_Worker(ConsumerMixin):
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
 
-        #self.r.hset("Cameras", msg_source, frame_id)
-        print("frame count: " + str(frame_count))
-        print("frame id: " + str(frame_id))
+        
+        #print("frame count: " + str(frame_count))
+        #print("frame id: " + str(frame_id))
 
         # Debug
-        #print(f"I received the frame number {frame_count} from {msg_source}" +
-        #      f", with the timestamp {frame_timestamp}.")
-        #print("I'm processing the frame...")
+        print(f"I received the frame number {frame_count} from {msg_source}" +
+              f", with the timestamp {frame_timestamp}.")
+        print("I'm processing the frame...")
 
         ts_processing_start = datetime.datetime.now()
         # Process the Frame
@@ -83,8 +83,8 @@ class Human_Detection_Worker(ConsumerMixin):
         processing_duration = ts_processing_end - ts_processing_start
         processing_duration_ms = processing_duration.total_seconds() * 1000
 
-        #print(f"Frame {frame_count} has {num_humans} human(s), and was " +
-        #      f"processed in {processing_duration_ms} ms.")
+        print(f"Frame {frame_count} has {num_humans} human(s), and was " +
+              f"processed in {processing_duration_ms} ms.")
 
         # Save to Database
         self.create_database_entry(
@@ -135,6 +135,7 @@ class Human_Detection_Worker(ConsumerMixin):
             timestamp_key = f"camera_{camera_id}_frame_{frame_id}_timestamp"
             timestamp = self.database.get(timestamp_key, "")
             print(f"[!!!] INTRUDER DETECTED AT TIMESTAMP {timestamp}[!!!]")
+            self.r.hset("Cameras", frame_id, "human")
             return True
         return False
 

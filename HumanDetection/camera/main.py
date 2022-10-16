@@ -12,7 +12,8 @@ CAMERA_ID = 1
 NUM_FRAMES_PER_SECOND_TO_PROCESS = 2
 
 # AMQP Variables
-RABBIT_MQ_URL = "rabbitmq3:5672"
+#RABBIT_MQ_URL = "rabbitmq3:5672"
+RABBIT_MQ_URL = "localhost:5672"
 RABBIT_MQ_USERNAME = "myuser"
 RABBIT_MQ_PASSWORD = "mypassword"
 RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
