@@ -44,6 +44,17 @@ function Cameras() {
     loadTheFuckingData();
   };
 
+  const data_static = [
+    {
+      camera_id: "132421543",
+      camera_status: 'Online',
+    },
+    {
+      camera_id: "125754345",
+      camera_status: 'Offline',
+    }
+  ]
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
@@ -147,11 +158,11 @@ function Cameras() {
       <h2 className="title">List Cameras</h2>
       <div className="userList">
         <DataGrid
-          rows={data}
+          rows={data_static}
           disableSelectionOnClick
           columns={columns}
           pageSize={9}
-          getRowId={row => row.email}
+          getRowId={row => row.camera_id}
         />
       </div>
     </>
