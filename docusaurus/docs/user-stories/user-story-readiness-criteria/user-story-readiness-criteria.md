@@ -12,17 +12,17 @@ The user story is "ready" when:
     * **Negotiable**: A story is not a contract. A story is an invitation to a conversation. The story captures the essence of what is desired.  
     * **Valuable**: If a story does not have discernable value it should not be done.
     * **Estimable**: A story has to be able to be estimated or sized so it can be properly prioritized.
-    * **Small**: Obviously stories are small chunks of work, but how small should they be? The answer depends on the team and the methodology being used. 
-    * **Testable**: Every story needs to be testable in order to be “done.”  In fact, I like to think of testable meaning acceptance criteria can be written immediately.    
+    * **Small**: Stories are small chunks of work, so they fit into an interaction.
+    * **Testable**: Every story needs to be testable in order to be “done”. For example, there are testable meaning acceptance criteria can be written immediately.    
 * Has Acceptance Criteria (in a specific format like Given-When-Then)
 * Has the estimated Story Points
 * Has prioritization ranked appropriately in the product backlog 
 
 :::note
 
-* Product owner faz/refaz user stories, colocando-os no product backlog, tendo em conta o objetivo do produto.
-* Developers decidem que user stories de alta prioridade do product backlog esperam fazer numa dada sprint.
-* Developers criam backlog do sprint decompondo os itens, e fazendo tasks, estimando o tempo das tasks
+* Product Owner makes/remakes user stories, putting them in the product backlog, taking into account the purpose of the product.
+* Developers decide what high-priority user stories from the product backlog they expect to do in a given sprint.
+* Developers create sprint backlog by breaking down items, and doing tasks, estimating task time.
 
 :::
 
