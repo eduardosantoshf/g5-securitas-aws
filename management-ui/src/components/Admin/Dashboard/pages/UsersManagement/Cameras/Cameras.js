@@ -47,35 +47,17 @@ function Cameras() {
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
-      field: 'fullname',
+      field: 'camera_id',
       headerName: 'Camera Id',
       sortable: false,
       width: 225,
     },
     {
-      field: 'hospital',
-      headerName: 'Hospital',
+      field: 'camera_status',
+      headerName: 'Camera Status',
       width: 250,
     },
     {
-      field: 'professional_id',
-      headerName: 'License Number',
-      width: 200,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      width: 225,
-    },
-    {
-      field: 'type_user',
-      headerName: 'Job',
-      width: 225,
-    },
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 300,
       renderCell: params => {
         return (
           <div className="actions">
