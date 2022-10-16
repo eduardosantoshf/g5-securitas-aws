@@ -19,3 +19,10 @@ authors: joao
 * **Sprint Goal**:
     * Familiarize with jira, github workflows and project technologies.
     * Define the basic skeleton of the project.
+
+* **What can be done this sprint?**
+    * Store video cameras video temporarily (HDMI)
+    * Add/remove/update users (site management API)
+    * Retrieve users (site management API)
+    * List all users (management UI)
+    * Add/remove users (management UI)
