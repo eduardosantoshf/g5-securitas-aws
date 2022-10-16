@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>G5 Securitas Blog</title>
+        <link>https://eduardosantoshf.github.io /es-project/blog</link>
+        <description>G5 Securitas Blog</description>
+        <lastBuildDate>Mon, 10 Oct 2022 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[2st Sprint Planning]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/2st-sprint-planning</link>
+            <guid>2st-sprint-planning</guid>
+            <pubDate>Mon, 10 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define team roles</strong>:</p><ul><li>Scrum Master - João Diogo Ferreira</li><li>Product Owner - Diogo Vicente </li></ul></li><li><p><strong>Unit Tests</strong>: Have unit tests for the microservices (at least in the beginning)</p></li><li><p><strong>Git</strong>:</p><ul><li>A pull request must be accepted by someone else who didn't</li><li>Github Actions to run tests when doing a pull request</li></ul></li><li><p><strong>Sprint Goal</strong>:</p><ul><li>Familiarize with jira, github workflows and project technologies.</li><li>Define the basic skeleton of the project.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Store video cameras video temporarily (HDMI)</li><li>Add/remove/update users (site management API)</li><li>Retrieve users (site management API)</li><li>List all users (management UI)</li><li>Add/remove users (management UI)</li></ul></li></ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[1st Sprint Planning]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/1st-sprint-planning</link>
+            <guid>1st-sprint-planning</guid>
+            <pubDate>Sun, 09 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><table><thead><tr><th>Topic</th><th>Notes, decisions and action items</th></tr></thead><tbody><tr><td>Define project roles</td><td>Admin <br> Property Owner</td></tr><tr><td>Define team roles</td><td>Scrum Master - Pedro Bastos <br> Product Owner - Eduardo Santos</td></tr><tr><td>Define user stories</td><td>Defined in the project backlog</td></tr></tbody></table>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
