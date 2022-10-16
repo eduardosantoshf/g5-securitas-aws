@@ -37,6 +37,11 @@ services:
             context: camera
             dockerfile: Dockerfile
         restart: on-failure
+
+        # environment variable
+        environment:
+            AMQP_URL: "rabbitmq3"
+
         depends_on:
             - rabbitmq3
         networks:
@@ -47,6 +52,11 @@ services:
             context: human-detection-module
             dockerfile: Dockerfile
         restart: on-failure
+
+        # environment variable
+        environment:
+            AMQP_URL: "rabbitmq3"
+
         depends_on:
             - rabbitmq3
             - redis
