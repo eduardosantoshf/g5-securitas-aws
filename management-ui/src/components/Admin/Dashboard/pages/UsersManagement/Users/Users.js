@@ -21,6 +21,17 @@ function Users() {
 
   const history = useHistory();
 
+  const data_static = [
+    {
+      fullname: "Maria Pinto",
+      email: "mariapinto@gmail.com",
+    },
+    {
+      fullname: "Rui Antunes",
+      email: "ruiantunes@gmail.com",
+    }
+  ]
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
@@ -127,18 +138,18 @@ function Users() {
                   </button>
                   <div className="header"> Add User </div>
                   <div className="header" style={{ color: "white", borderBottomWidth: 0 }}>
-                      <div style={{float:"left"}}>
-                        <label for="fname">Full Name</label>
+                    <div style={{display:"flex", justifyContent:"space-around"}}>
+                       <div style={{ width:"100px", textAlign: "left"}}>
+                        <label style={{width:"40px"}} for="fname">Full Name</label>
                       </div>
-                      <div >
-                        <input type="text" id="fname" name="fullname" placeholder="Full Name"/>
-                      </div>
-                      <div style={{float:"left"}}>
+                        <input style={{width:"45%"}} type="text" id="fname" name="fullname" placeholder="Full Name"/>
+                    </div>
+                    <div style={{display:"flex", justifyContent:"space-around"}}>
+                      <div style={{ width:"100px", textAlign: "left"}}>
                         <label for="fname">Email</label>
                       </div>
-                      <div >
-                        <input type="text" id="email" name="email" placeholder="Email"/>
-                      </div>
+                        <input style={{width:"45%"}} type="text" id="email" name="email" placeholder="Email"/>
+                    </div>
                   </div>
                   <div className="actions">
                     <button
@@ -165,7 +176,7 @@ function Users() {
       </div>
       <div className="userList">
         <DataGrid
-          rows={data}
+          rows={data_static}
           columns={columns}
           disableSelectionOnClick
           pageSize={6}

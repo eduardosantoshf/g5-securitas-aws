@@ -231,3 +231,9 @@
 .actions {
     margin: auto;
 }
+
+.popup-content {
+    margin: auto;
+    width: 50%;
+    padding: 5px;
+  }
