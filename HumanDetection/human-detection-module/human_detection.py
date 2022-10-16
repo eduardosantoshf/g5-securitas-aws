@@ -12,7 +12,7 @@ import kombu
 from kombu.mixins import ConsumerMixin
 import datetime
 import os
-import glob
+import redis
 
 
 # Kombu Message Consuming Human_Detection_Worker
@@ -25,6 +25,10 @@ class Human_Detection_Worker(ConsumerMixin):
         self.output_dir = output_dir
         self.HOGCV = cv2.HOGDescriptor()
         self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+        self.r = redis.Redis(
+                    host='localhost',
+                    port=6379
+                )
 
 
     def detect_number_of_humans(self, frame):
@@ -53,6 +57,10 @@ class Human_Detection_Worker(ConsumerMixin):
         frame_timestamp = message.headers["timestamp"]
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
+
+        
+        #print("frame count: " + str(frame_count))
+        #print("frame id: " + str(frame_id))
 
         # Debug
         print(f"I received the frame number {frame_count} from {msg_source}" +
@@ -127,6 +135,7 @@ class Human_Detection_Worker(ConsumerMixin):
             timestamp_key = f"camera_{camera_id}_frame_{frame_id}_timestamp"
             timestamp = self.database.get(timestamp_key, "")
             print(f"[!!!] INTRUDER DETECTED AT TIMESTAMP {timestamp}[!!!]")
+            self.r.hset("Cameras", frame_id, "human")
             return True
         return False
 
