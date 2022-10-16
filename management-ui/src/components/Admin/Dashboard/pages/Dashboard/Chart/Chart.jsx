@@ -15,7 +15,6 @@ export default function Chart() {
   React.useEffect(() => {
       api.get('/chart_dash').then(res => {
         setData(res.data);
-        console.log("aqui oh corno");
         console.log(res.data);
       });
   }, []);
@@ -27,7 +26,7 @@ export default function Chart() {
       {
         label: 'gráfico',
         fill: true,
-        lineTension: 0.01,
+        lineTension: 0.5,
         backgroundColor: 'rgba(75,192,192,1)',
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 2,
@@ -36,21 +35,49 @@ export default function Chart() {
     ],
   };
 
+/*
+<Line
+  data={state}
+  options={{
+    title: {
+      display: false,
+      text: 'Average Rainfall per month',
+      fontSize: 20,
+    },
+    legend: {
+      display: true,
+      position: 'right',
+    },
+  }}
+/>
+*/ 
+
   return (
     <div className="chart">
       <div className="chartItem">
+
         <Line
-          data={state}
-          options={{
-            title: {
-              display: false,
-              text: 'Average Rainfall per month',
-              fontSize: 20,
-            },
-            legend: {
-              display: true,
-              position: 'right',
-            },
+          color='red'
+          backgroundColor='red'
+          datasetIdKey='id'
+          data={{
+            labels: ['Jun', 'Jul', 'Aug'],
+            datasets: [
+              {
+                id: 1,
+                label: 'Dataset 1',
+                data: [5, 6, 7],
+                backgroundColor: '#FFFFFF',
+                borderColor: '#FFFFFF',
+              },
+              {
+                id: 2,
+                label: 'Dataset 2',
+                data: [3, 2, 1],
+                borderColor: '#FFFFFF',
+
+              },
+            ],
           }}
         />
       </div>
