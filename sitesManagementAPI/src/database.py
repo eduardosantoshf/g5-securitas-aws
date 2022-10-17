@@ -2,14 +2,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# 
-#    User*: test
-#    Password*: 123
-#    Host: 127.0.0.1 (localhost)
-#    Port: 3306
-#    Default database: test
-#
-SQLALCHEMY_DATABASE_URL = "mariadb+mariadbconnector://test:123@127.0.0.1:3306/test"
+USER = "root"
+PASSWORD = "pass123"
+HOST = "db"
+PORT = 3306
+DATABASE = "site_man_db"
+
+SQLALCHEMY_DATABASE_URL = f"mariadb+mariadbconnector://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, echo=True
