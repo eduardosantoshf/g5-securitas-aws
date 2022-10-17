@@ -3,9 +3,9 @@ import './Dashboard.css';
 import Sidebar from './nestedComponents/Sidebar';
 import Topbar from './nestedComponents/Topbar';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import UsersRequests from './pages/UsersManagement/UserRequests/UsersRequests';
+import Cameras from './pages/UsersManagement/Cameras/Cameras';
 import InitialDashboard from './pages/UsersManagement/InitialDashboard/InitialDashboard';
-import UsersAccounts from './pages/UsersManagement/UserAccounts/UsersAccounts2';
+import Users from './pages/UsersManagement/Users/Users';
 import Nodes from './pages/UsersManagement/DicomNodes/Nodes';
 import ExtensionInstall from './pages/UsersManagement/ExtensionInstall/ExtensionInstall';
 function Dashboard() {
@@ -16,19 +16,19 @@ function Dashboard() {
         <div className="container">
           <Sidebar />
           <Switch>
-            <Route exact path="/dashboard">
+            <Route exact path="/">
               <div className="middle">
                 <InitialDashboard />
               </div>
             </Route>
-            <Route path="/users">
+            <Route path="/cameras">
               <div className="middle">
-                <UsersRequests />
+                <Cameras />
               </div>
             </Route>
-            <Route path="/currentUsers">
+            <Route path="/users">
               <div className="middle">
-                <UsersAccounts />
+                <Users />
               </div>
             </Route>
             <Route path="/nodes">

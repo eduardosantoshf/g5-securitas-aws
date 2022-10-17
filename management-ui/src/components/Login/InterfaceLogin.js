@@ -32,7 +32,7 @@ function InterfaceLogin({ hide }) {
         <br />
         <br />
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary" href="http://localhost:3000/dashboard" >
+          <button type="submit" className="btn btn-primary" href="http://localhost:3000/" >
             Submit
           </button>
         </div>

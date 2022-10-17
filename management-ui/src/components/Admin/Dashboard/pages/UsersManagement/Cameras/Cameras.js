@@ -1,12 +1,12 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { useHistory } from 'react-router-dom';
-import './UsersRequests.css';
+import './Cameras.css';
 import api from '../../ApiConnections/apiManageAccess';
 
 import Popup from 'reactjs-popup';
 
-function UsersRequests() {
+function Cameras() {
   const [data, setData] = React.useState([]);
 
   const loadTheFuckingData = () => {
@@ -23,7 +23,7 @@ function UsersRequests() {
   const history = useHistory();
 
   const initDashboard = () => {
-    history.push('/currentUsers');
+    history.push('/users');
   };
 
   const handleDelete = id => {
@@ -44,38 +44,31 @@ function UsersRequests() {
     loadTheFuckingData();
   };
 
+  const data_static = [
+    {
+      camera_id: "132421543",
+      camera_status: 'Online',
+    },
+    {
+      camera_id: "125754345",
+      camera_status: 'Offline',
+    }
+  ]
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
-      field: 'fullname',
+      field: 'camera_id',
       headerName: 'Camera Id',
       sortable: false,
       width: 225,
     },
     {
-      field: 'hospital',
-      headerName: 'Hospital',
+      field: 'camera_status',
+      headerName: 'Camera Status',
       width: 250,
     },
     {
-      field: 'professional_id',
-      headerName: 'License Number',
-      width: 200,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      width: 225,
-    },
-    {
-      field: 'type_user',
-      headerName: 'Job',
-      width: 225,
-    },
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 300,
       renderCell: params => {
         return (
           <div className="actions">
@@ -165,15 +158,15 @@ function UsersRequests() {
       <h2 className="title">List Cameras</h2>
       <div className="userList">
         <DataGrid
-          rows={data}
+          rows={data_static}
           disableSelectionOnClick
           columns={columns}
           pageSize={9}
-          getRowId={row => row.email}
+          getRowId={row => row.camera_id}
         />
       </div>
     </>
   );
 }
 
-export default UsersRequests;
+export default Cameras;

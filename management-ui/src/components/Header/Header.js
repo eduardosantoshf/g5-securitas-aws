@@ -83,7 +83,7 @@ function Header(props) {
     signIn.current = false;
   } else {
     if (logged == '["José  Trancoso"]') {
-      window.location.href = '/dashboard';
+      window.location.href = '/';
     }
     if (logged == '[]') {
       signIn.current = false;

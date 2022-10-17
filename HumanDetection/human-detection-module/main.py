@@ -5,11 +5,11 @@
 # @Last Modified by:   Rafael Direito
 # @Last Modified time: 2022-10-07 11:34:30
 
-
+import os
 from human_detection import Human_Detection_Module
 
 # AMQP Variables
-RABBIT_MQ_URL = "localhost:5672"
+RABBIT_MQ_URL = os.environ['AMQP_URL'] + ":5672"
 RABBIT_MQ_USERNAME = "myuser"
 RABBIT_MQ_PASSWORD = "mypassword"
 RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
@@ -27,3 +27,5 @@ human_detection_worker.start_processing(
     exchange_name=RABBIT_MQ_EXCHANGE_NAME,
     queue_name=RABBIT_MQ_QUEUE_NAME
     )
+
+print("End of video processing")

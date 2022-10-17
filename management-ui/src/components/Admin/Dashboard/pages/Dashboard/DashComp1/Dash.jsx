@@ -20,9 +20,10 @@ export default function Dash() {
     <div className="dash">
       <div className="dashItem">
         <div className="part1">
-          <span className="dashTitle">info1</span>
+          <span className="dashTitle">Frames analized</span>
           <div className="dashInstancesContainer">
             <span className="dashInstances">{data_stats.CountInstances}</span>
+            <span className="dashInstances">{123421}</span>
           </div>
         </div>
         <div className="dashIcons">
@@ -32,9 +33,10 @@ export default function Dash() {
 
       <div className="dashItem">
         <div className="part1">
-          <span className="dashTitle">info3</span>
+          <span className="dashTitle">Clients</span>
           <div className="dashInstancesContainer">
             <span className="dashInstances">{data_stats.CountPatients}</span>
+            <span className="dashInstances">{12}</span>
           </div>
         </div>
         <div className="dashIcons">
@@ -44,8 +46,9 @@ export default function Dash() {
 
       <div className="dashItem">
         <div className="part1">
-          <span className="dashTitle">info3</span>
+          <span className="dashTitle"></span>
           <div className="dashInstancesContainer">
+            <span className="dashInstances"> {data_stats.CountSeries}</span>
             <span className="dashInstances"> {data_stats.CountSeries}</span>
           </div>
         </div>
@@ -56,8 +59,9 @@ export default function Dash() {
 
       <div className="dashItem">
         <div className="part1">
-          <span className="dashTitle">info4</span>
+          <span className="dashTitle"></span>
           <div className="dashInstancesContainer">
+            <span className="dashInstances">{data_stats.TotalDiskSizeMB}</span>
             <span className="dashInstances">{data_stats.TotalDiskSizeMB}</span>
           </div>
         </div>

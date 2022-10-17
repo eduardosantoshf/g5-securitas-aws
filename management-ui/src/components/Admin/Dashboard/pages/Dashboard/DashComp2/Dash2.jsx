@@ -26,6 +26,7 @@ export default function Dash2() {
             <span className="dashTitle">Active Cameras</span>
             <div className="dashInstancesContainer">
               <span className="dashInstances">{data.Name}</span>
+              <span className="dashInstances">{15}</span>
             </div>
           </div>
           <div className="dashIcons">
@@ -38,6 +39,7 @@ export default function Dash2() {
             <span className="dashTitle">Dead Cameras</span>
             <div className="dashInstancesContainer">
               <span className="dashInstances">{data.Version}</span>
+              <span className="dashInstances">{1}</span>
             </div>
           </div>
           <div className="dashIcons">
@@ -50,6 +52,7 @@ export default function Dash2() {
             <span className="dashTitle">Bandwidth usage</span>
             <div className="dashInstancesContainer">
               <span className="dashInstances">{data.DicomPort}</span>
+              <span className="dashInstances">{2345}</span>
             </div>
           </div>
           <div className="dashIcons">
@@ -59,9 +62,10 @@ export default function Dash2() {
 
         <div className="dashItem">
           <div className="part1">
-            <span className="dashTitle">Outra coisa</span>
+            <span className="dashTitle">Storage</span>
             <div className="dashInstancesContainer">
               <span className="dashInstances">{data.DatabaseVersion}</span>
+              <span className="dashInstances">{33}</span>
             </div>
           </div>
           <div className="dashIcons">
