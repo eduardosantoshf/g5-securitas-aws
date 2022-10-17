@@ -1,0 +1,46 @@
+name: Human Detection Module Pipeline
+
+# controls when the action will run
+on:
+  # triggers the workflow on push for the develop and deployment branches
+  push:
+    paths:
+      - 'HumanDetection/**'
+    paths-ignore:
+      # don't run this workflow when the are pushes and there are only changes for the following files:
+      - '**.md'
+      - '**.pdf'
+      - '**.docx'
+      - '**.gitignore'
+      - '**.txt'
+
+  # triggers the workflow on pull requests for the main branch
+  pull_request:
+    branches: [ main, development ]
+    paths-ignore:
+      # don't run this workflow when the are pull requests, and there are only changes for this directories:
+      - 'reporting/**'
+      - 'monitoring/**'
+      # don't run this workflow when the are pull requests, and there are only changes for the following files:
+      - '**.md'
+      - '**.pdf'
+      - '**.docx'
+      - '**.gitignore'
+      - '**.txt'
+
+  # allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sonar:
+    name: Human Detection Module SonarCloud Code Inspection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_DELIVERIES_ENGINE_TOKEN }}
