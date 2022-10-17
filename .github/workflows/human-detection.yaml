@@ -28,9 +28,6 @@ on:
   pull_request:
     branches: [ main, development ]
     paths:
-      -'.github/workflows/human-detection.yaml' # trigger this workflow only 
-                                                # when the module workflow is
-                                                # changed
       - 'HumanDetection/**' # trigger this workflow only on the HDM
       - '!**.md'
       - '!**.pdf'
