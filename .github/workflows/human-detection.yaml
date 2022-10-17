@@ -61,7 +61,7 @@ jobs:
     name: Human Detection Module SonarCloud Code Inspection
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # shallow clones should be disabled for a better 
                           # relevancy of analysis
