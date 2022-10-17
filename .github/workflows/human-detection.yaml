@@ -5,9 +5,6 @@ on:
   # triggers the workflow on push for the develop and deployment branches
   push:
     paths:
-      -'.github/workflows/human-detection.yaml' # trigger this workflow only 
-                                                # when the module workflow is
-                                                # changed
       - 'HumanDetection/**' # trigger this workflow only on the HDM
       - '!**.md'
       - '!**.pdf'
