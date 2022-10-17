@@ -5,7 +5,10 @@ on:
   # triggers the workflow on push for the develop and deployment branches
   push:
     paths:
-      - 'HumanDetection/**'
+      -'.github/workflows/human-detection.yaml' # trigger this workflow only 
+                                                # when the module workflow is
+                                                # changed
+      - 'HumanDetection/**' # trigger this workflow only on the HDM
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -64,4 +67,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
                                                      # information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_DELIVERIES_ENGINE_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_HUMAN_DETECTION }}
