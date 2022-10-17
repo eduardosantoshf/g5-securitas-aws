@@ -11,7 +11,7 @@ The user story is "done" when:
 * Code reviewed by at least one other member
 * Tested
 * Documented software
-* Deployed in it's respective branch
+* Merged with the development branch
 
 :::note
 
