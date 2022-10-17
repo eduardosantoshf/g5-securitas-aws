@@ -24,3 +24,14 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(db_user)
     
     return db_user
+
+# def update_user(db: Session, user_id: int):
+#     db_user = db.query(models.User).filter(models.User.id == user_id).first()
+
+
+def delete_user(db: Session, user: schemas.User):
+    db.delete(user)
+    db.commit()
+    db.close()
+    
+    return None
