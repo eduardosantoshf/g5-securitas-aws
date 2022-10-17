@@ -71,3 +71,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
                                                      # information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_HUMAN_DETECTION }}
+        with:
+          projectBaseDir: HumanDetection/
