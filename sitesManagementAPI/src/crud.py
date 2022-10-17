@@ -16,17 +16,24 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
 
-def create_user(db: Session, user: schemas.UserCreate):
-    hashed_password = user.password + "fakeHashshshshhs"
-    db_user = models.User(email=user.email, address=user.address, hashed_password=hashed_password)
+def create_user(db: Session, user: schemas.UserBase):
+    db_user = models.User(email=user.email, address=user.address)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     
     return db_user
 
-# def update_user(db: Session, user_id: int):
-#     db_user = db.query(models.User).filter(models.User.id == user_id).first()
+def update_user(db: Session, user: schemas.User, email, address):
+    if email:
+        user.email = email
+    if address:
+        user.address = address 
+
+    db.commit()
+
+    return None
+
 
 
 def delete_user(db: Session, user: schemas.User):

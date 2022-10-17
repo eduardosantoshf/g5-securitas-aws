@@ -17,7 +17,7 @@ def get_db():
 
 
 @app.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -43,12 +43,18 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db, user_id)
 
     if db_user is None:
-        raise HTTPException(status_code=400, detail="User doesn't exist")
-    else:    
-        crud.delete_user(db, db_user)
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    crud.delete_user(db, db_user)
     
     return None
 
 
-# @app.put("/users/{user_id}")
-# def update_user(user_id: int, db: Session = Depends(get_db)):
+@app.put("/users/{user_id}")
+def update_user(user_id: int, email: str=None, address: str=None, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id)
+
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    crud.update_user(db, db_user, email, address)
