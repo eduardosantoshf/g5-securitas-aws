@@ -1,14 +1,14 @@
-name: Human Detection Module Pipeline
+name: Sites Management API Module Pipeline
 
 # controls when the action will run
 on:
   # triggers the workflow on push for the develop and deployment branches
   push:
     paths:
-      - '.github/workflows/human-detection.yaml' # trigger this workflow only 
-                                                 # when the module workflow is
-                                                 # changed
-      - 'HumanDetection/**' # trigger this workflow only on the HDM
+      - '.github/workflows/sites-management-api.yaml' # trigger this workflow 
+                                                      # only when the module 
+                                                      # workflow is changed
+      - 'sitesManagementAPI/**' # trigger this workflow only on the HDM
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -34,10 +34,10 @@ on:
                                                # branch whose name starts 
                                                # with feature/
     paths:
-      - '.github/workflows/human-detection.yaml' # trigger this workflow only 
-                                                 # when the module workflow is
-                                                 # changed
-      - 'HumanDetection/**' # trigger this workflow only on the HDM
+      - '.github/workflows/sites-management-api.yaml' # trigger this workflow 
+                                                      # only when the module 
+                                                      # workflow is changed
+      - 'sitesManagementAPI/**' # trigger this workflow only on the HDM
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -73,6 +73,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
                                                      # information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_HUMAN_DETECTION }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_SITES_MANAGEMENT_API }}
         with:
-          projectBaseDir: HumanDetection/
+          projectBaseDir: sitesManagementAPI/
