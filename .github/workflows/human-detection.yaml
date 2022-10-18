@@ -74,9 +74,9 @@ jobs:
       - name: Run tox
         run: tox -e py
 
-      - name: fix code coverage paths
+      - name: Fix SonarClouds code coverage path bug
         run: |
-          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' HumanDetection/coverage.xml
+          sed -i \'s/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' HumanDetection/coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
