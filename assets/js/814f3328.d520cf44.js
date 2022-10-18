@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[535],{5641:t=>{t.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"2st Sprint Planning","permalink":"/es-project/blog/2st-sprint-planning"},{"title":"1st Sprint Planning","permalink":"/es-project/blog/1st-sprint-planning"}]}')}}]);
