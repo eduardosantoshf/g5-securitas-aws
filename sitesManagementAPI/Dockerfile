@@ -1,13 +1,12 @@
 FROM python:3.10
 
-RUN  mkdir /app
-COPY ./requirements.txt /app
+WORKDIR /usr/app/src
+COPY ./requirements.txt /usr/app
 
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /usr/app/requirements.txt
 
-COPY ./src /app/src
-WORKDIR /app/src
+COPY ./src /usr/app/src
 
 EXPOSE 8000
 

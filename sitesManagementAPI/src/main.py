@@ -1,6 +1,5 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-
 import crud, models, schemas
 from database import SessionLocal, engine
 
@@ -15,6 +14,9 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/")
+def root():
+    return {"message" : "Hello world!"}
 
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
