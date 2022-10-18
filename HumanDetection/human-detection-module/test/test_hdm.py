@@ -21,8 +21,8 @@ r = redis.Redis(host='localhost', port=6379)
 
 def test_3():
     mock = Mock()
-    #print("ola")
-    #print(mock)
+    print("ola")
+    print(mock)
 
     hdw = Human_Detection_Worker(mock, mock, mock, mock)
 
