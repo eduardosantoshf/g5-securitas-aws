@@ -26,7 +26,7 @@ def test_3():
 
     hdw = Human_Detection_Worker(mock, mock, mock, mock)
 
-    #print(hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now())))
+    print(hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now())))
 
     assert r.hget("camera_testing", 1) != None
     assert r.hget("camera_testing", 2) == None
