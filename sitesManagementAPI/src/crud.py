@@ -16,7 +16,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
 
-def create_user(db: Session, user: schemas.UserBase):
+def create_user(db: Session, user: schemas.BaseUser):
     db_user = models.User(email=user.email, address=user.address)
     db.add(db_user)
     db.commit()
@@ -24,21 +24,24 @@ def create_user(db: Session, user: schemas.UserBase):
     
     return db_user
 
-def update_user(db: Session, user: schemas.User, email, address):
-    if email:
-        user.email = email
-    if address:
-        user.address = address 
-
-    db.commit()
-
-    return None
-
-
-
-def delete_user(db: Session, user: schemas.User):
-    db.delete(user)
-    db.commit()
-    db.close()
+def update_user(db: Session, user_id: int, updated_user: schemas.User):
+    query = db.query(models.User).filter(models.User.id == user_id)
+    if query.first() is None:
+        return None
     
-    return None
+    query.update(updated_user.dict())
+    db.commit()
+    return query.first()
+
+
+
+def delete_user(db: Session, user_id: int):
+    query = db.query(models.User).filter(models.User.id == user_id)
+    user_delete = query.first()
+    if user_delete is None:
+        return None
+    
+    query.delete()
+    db.commit()
+    
+    return user_delete

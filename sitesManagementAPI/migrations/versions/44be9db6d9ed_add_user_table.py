@@ -23,8 +23,8 @@ def upgrade() -> None:
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('name', sa.String(100), nullable=False),
         sa.Column('email', sa.String(100), nullable=False, unique=True),
-        sa.Column('address', sa.Unicode(100)),
-        sa.Column('crated_at', sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text('now()'))
+        sa.Column('address', sa.String(100), nullable=False),
+        sa.Column('created_at', sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text('now()'))
     )
 
 
