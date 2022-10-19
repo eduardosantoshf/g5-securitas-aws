@@ -10,7 +10,7 @@ from src.config import settings
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url", f'mariadb+mariadbconnector://{settings.MARIADB_USER_NAME}:{settings.MARIADB_USER_PASSWORD}' \
+config.set_main_option("sqlalchemy.url", f'mariadb+mariadbconnector://{settings.MARIADB_USER}:{settings.MARIADB_PASSWORD}' \
                                          f'@{settings.MARIADB_HOST}:{settings.MARIADB_PORT}/{settings.MARIADB_DATABASE}')
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

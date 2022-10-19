@@ -1,5 +1,5 @@
 # Use root/example as user/password credentials
-version: '3'
+version: '3.10'
 
 services:
   db:
@@ -12,10 +12,11 @@ services:
     restart: always
 
     environment:
-      - MARIADB_DATABASE=site_man_db
-      - MARIADB_ROOT_PASSWORD=pass123 
+      - MARIADB_DATABASE=sites_man_db
+      - MARIADB_ROOT_PASSWORD=root 
+      - MARIADB_USER=dev_user
+      - MARIADB_PASSWORD=dev_pass
 
-   
   api:
     build: 
       context: .
@@ -31,12 +32,12 @@ services:
     restart: always
     
     environment:
-      - MARIADB_DATABASE=site_man_db
-      - MARIADB_USER_PASSWORD=pass123 
-      - MARIADB_USER_NAME=root
+      - MARIADB_DATABASE=sites_man_db
+      - MARIADB_USER=dev_user
+      - MARIADB_PASSWORD=dev_pass 
       - MARIADB_HOST=db
       - MARIADB_PORT=3306
       
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - ./:/usr/app:ro
