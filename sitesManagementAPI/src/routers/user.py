@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import crud, schemas
+import src.crud as crud, src.schemas as schemas
 from database import get_db
 from fastapi import Depends, Response, HTTPException, status, APIRouter
 

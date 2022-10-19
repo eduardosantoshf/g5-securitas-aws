@@ -1,5 +1,5 @@
 # Use root/example as user/password credentials
-version: '3.10'
+version: '3'
 
 services:
   db:
@@ -17,6 +17,9 @@ services:
       - MARIADB_USER=dev_user
       - MARIADB_PASSWORD=dev_pass
 
+    volumes:
+      - mariadb-volume:/var/lib/mysql/
+      
   api:
     build: 
       context: .
@@ -41,3 +44,6 @@ services:
     command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - ./:/usr/app:ro
+
+volumes:
+  mariadb-volume:
