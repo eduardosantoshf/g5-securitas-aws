@@ -7,9 +7,6 @@ class BaseUser(BaseModel):
     email: str
     address: str
 
-class UserCreate(BaseUser):
-    pass
-
 class User(BaseUser):
     id: int
     
