@@ -3,14 +3,28 @@ import { useHistory } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
 import './Users.css';
 import Popup from 'reactjs-popup';
-import api from '../../ApiConnections/apiManageAccess';
+import api from '../../ApiConnections/site-management-api';
+
+import moment from 'moment'
 
 function Users() {
   const [data, setData] = React.useState([]);
 
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [address, setAddress] = React.useState('');
+
   const loadTheFuckingData = () => {
-    api.get('/staff').then(res => {
+    api.get('/users').then(res => {
       setData(res.data);
+      console.log(res.data);
+    });
+  };
+
+  const addUser = () => {
+    const created_at = moment().format('YYYY-MM-DD');
+    const user = { "name": name, "email": email, "address": address, "created_at": created_at };
+    api.post('/users', user).then(res => {
       console.log(res.data);
     });
   };
@@ -21,48 +35,24 @@ function Users() {
 
   const history = useHistory();
 
-  const data_static = [
-    {
-      fullname: "Maria Pinto",
-      email: "mariapinto@gmail.com",
-    },
-    {
-      fullname: "Rui Antunes",
-      email: "ruiantunes@gmail.com",
-    }
-  ]
-
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
-      field: 'fullname',
-      headerName: 'Full Name',
+      field: 'name',
+      headerName: 'Name',
       sortable: false,
       width: 225,
     },
-    /*
-    {
-      field: 'hospital',
-      headerName: 'Hospital',
-      width: 250,
-    },
-    {
-      field: 'professional_id',
-      headerName: 'License Number',
-      width: 200,
-    },
-    */
     {
       field: 'email',
       headerName: 'Email',
       width: 225,
     },
-    /*
     {
-      field: 'type_user',
-      headerName: 'Job',
-      width: 225,
-    },*/
+      field: 'address',
+      headerName: 'Address',
+      width: 350,
+    },
     {
       field: 'action',
       headerName: 'Action',
@@ -89,7 +79,7 @@ function Users() {
                     <button
                       className="declineBtn"
                       onClick={() => {
-                        handleDelete(params.row.email);
+                        handleDelete(params.row.id);
                         close();
                       }}
                     >
@@ -114,7 +104,7 @@ function Users() {
   ];
 
   const handleDelete = id => {
-    api.get(`/staff_delete/${id}`).then(res => {
+    api.delete(`/users/${id}`).then(res => {
       console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
     });
@@ -142,19 +132,46 @@ function Users() {
                        <div style={{ width:"100px", textAlign: "left"}}>
                         <label style={{width:"40px"}} for="fname">Full Name</label>
                       </div>
-                        <input style={{width:"45%"}} type="text" id="fname" name="fullname" placeholder="Full Name"/>
+                    <input
+                      style={{ width: "45%" }}
+                      type="text" id="fname"
+                      name="fullname"
+                      placeholder="Full Name"
+                      onChange={e => setName(e.target.value)}
+                    />
                     </div>
                     <div style={{display:"flex", justifyContent:"space-around"}}>
                       <div style={{ width:"100px", textAlign: "left"}}>
                         <label for="fname">Email</label>
                       </div>
-                        <input style={{width:"45%"}} type="text" id="email" name="email" placeholder="Email"/>
+                    <input
+                      style={{ width: "45%" }}
+                      type="text"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
+                      onChange={e => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div style={{display:"flex", justifyContent:"space-around"}}>
+                      <div style={{ width:"100px", textAlign: "left"}}>
+                        <label for="fname">Address</label>
+                      </div>
+                    <input
+                      style={{ width: "45%" }}
+                      type="text"
+                      id="address"
+                      name="address"
+                      placeholder="Address"
+                      onChange={e => setAddress(e.target.value)}
+                    />
                     </div>
                   </div>
                   <div className="actions">
                     <button
                       className="declineBtn"
                       onClick={() => {
+                        addUser();
                         close();
                       }}
                     >
@@ -176,7 +193,7 @@ function Users() {
       </div>
       <div className="userList">
         <DataGrid
-          rows={data_static}
+          rows={data}
           columns={columns}
           disableSelectionOnClick
           pageSize={6}
