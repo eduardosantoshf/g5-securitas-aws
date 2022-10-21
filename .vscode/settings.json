@@ -1,0 +1,18 @@
+{
+    "grammarly.selectors": [
+        {
+            "language": "markdown",
+            "scheme": "file",
+            "pattern": "docusaurus/docs/documentation/sites-managment-api/sites-management-api.md"
+        },
+        {
+            "language": "markdown",
+            "scheme": "file",
+            "pattern": "docusaurus/docs/documentation/sites-managment-api/api-documentation.md"
+        },
+        {
+            "language": "markdown",
+            "scheme": "file"
+        }
+    ]
+}

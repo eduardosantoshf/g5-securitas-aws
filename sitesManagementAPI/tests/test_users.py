@@ -17,7 +17,6 @@ def test_createUserValid(client: TestClient):
     assert new_user.email == "joao@gmail.com"
     assert res.status_code == status.HTTP_201_CREATED
 
-
 def test_create_user_alreadyRegisteredEmail(test_user: schemas.User, client: TestClient):
     # Arrange
     post_body = {"name": "joao",
@@ -30,7 +29,6 @@ def test_create_user_alreadyRegisteredEmail(test_user: schemas.User, client: Tes
     # Assert
     assert res.status_code == status.HTTP_400_BAD_REQUEST
     assert res.json().get("detail") == "Email already registered"
-
 
 @pytest.mark.parametrize(
     "skip, limit, total", [
