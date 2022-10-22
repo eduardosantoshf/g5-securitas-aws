@@ -1,6 +1,6 @@
 ---
-slug: 2nd-sprint-planning
-title: 2nd Sprint Planning
+slug: 1st-sprint-planning
+title: 1st Sprint Planning
 authors: joao
 ---
 

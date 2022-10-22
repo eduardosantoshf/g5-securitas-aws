@@ -1,6 +1,6 @@
 ---
-slug: 1st-sprint-planning
-title: 1st Sprint Planning
+slug: 0-sprint-planning
+title: 0 Sprint Planning
 authors: pedroBastos
 ---
 
