@@ -15,7 +15,6 @@ def get_user_by_address(db: Session, address: str):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
-
 def create_user(db: Session, user: schemas.BaseUser):
     db_user = models.User(**user.dict())
     db.add(db_user)
@@ -32,8 +31,6 @@ def update_user(db: Session, user_id: int, updated_user: schemas.User):
     query.update(updated_user.dict())
     db.commit()
     return query.first()
-
-
 
 def delete_user(db: Session, user_id: int):
     query = db.query(models.User).filter(models.User.id == user_id)
