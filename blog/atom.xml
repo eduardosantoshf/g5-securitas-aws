@@ -8,9 +8,9 @@
     <subtitle>G5 Securitas Blog</subtitle>
     <icon>https://eduardosantoshf.github.io /es-project/img/favicon.ico</icon>
     <entry>
-        <title type="html"><![CDATA[2nd Sprint retrospective]]></title>
-        <id>2nd-sprint-retrospective</id>
-        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-retrospective"/>
+        <title type="html"><![CDATA[1st Sprint retrospective]]></title>
+        <id>1st-sprint-retrospective</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/1st-sprint-retrospective"/>
         <updated>2022-10-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
         <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>What went well?</strong></p><ul><li>We were able to show the working software to the stakeholders and we received positive feedback.</li></ul></li><li><p><strong>What were the problem?</strong></p><ul><li>Enable to finish all tasks according to the definition of ready.  </li><li>The product owner didn't work on the product backlog for the sprint.</li></ul></li><li><p><strong>Lesson learned</strong></p><ul><li>Product owner prepares the backlog for the next print. Is responsible to create, refine and prioritize user stories,
@@ -21,9 +21,9 @@ estimating story points and defining acceptance  criteria.</li><li>Every week th
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[2nd Sprint Review]]></title>
-        <id>2nd-sprint-review</id>
-        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review"/>
+        <title type="html"><![CDATA[1st Sprint Review]]></title>
+        <id>1st-sprint-review</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/1st-sprint-review"/>
         <updated>2022-10-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
         <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 15</p></li><li><p><strong>accomplished:</strong> 5</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 1</p></li><li><p><strong>Unfinished user stories:</strong> 4</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1><ul><li>A functional Managment UI blueprint with dashboards (using static data).</li><li>A backend to store cameras' video temporarily in redis.</li></ul>]]></content>
@@ -33,9 +33,9 @@ estimating story points and defining acceptance  criteria.</li><li>Every week th
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[2nd Sprint Planning]]></title>
-        <id>2nd-sprint-planning</id>
-        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-planning"/>
+        <title type="html"><![CDATA[1st Sprint Planning]]></title>
+        <id>1st-sprint-planning</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/1st-sprint-planning"/>
         <updated>2022-10-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
         <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define team roles</strong>:</p><ul><li>Scrum Master - João Diogo Ferreira</li><li>Product Owner - Diogo Vicente </li></ul></li><li><p><strong>Unit Tests</strong>: Have unit tests for the microservices (at least in the beginning)</p></li><li><p><strong>Git</strong>:</p><ul><li>A pull request must be accepted by someone else who didn't</li><li>Github Actions to run tests when doing a pull request</li></ul></li><li><p><strong>Sprint Goal</strong>:</p><ul><li>Familiarize with jira, github workflows and project technologies.</li><li>Define the basic skeleton of the project.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Store video cameras video temporarily (HDMI)</li><li>Add/remove/update users (site management API)</li><li>Retrieve users (site management API)</li><li>List all users (management UI)</li><li>Add/remove users (management UI)</li></ul></li></ul>]]></content>
@@ -45,9 +45,9 @@ estimating story points and defining acceptance  criteria.</li><li>Every week th
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[1st Sprint Planning]]></title>
-        <id>1st-sprint-planning</id>
-        <link href="https://eduardosantoshf.github.io /es-project/blog/1st-sprint-planning"/>
+        <title type="html"><![CDATA[0 Sprint Planning]]></title>
+        <id>0-sprint-planning</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/0-sprint-planning"/>
         <updated>2022-10-09T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
         <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><table><thead><tr><th>Topic</th><th>Notes, decisions and action items</th></tr></thead><tbody><tr><td>Define project roles</td><td>Admin <br> Property Owner</td></tr><tr><td>Define team roles</td><td>Scrum Master - Pedro Bastos <br> Product Owner - Eduardo Santos</td></tr><tr><td>Define user stories</td><td>Defined in the project backlog</td></tr></tbody></table>]]></content>
