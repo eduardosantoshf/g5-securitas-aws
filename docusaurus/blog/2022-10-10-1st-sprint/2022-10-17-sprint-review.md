@@ -1,6 +1,6 @@
 ---
-slug: 2nd-sprint-review
-title: 2nd Sprint Review
+slug: 1st-sprint-review
+title: 1st Sprint Review
 authors: joao
 ---
 

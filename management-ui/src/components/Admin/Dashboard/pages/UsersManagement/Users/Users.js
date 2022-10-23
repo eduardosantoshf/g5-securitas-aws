@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { DataGrid } from '@material-ui/data-grid';
 import './Users.css';
 import Popup from 'reactjs-popup';
@@ -14,7 +13,7 @@ function Users() {
   const [email, setEmail] = React.useState('');
   const [address, setAddress] = React.useState('');
 
-  const loadTheFuckingData = () => {
+  const loadData = () => {
     api.get('/users').then(res => {
       setData(res.data);
       console.log(res.data);
@@ -26,14 +25,14 @@ function Users() {
     const user = { "name": name, "email": email, "address": address, "created_at": created_at };
     api.post('/users', user).then(res => {
       console.log(res.data);
+      loadData();
     });
   };
 
   React.useEffect(() => {
-    loadTheFuckingData();
+    loadData();
   }, []);
 
-  const history = useHistory();
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
@@ -73,7 +72,7 @@ function Users() {
                   <div className="header"> Confirmation - Elimination </div>
                   <div className="header" style={{ color: "white" , align: "center", borderBottomWidth: 0 }}>
                     {' '}
-                    Are you sure you want to eliminate this user?
+                    Are you sure you want to eliminate this user ( {params.row.email} ) ?
                   </div>
                   <div className="actions">
                     <button
@@ -107,8 +106,8 @@ function Users() {
     api.delete(`/users/${id}`).then(res => {
       console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
+      loadData();
     });
-    loadTheFuckingData();
   };
 
   return (
@@ -130,13 +129,13 @@ function Users() {
                   <div className="header" style={{ color: "white", borderBottomWidth: 0 }}>
                     <div style={{display:"flex", justifyContent:"space-around"}}>
                        <div style={{ width:"100px", textAlign: "left"}}>
-                        <label style={{width:"40px"}} for="fname">Full Name</label>
+                        <label style={{width:"40px"}} for="fname">Name</label>
                       </div>
                     <input
                       style={{ width: "45%" }}
                       type="text" id="fname"
-                      name="fullname"
-                      placeholder="Full Name"
+                      name="name"
+                      placeholder="Name"
                       onChange={e => setName(e.target.value)}
                     />
                     </div>

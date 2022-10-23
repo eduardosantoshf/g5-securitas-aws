@@ -1,6 +1,6 @@
 ---
-slug: 2nd-sprint-retrospective
-title: 2nd Sprint retrospective
+slug: 1st-sprint-retrospective
+title: 1st Sprint retrospective
 authors: joao
 ---
 
