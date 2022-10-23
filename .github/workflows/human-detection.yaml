@@ -68,6 +68,19 @@ jobs:
         with:
           fetch-depth: 0  # shallow clones should be disabled for a better 
                           # relevancy of analysis
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install tox and any other packages
+        run: pip install tox
+      - name: Run tox
+        run: tox -c HumanDetection/human-detection-module/tox.ini -e py
+
+      - name: Fix SonarClouds code coverage path bug
+        run: |
+          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' HumanDetection/coverage.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

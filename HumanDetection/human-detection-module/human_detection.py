@@ -58,10 +58,6 @@ class Human_Detection_Worker(ConsumerMixin):
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
 
-        
-        #print("frame count: " + str(frame_count))
-        #print("frame id: " + str(frame_id))
-
         # Debug
         print(f"I received the frame number {frame_count} from {msg_source}" +
               f", with the timestamp {frame_timestamp}.")
@@ -114,29 +110,19 @@ class Human_Detection_Worker(ConsumerMixin):
         # Remove Message From Queue
         message.ack()
 
-
     def create_database_entry(self, camera_id, frame_id, num_humans, ts):
-        num_humans_key = f"camera_{camera_id}_frame_{frame_id}_n_humans"
-        timestamp_key = f"camera_{camera_id}_frame_{frame_id}_timestamp"
-        self.database[num_humans_key] = num_humans
-        self.database[timestamp_key] = ts
-
+        if num_humans > 0:
+            self.r.hset(camera_id, frame_id, ts)
 
     def alarm_if_needed(self, camera_id, frame_id):
-        n_human_key = f"camera_{camera_id}_frame_{frame_id}_n_humans"
-        prev1_n_human_key = f"camera_{camera_id}_frame_{frame_id-1}_n_humans"
-        prev2_n_human_key = f"camera_{camera_id}_frame_{frame_id-2}_n_humans"
+        prev1_frame_n_humans = self.r.hget(camera_id, frame_id - 1)
+        prev2_frame_n_humans = self.r.hget(camera_id, frame_id - 2)
+        curr_frame_n_humans = self.r.hget(camera_id, frame_id)
 
-        prev1_frame_n_humans = self.database.get(prev1_n_human_key, 0)
-        curr_frame_n_humans = self.database.get(n_human_key, 0)
-        prev2_frame_n_humans = self.database.get(prev2_n_human_key, 0)
-
-        if prev1_frame_n_humans + curr_frame_n_humans + prev2_frame_n_humans >= 3:
-            timestamp_key = f"camera_{camera_id}_frame_{frame_id}_timestamp"
-            timestamp = self.database.get(timestamp_key, "")
-            print(f"[!!!] INTRUDER DETECTED AT TIMESTAMP {timestamp}[!!!]")
-            self.r.hset("Cameras", frame_id, "human")
+        if prev1_frame_n_humans and prev2_frame_n_humans and curr_frame_n_humans:
+            print(f"A Human was found in frame {frame_id} on {curr_frame_n_humans.decode('utf-8')}")
             return True
+            
         return False
 
 
