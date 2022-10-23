@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Management Web UI
+# Front-end
 
 The [React](https://reactjs.org/) was the tool chosen to develop the Management Web UI.
 
