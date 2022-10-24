@@ -4,8 +4,8 @@ import Sidebar from './nestedComponents/Sidebar';
 import Topbar from './nestedComponents/Topbar';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Cameras from './pages/UsersManagement/Cameras/Cameras';
+import Alarms from './pages/UsersManagement/Alarms/Alarms';
 import InitialDashboard from './pages/UsersManagement/InitialDashboard/InitialDashboard';
-import Nodes from './pages/UsersManagement/DicomNodes/Nodes';
 import ExtensionInstall from './pages/UsersManagement/ExtensionInstall/ExtensionInstall';
 function Dashboard() {
   return (
@@ -25,9 +25,9 @@ function Dashboard() {
                 <Cameras />
               </div>
             </Route>
-            <Route path="/nodes">
+            <Route path="/alarms">
               <div className="middle">
-                <Nodes />
+                <Alarms />
               </div>
             </Route>
             <Route path="/extInstallation">
