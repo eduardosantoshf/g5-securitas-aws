@@ -1,5 +1,5 @@
 ---
-slug: 2nd-sprint-Petrospective
+slug: 2nd-sprint-planning
 title: 2nd Sprint Planning
 authors: pedroSobral
 ---
@@ -10,7 +10,7 @@ authors: pedroSobral
   * Scrum Master - Pedro Sobral
   * Product Owner - Eva Bartolomeu
 
-* **Sprint Goal**:
+* **Sprint Goals**:
   * Develop a functional (not static) interface, and may already have an initial version of certain more basic system features working (list users, etc).
   * Start analyzing saved camera videos.
   * Prepare an Intrusion Management API.
