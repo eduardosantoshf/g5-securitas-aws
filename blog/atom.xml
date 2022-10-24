@@ -2,11 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://eduardosantoshf.github.io /es-project/blog</id>
     <title>G5 Securitas Blog</title>
-    <updated>2022-10-18T00:00:00.000Z</updated>
+    <updated>2022-10-24T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://eduardosantoshf.github.io /es-project/blog"/>
     <subtitle>G5 Securitas Blog</subtitle>
     <icon>https://eduardosantoshf.github.io /es-project/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[2nd Sprint Review]]></title>
+        <id>2nd-sprint-review</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review"/>
+        <updated>2022-10-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Attendees: all]]></summary>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1>]]></content>
+        <author>
+            <name>Pedro Sobral</name>
+            <uri>https://github.com/TheScorpoi</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[2nd Sprint Planning]]></title>
         <id>2nd-sprint-Petrospective</id>
@@ -14,18 +26,6 @@
         <updated>2022-10-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
         <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define team roles</strong>:</p><ul><li>Scrum Master - Pedro Sobral</li><li>Product Owner - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goal</strong>:</p><ul><li>Develop a functional (not static) interface, and may already have an initial version of certain more basic system features working (list users, etc).</li><li>Start analyzing saved camera videos.</li><li>Prepare an Intrusion Management API.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Video Processing (HDMI)</li><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Add/remove/update users (Site Management API)</li><li>List all users (Management UI)</li><li>Add/remove users (Management UI)</li></ul></li></ul>]]></content>
-        <author>
-            <name>Pedro Sobral</name>
-            <uri>https://github.com/TheScorpoi</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[2nd Sprint Review]]></title>
-        <id>2nd-sprint-review</id>
-        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review"/>
-        <updated>2022-10-18T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Attendees: all]]></summary>
-        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1><ul><li>A functional Managment UI blueprint with dashboards (using static data).</li><li>A backend to store cameras' video temporarily in redis.</li></ul>]]></content>
         <author>
             <name>Pedro Sobral</name>
             <uri>https://github.com/TheScorpoi</uri>

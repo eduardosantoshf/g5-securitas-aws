@@ -4,10 +4,18 @@
         <title>G5 Securitas Blog</title>
         <link>https://eduardosantoshf.github.io /es-project/blog</link>
         <description>G5 Securitas Blog</description>
-        <lastBuildDate>Tue, 18 Oct 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 24 Oct 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[2nd Sprint Review]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review</link>
+            <guid>2nd-sprint-review</guid>
+            <pubDate>Mon, 24 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[2nd Sprint Planning]]></title>
             <link>https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-Petrospective</link>
@@ -15,14 +23,6 @@
             <pubDate>Tue, 18 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
             <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define team roles</strong>:</p><ul><li>Scrum Master - Pedro Sobral</li><li>Product Owner - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goal</strong>:</p><ul><li>Develop a functional (not static) interface, and may already have an initial version of certain more basic system features working (list users, etc).</li><li>Start analyzing saved camera videos.</li><li>Prepare an Intrusion Management API.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Video Processing (HDMI)</li><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Add/remove/update users (Site Management API)</li><li>List all users (Management UI)</li><li>Add/remove users (Management UI)</li></ul></li></ul>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[2nd Sprint Review]]></title>
-            <link>https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review</link>
-            <guid>2nd-sprint-review</guid>
-            <pubDate>Tue, 18 Oct 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1><ul><li>A functional Managment UI blueprint with dashboards (using static data).</li><li>A backend to store cameras' video temporarily in redis.</li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[1st Sprint retrospective]]></title>
