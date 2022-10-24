@@ -20,19 +20,31 @@
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[3rd Sprint Planning]]></title>
+        <id>3rd-sprint-planning</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/3rd-sprint-planning"/>
+        <updated>2022-10-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Attendees: all]]></summary>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master - Eduardo Santos</li><li>Product Owner - Pedro Bastos</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Make HDM interact with the Intrusion Management API</li><li>Develop a functional (not static) interface for the clients.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Notify Management API (HDM)</li><li>List/add/remove alarms (Site Management API)</li><li>List/add/remove alarms (Management UI)</li><li>Add/remove users (Management UI)</li><li>Request intrusion video to HDM (Intrusion Management API)</li><li>Receive intrusion video request by Intrusion Management API (HDM)</li></ul></li></ul>]]></content>
+        <author>
+            <name>Eduardo Santos</name>
+            <uri>https://github.com/eduardosantoshf</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[2nd Sprint Planning]]></title>
-        <id>2nd-sprint-Petrospective</id>
-        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-Petrospective"/>
+        <id>2nd-sprint-planning</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-planning"/>
         <updated>2022-10-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
-        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define team roles</strong>:</p><ul><li>Scrum Master - Pedro Sobral</li><li>Product Owner - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goal</strong>:</p><ul><li>Develop a functional (not static) interface, and may already have an initial version of certain more basic system features working (list users, etc).</li><li>Start analyzing saved camera videos.</li><li>Prepare an Intrusion Management API.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Video Processing (HDMI)</li><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Add/remove/update users (Site Management API)</li><li>List all users (Management UI)</li><li>Add/remove users (Management UI)</li></ul></li></ul>]]></content>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define team roles</strong>:</p><ul><li>Scrum Master - Pedro Sobral</li><li>Product Owner - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Develop a functional (not static) interface, and may already have an initial version of certain more basic system features working (list users, etc).</li><li>Start analyzing saved camera videos.</li><li>Prepare an Intrusion Management API.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Video Processing (HDMI)</li><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Add/remove/update users (Site Management API)</li><li>List all users (Management UI)</li><li>Add/remove users (Management UI)</li></ul></li></ul>]]></content>
         <author>
             <name>Pedro Sobral</name>
             <uri>https://github.com/TheScorpoi</uri>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[1st Sprint retrospective]]></title>
+        <title type="html"><![CDATA[1st Sprint Retrospective]]></title>
         <id>1st-sprint-retrospective</id>
         <link href="https://eduardosantoshf.github.io /es-project/blog/1st-sprint-retrospective"/>
         <updated>2022-10-17T00:00:00.000Z</updated>
