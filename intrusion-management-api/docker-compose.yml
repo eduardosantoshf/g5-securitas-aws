@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb
+
+    hostname: db
+    ports:
+      - 3306:3306
+
+    restart: always
+
+    environment:
+      - MARIADB_DATABASE=sites_man_db
+      - MARIADB_ROOT_PASSWORD=root 
+      - MARIADB_USER=dev_user
+      - MARIADB_PASSWORD=dev_pass
+
+    volumes:
+      - mariadb-volume:/var/lib/mysql/
+    
+volumes:
+  mariadb-volume:
