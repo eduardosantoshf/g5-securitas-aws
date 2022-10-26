@@ -13,3 +13,6 @@ pip install -r requirements.txt
 
 uvicorn main:app --reload
 ```
+
+
+ter um endpoint para receber informacao quando um intruso é detectado
