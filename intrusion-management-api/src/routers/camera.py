@@ -3,6 +3,7 @@ import src.schemas as schemas
 from fastapi.responses import ORJSONResponse
 import boto3
 from botocore.exceptions import NoCredentialsError
+import os
 
 router = APIRouter(
     prefix="/cameras",
@@ -22,21 +23,12 @@ def save_video_to_s3():
     
     client = boto3.client(
     's3',
-    aws_access_key_id = 'AKIA32O63NC3DL72P3VW',
-    aws_secret_access_key = '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',
+    aws_access_key_id = os.getenv('aws_access_key_id'),
+    aws_secret_access_key = os.getenv('aws_secret_access_key'),
     region_name = 'eu-west-1'
     )
     
-    try:
-        client.upload_file("./src/routers/people-detection.mp4", "video-clips-archive", "video")
-        print("Upload Successful")
-        return True
-    except FileNotFoundError:
-        print("The file was not found")
-        return False
-    except NoCredentialsError:
-        print("Credentials not available")
-        return False
+    print("Uploading file to S3")
     
 @router.get("/download-video", status_code=status.HTTP_200_OK)
 def download_video_from_s3():
