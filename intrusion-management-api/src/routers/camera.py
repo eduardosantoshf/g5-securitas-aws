@@ -25,7 +25,7 @@ def save_video_to_s3():
     's3',
     aws_access_key_id = os.getenv('aws_access_key_id'),
     aws_secret_access_key = os.getenv('aws_secret_access_key'),
-    region_name = 'eu-west-1'
+    region_name = os.getenv('region_name')
     )
     
     print("Uploading file to S3")
@@ -34,9 +34,9 @@ def save_video_to_s3():
 def download_video_from_s3():
     client = boto3.client(
     's3',
-    aws_access_key_id = 'AKIA32O63NC3DL72P3VW',
-    aws_secret_access_key = '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',
-    region_name = 'eu-west-1'
+    aws_access_key_id = os.getenv('aws_access_key_id'),
+    aws_secret_access_key = os.getenv('aws_secret_access_key'),
+    region_name = os.getenv('region_name')
     )
     
     try:
