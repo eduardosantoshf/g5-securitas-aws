@@ -3,10 +3,10 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from src.config import settings
-from src.database import get_db
-from src.models import Base
+from src.db.database import get_db
+from src.models.models import Base
 import pytest
-import src.schemas as schemas
+import src.models.schemas as schemas
 
 SQLALCHEMY_DATABASE_URL = f'mariadb+mariadbconnector://{settings.MARIADB_USER}:{settings.MARIADB_PASSWORD}' \
     f'@{settings.MARIADB_HOST}:{settings.MARIADB_PORT}/{settings.MARIADB_DATABASE}'

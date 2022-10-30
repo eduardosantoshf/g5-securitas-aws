@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-import models.models as models, models.schemas as schemas
+import src.models.models as models, src.models.schemas as schemas
 
 
 def get_property(db: Session, property_id: int):
