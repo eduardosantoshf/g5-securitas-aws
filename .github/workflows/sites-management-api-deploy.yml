@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:    
       - main
-      - sites-man-api-cd
+
     paths:
       - sitesManagementAPI/**
       - '!**.md'
@@ -16,7 +16,7 @@ on:
   push:
     branches:    
       - main
-      - sites-man-api-cd
+
     paths:
       - sitesManagementAPI/**
       - '!**.md'
