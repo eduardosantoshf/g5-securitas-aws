@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:    
       - main
+
     paths:
       - sitesManagementAPI/**
       - '!**.md'
@@ -15,6 +16,7 @@ on:
   push:
     branches:    
       - main
+
     paths:
       - sitesManagementAPI/**
       - '!**.md'
@@ -24,7 +26,7 @@ on:
       - '!**.txt'
 
 env:
-  ECR_REGISTRY_ALIAS: incrivel
+  ECR_REGISTRY_ALIAS: p3i3q7f7
   ECR_REPOSITORY: sites_man_api                     # set this to your Amazon ECR repository name
   ECS_SERVICE: ServiceSitesMan                      # set this to your Amazon ECS service name
   ECS_CLUSTER: ClusterSitesMan                      # set this to your Amazon ECS cluster name
