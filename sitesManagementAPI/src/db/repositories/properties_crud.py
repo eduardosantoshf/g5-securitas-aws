@@ -20,22 +20,26 @@ def create_property(db: Session, property: schemas.PropertyCreate, owner_id: int
 
     return db_property
 
-def update_property(db: Session, property_id: int, updated_property: schemas.Property):
+def update_property(db: Session, property_id: int, new_owner_id: int, new_address: str):
     query = db.query(models.Property).filter(models.Property.id == property_id).first()
     if query is None:
         return None
 
-    query.update(**updated_property.dict())
+    if new_owner_id:
+        query.owner_id = new_owner_id
+    if new_address:
+        query.address = new_address
+
     db.commit()
     return query
 
 def delete_property(db: Session, property_id):
-    query = db.query(models.Property).filter(models.Property.id == property_id).first()
-    property_delete = query.first()
+    property_delete = db.query(models.Property).filter(models.Property.id == property_id).first()
+    
     if property_delete is None:
         return None
     
-    query.delete()
+    db.delete(property_delete)
     db.commit()
     
     return property_delete

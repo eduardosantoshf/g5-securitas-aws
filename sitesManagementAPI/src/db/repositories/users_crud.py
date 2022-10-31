@@ -28,7 +28,10 @@ def update_user(db: Session, user_id: int, updated_user: schemas.User):
     if query is None:
         return None
     
-    query.update(**updated_user.dict())
+    query.name = updated_user.name
+    query.email = updated_user.email
+    query.address = updated_user.address
+    
     db.commit()
     return query
 

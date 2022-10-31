@@ -25,17 +25,18 @@ def update_alarm(db: Session, alarm_id: int, updated_alarm: schemas.Alarm):
     if query is None:
         return None
 
-    query.update(**updated_alarm.dict())
+    query.property_id = updated_alarm.property_id
+
     db.commit()
     return query
 
 def delete_alarm(db: Session, alarm_id):
-    query = db.query(models.Alarm).filter(models.Alarm.id == alarm_id).first()
-    alarm_delete = query.first()
+    alarm_delete = db.query(models.Alarm).filter(models.Alarm.id == alarm_id).first()
+    
     if alarm_delete is None:
         return None
     
-    query.delete()
+    db.delete(alarm_delete)
     db.commit()
     
     return alarm_delete
