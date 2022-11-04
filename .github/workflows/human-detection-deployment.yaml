@@ -31,7 +31,7 @@ on:
   workflow_dispatch:
 
 env:
-  #ECR_REGISTRY_ALIAS: p3i3q7f7
+  ECR_REGISTRY_ALIAS: z3i2o8j0
   ECR_REPOSITORY: human-detection-repository        # set this to your Amazon ECR repository name
   ECS_SERVICE: human-detection-service              # set this to your Amazon ECS service name
   ECS_CLUSTER: human-detection-cluster              # set this to your Amazon ECS cluster name
@@ -70,9 +70,9 @@ jobs:
 
         run: |
           cd HumanDetection/human-detection-module
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Configure AWS credentials (change to eu-west-3 region)
         uses: aws-actions/configure-aws-credentials@v1
