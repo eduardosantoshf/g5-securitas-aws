@@ -13,6 +13,7 @@ from kombu.mixins import ConsumerMixin
 import datetime
 import os
 import redis
+import requests
 
 
 # Kombu Message Consuming Human_Detection_Worker
@@ -114,6 +115,14 @@ class Human_Detection_Worker(ConsumerMixin):
         if num_humans > 0:
             self.r.hset(camera_id, frame_id, ts)
 
+    def notify_management_api(self, camera_id, video_id):
+        #data = {"camera_id": camera_id, "video_id": video_id}
+        data = {"name": "zezoca"}
+        url = "https://reqres.in/api/users" #mudar para management API
+        reply = requests.post(url, json=data)
+        print(reply.text)
+
+
     def alarm_if_needed(self, camera_id, frame_id):
         prev1_frame_n_humans = self.r.hget(camera_id, frame_id - 1)
         prev2_frame_n_humans = self.r.hget(camera_id, frame_id - 2)
@@ -121,6 +130,8 @@ class Human_Detection_Worker(ConsumerMixin):
 
         if prev1_frame_n_humans and prev2_frame_n_humans and curr_frame_n_humans:
             print(f"A Human was found in frame {frame_id} on {curr_frame_n_humans.decode('utf-8')}")
+            #self.notify_management_api(camera_id, 1)
+
             return True
             
         return False
