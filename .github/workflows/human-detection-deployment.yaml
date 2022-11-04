@@ -6,6 +6,8 @@ on:
 
     paths:
       - HumanDetection/**
+      - .github/**
+      - .aws/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -17,8 +19,8 @@ on:
 
     paths:
       - HumanDetection/**
-      - .github/
-      - .aws/
+      - .github/**
+      - .aws/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
