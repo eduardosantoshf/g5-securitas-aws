@@ -65,7 +65,7 @@ jobs:
       - name: Build, tag, and push docker hdm image to Amazon ECR Public
         id: build-hdm-image
         env:
-          ECR_REGISTRY: 757635406672.dkr.ecr.eu-west-3.amazonaws.com
+          ECR_REGISTRY: “https://757635406672.dkr.ecr.eu-west-3.amazonaws.com
           IMAGE_TAG: ${{ github.sha }}
 
         run: |
