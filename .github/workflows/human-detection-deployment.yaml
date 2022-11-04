@@ -32,7 +32,7 @@ on:
 
 env:
   #ECR_REGISTRY_ALIAS: p3i3q7f7
-  ECR_REPOSITORY: human-detection                   # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: human-detection-repository        # set this to your Amazon ECR repository name
   ECS_SERVICE: human-detection-service              # set this to your Amazon ECS service name
   ECS_CLUSTER: human-detection-cluster              # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
@@ -65,7 +65,7 @@ jobs:
       - name: Build, tag, and push docker hdm image to Amazon ECR Public
         id: build-hdm-image
         env:
-          ECR_REGISTRY: “https://757635406672.dkr.ecr.eu-west-3.amazonaws.com
+          ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
 
         run: |
