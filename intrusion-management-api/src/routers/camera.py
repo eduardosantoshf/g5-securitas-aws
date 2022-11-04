@@ -14,6 +14,7 @@ def receive_intrusion_frame(frame: schemas.Frame):
     request_video_to_cameras(frame)
     return frame
 
+#fazer este pedido ao broker
 @router.get("/request-video", status_code=status.HTTP_200_OK)
 def request_video_to_cameras(frame):
     return {"frame": frame}
@@ -29,6 +30,17 @@ def save_video_to_s3():
     )
     
     print("Uploading file to S3")
+    try:
+        client.upload_file("video-clips-archive", "video", "./src/routers/download-video.mp4")
+        print("Download Successful")
+        return True
+    except FileNotFoundError:
+        print("The file was not found")
+        return False
+    except NoCredentialsError:
+        print("Credentials not available")
+        return False
+    
     
 @router.get("/download-video", status_code=status.HTTP_200_OK)
 def download_video_from_s3():
