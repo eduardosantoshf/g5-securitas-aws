@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:    
       - main
-      - feature/sites_man_deploy_new_acc 
+
     paths:
       - sitesManagementAPI/**
       - '!**.md'
@@ -16,7 +16,7 @@ on:
   push:
     branches:    
       - main
-      - feature/sites_man_deploy_new_acc 
+
     paths:
       - sitesManagementAPI/**
       - '!**.md'
