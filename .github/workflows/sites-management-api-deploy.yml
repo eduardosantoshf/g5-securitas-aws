@@ -24,10 +24,10 @@ on:
       - '!**.txt'
 
 env:
-  ECR_REGISTRY_ALIAS: incrivel
+  ECR_REGISTRY_ALIAS: z3i2o8j0
   ECR_REPOSITORY: sites_man_api                     # set this to your Amazon ECR repository name
-  ECS_SERVICE: ServiceSitesMan                      # set this to your Amazon ECS service name
-  ECS_CLUSTER: ClusterSitesMan                      # set this to your Amazon ECS cluster name
+  ECS_SERVICE: sites-man-service                    # set this to your Amazon ECS service name
+  ECS_CLUSTER: sites-man-cluster                    # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
   ECS_TASK_DEFINITION: .aws/sites-management-task-definition.json    
                                                     # file, e.g. .aws/task-definition.json
