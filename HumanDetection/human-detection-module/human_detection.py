@@ -177,7 +177,7 @@ class Human_Detection_Module:
         self.kombu_connection = kombu.Connection(
             connection_string,
             heartbeat=4,
-            ssl=True
+            #ssl=True
         )
 
         # Start Human Detection Workers
