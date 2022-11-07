@@ -18,6 +18,8 @@ RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
 # OUTPUT
 OUTPUT_DIR = "intruders"
 
+print("Started")
+
 human_detection_worker = Human_Detection_Module(OUTPUT_DIR)
 
 human_detection_worker.start_processing(
