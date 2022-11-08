@@ -96,8 +96,8 @@ if __name__ == '__main__':
     RABBIT_MQ_PASSWORD = "mypassword"
 
     #TODO change this to a different queue
-    RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
-    RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
+    RABBIT_MQ_EXCHANGE_NAME = "request-video-exchange"
+    RABBIT_MQ_QUEUE_NAME = "request-video-queue"
 
     # OUTPUT
     OUTPUT_DIR = "intruders"
