@@ -5,6 +5,8 @@
 # @Last Modified by:   Rafael Direito
 # @Last Modified time: 2022-10-07 11:34:30
 
+print("Before")
+
 import os
 from human_detection import Human_Detection_Module
 
