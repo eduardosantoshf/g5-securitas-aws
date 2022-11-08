@@ -1,11 +1,8 @@
-import numpy as np
-import cv2
-import sys
+#import numpy as np
+#import cv2
 import kombu
 from kombu.mixins import ConsumerMixin
-import datetime
 import os
-import redis
 import requests
 
 # Kombu Message Consuming Human_Detection_Worker
@@ -16,34 +13,39 @@ class Cameras_worker(ConsumerMixin):
         self.queues = queues
         self.database = database
         self.output_dir = output_dir
-        self.HOGCV = cv2.HOGDescriptor()
-        self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+        #self.HOGCV = cv2.HOGDescriptor()
+        #self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
     def get_consumers(self, Consumer, channel):
         return [
             Consumer(
                 queues=self.queues,
                 callbacks=[self.on_message],
-                accept=['image/jpeg']
+                #accept=['image/jpeg']
                 )
             ]
 
 
     # TODO function to handle video requests
-    def on_message(self, body, message):
-        # Get message headers' information
-        msg_source = message.headers["source"]
-        frame_timestamp = message.headers["timestamp"]
-        frame_count = message.headers["frame_count"]
-        frame_id = message.headers["frame_id"]
-
-        # Debug
-        print(f"I received the frame number {frame_count} from {msg_source}" +
-              f", with the timestamp {frame_timestamp}.")
-        print("I'm processing the frame...")
-
-
-
+    def on_message(self, body, message):        
+        response = message.body
+        print(response)
+        #print(message)
+        
+        #camera_id = message.headers["camera_id"]
+        #timestamp_intrusion = message.headers["timestamp_intrusion"]
+        
+        #print(f"Received frame from camera {camera_id} with timestamp {timestamp_intrusion}")
+        
+        #*send the video through the HTTP to the API
+        """
+        try:
+            with open('./samples/people-detection.mp4', 'rb') as f:
+                response = requests.post('http://localhost:8000/cameras/receive-video', files={'file': f})
+                print(response.json())
+        except Exception as e:
+            print("Error: ", e)
+        """
 class Consumer_video_request:
 
     def __init__(self, output_dir):
@@ -94,8 +96,6 @@ if __name__ == '__main__':
     RABBIT_MQ_URL = os.environ['AMQP_URL'] + ":5672"
     RABBIT_MQ_USERNAME = "myuser"
     RABBIT_MQ_PASSWORD = "mypassword"
-
-    #TODO change this to a different queue
     RABBIT_MQ_EXCHANGE_NAME = "request-video-exchange"
     RABBIT_MQ_QUEUE_NAME = "request-video-queue"
 

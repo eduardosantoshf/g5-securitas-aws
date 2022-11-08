@@ -6,6 +6,8 @@ from botocore.exceptions import NoCredentialsError
 import os
 import kombu
 from kombu import Exchange, Producer
+import json
+import shutil
 
 
 router = APIRouter(
@@ -15,7 +17,6 @@ router = APIRouter(
 
 #! connection to broker
 kombu_connection = os.environ['AMQP_URL'] + ":5672"
-#kombu_connection = "localhost" + ":5672"
 kombu_exchange = "myuser"
 kombu_channel = "mypassword"
 kombu_producer = "request-video-exchange"
@@ -24,7 +25,6 @@ kombu_queue = "request-video-queue"
 
 @router.get("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
-    print("Received frame ", frame)
     attach_to_message_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer, kombu_queue, frame)    
     return frame
 
@@ -62,17 +62,25 @@ def attach_to_message_broker(broker_url, broker_username,
         kombu_queue.maybe_bind(kombu_connection)
         kombu_queue.declare()
         
-        kombu_producer.publish(frame.dict())
-        print(f"Request made to camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
-        
-
-
-
+        kombu_producer.publish(
+            body=json.dumps({"camera_id": frame.camera_id, "timestamp_intrusion": "frame.timestamp_intrusion"}),
+            content_type="application/json",
+            headers={
+                "camera_id": frame.camera_id
+            }
+        )                
+        #print(f"Request made to camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
 
 #fazer este pedido ao broker
 @router.get("/request-video", status_code=status.HTTP_200_OK)
 def request_video_to_cameras(frame):
     return {"frame": frame}
+
+@router.post("/receive-video", status_code=status.HTTP_200_OK)
+def receive_video_from_cameras(file: UploadFile):
+    with open(file.filename, 'wb') as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    return {"message": "Video received", "filename": file.filename}
 
 @router.post("/upload-s3", status_code=status.HTTP_201_CREATED)
 def save_video_to_s3():
