@@ -46,6 +46,9 @@ class Cameras_worker(ConsumerMixin):
         except Exception as e:
             print("Error: ", e)
         """
+
+        message.ack()
+        
 class Consumer_video_request:
 
     def __init__(self, output_dir):
