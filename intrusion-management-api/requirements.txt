@@ -6,3 +6,4 @@ pydantic==1.10.2
 boto3==1.20.10
 python-multipart==0.0.5
 python-dotenv==0.19.1
+kombu==5.2.4
