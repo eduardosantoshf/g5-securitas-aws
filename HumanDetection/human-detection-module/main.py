@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # @Author: Rafael Direito
 # @Date:   2022-10-06 11:30:52 (WEST)
 # @Email:  rdireito@av.it.pt
