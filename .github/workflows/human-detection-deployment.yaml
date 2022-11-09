@@ -31,7 +31,7 @@ on:
   workflow_dispatch:
 
 env:
-  ECR_REGISTRY_ALIAS: z3i2o8j0
+  ECR_REGISTRY_ALIAS: p3i3q7f7
   ECR_REPOSITORY: human-detection-repository        # set this to your Amazon ECR repository name
   ECS_SERVICE: human-detection-service              # set this to your Amazon ECS service name
   ECS_CLUSTER: human-detection-cluster              # set this to your Amazon ECS cluster name
