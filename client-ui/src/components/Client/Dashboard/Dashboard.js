@@ -7,6 +7,8 @@ import Cameras from './pages/UsersManagement/Cameras/Cameras';
 import Alarms from './pages/UsersManagement/Alarms/Alarms';
 import InitialDashboard from './pages/UsersManagement/InitialDashboard/InitialDashboard';
 import ExtensionInstall from './pages/UsersManagement/ExtensionInstall/ExtensionInstall';
+import Intrusions from './pages/UsersManagement/Intrusions/Intrusions';
+
 function Dashboard() {
   return (
     <Router>
@@ -28,6 +30,11 @@ function Dashboard() {
             <Route path="/alarms">
               <div className="middle">
                 <Alarms />
+              </div>
+            </Route>
+            <Route path="/intrusions">
+              <div className="middle">
+                <Intrusions />
               </div>
             </Route>
             <Route path="/extInstallation">

@@ -26,6 +26,10 @@ function Sidebar() {
     history.push("/alarms");
   };
 
+  const intrusions = () => {
+    history.push("/intrusions");
+  };
+
 
   return (
     <Menu>
@@ -43,6 +47,12 @@ function Sidebar() {
       </a>
       <a className="menu-item" onClick={alarms}>
         <span className="lefti">Alarms </span>
+        <span className="righti">
+          <Alarm />
+        </span>
+      </a>
+      <a className="menu-item" onClick={intrusions}>
+        <span className="lefti">Intrusions </span>
         <span className="righti">
           <Alarm />
         </span>
