@@ -25,7 +25,7 @@ kombu_queue = "request-video-queue"
 
 @router.get("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
-    attach_to_message_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer, kombu_queue, frame)    
+    attach_to_message_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer, kombu_queue, frame)
     return frame
 
 def attach_to_message_broker(broker_url, broker_username,
@@ -63,7 +63,11 @@ def attach_to_message_broker(broker_url, broker_username,
         kombu_queue.declare()
         
         kombu_producer.publish(
+<<<<<<< HEAD
             body=json.dumps({"request-video": "sent to broker"}),
+=======
+            body=json.dumps({"camera_id": frame.camera_id, "timestamp_intrusion": frame.timestamp_intrusion.strftime("%H:%M:%S")}),
+>>>>>>> 8390636c28fd4da799899b9fd22860eec97b3f8b
             content_type="application/json",
             headers={
                 "camera_id": frame.camera_id,
