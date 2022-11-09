@@ -2,7 +2,7 @@ name: Deploy HDM to AWS
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, development]
 
     paths:
       - HumanDetection/**
@@ -15,7 +15,7 @@ on:
       - '!**.txt'
     
   push:
-    branches: [ main, hdm-cd]    
+    branches: [ main, development, hdm-cd]
 
     paths:
       - HumanDetection/**
