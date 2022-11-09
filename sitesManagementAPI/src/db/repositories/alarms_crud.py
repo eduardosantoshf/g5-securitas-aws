@@ -20,12 +20,16 @@ def create_alarm(db: Session, alarm: schemas.AlarmCreate, property_id: int):
 
     return db_alarm
 
-def update_alarm(db: Session, alarm_id: int, updated_alarm: schemas.Alarm):
+def update_alarm(db: Session, alarm_id: int, new_property_id: int, new_description: str):
     query = db.query(models.Alarm).filter(models.Alarm.id == alarm_id).first()
     if query is None:
         return None
 
-    query.property_id = updated_alarm.property_id
+    if new_property_id:
+        query.property_id = new_property_id
+    
+    if new_description:
+        query.description = new_description
 
     db.commit()
     return query

@@ -16,9 +16,14 @@ router = APIRouter(
 def create_property(property: schemas.PropertyCreate, owner_id: int, db: Session = Depends(get_db)):
     db_owner = users_crud.get_user(db=db, user_id=owner_id)
     if db_owner is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Property with id {property_id} not found')
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'User with id {owner_id} not found')
+
+    query = crud.create_property(property=property, owner_id=owner_id, db=db)
     
-    return crud.create_property(property=property, owner_id=owner_id, db=db)
+    if query is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f'Property already registred')
+
+    return query
 
 
 @router.get("/", response_model=list[schemas.Property])
@@ -35,11 +40,17 @@ def read_property(property_id: int, db: Session = Depends(get_db)):
     return db_property
 
 
-@router.put("/{property_id}", status_code=status.HTTP_200_OK)
+@router.put("/{property_id}", response_model=schemas.Property, status_code=status.HTTP_200_OK)
 def update_property(property_id: int, new_owner_id: int | None = None, new_address: str | None = None, db: Session = Depends(get_db)):
+    
     db_property = crud.update_property(db=db, property_id=property_id, new_owner_id=new_owner_id, new_address=new_address)
+    
     if db_property is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Property with id {property_id} not found')
+    elif db_property == -1:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'No user with id {new_owner_id}')
+    elif db_property == -2:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f'Property already registred at specified address')
     
     return db_property
 
