@@ -63,11 +63,7 @@ def attach_to_message_broker(broker_url, broker_username,
         kombu_queue.declare()
         
         kombu_producer.publish(
-<<<<<<< HEAD
-            body=json.dumps({"request-video": "sent to broker"}),
-=======
             body=json.dumps({"camera_id": frame.camera_id, "timestamp_intrusion": frame.timestamp_intrusion.strftime("%H:%M:%S")}),
->>>>>>> 8390636c28fd4da799899b9fd22860eec97b3f8b
             content_type="application/json",
             headers={
                 "camera_id": frame.camera_id,
@@ -85,6 +81,7 @@ def request_video_to_cameras(frame):
 def receive_video_from_cameras(file: UploadFile):
     with open(file.filename, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
+    print("Video " + file.filename + " received.")
     return {"message": "Video received", "filename": file.filename}
 
 @router.post("/upload-s3", status_code=status.HTTP_201_CREATED)

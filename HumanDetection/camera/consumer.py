@@ -41,7 +41,7 @@ class Cameras_worker(ConsumerMixin):
         timestamp_intrusion_ = message.headers["timestamp_intrusion"]
         timestamp_intrusion = self.get_sec(timestamp_intrusion_)
         
-        print(f"Received frame from camera {camera_id} with timestamp {timestamp_intrusion}")    
+        print(f"Received frame from camera {camera_id} with timestamp {message.headers['timestamp_intrusion']}")    
         message.ack()
     
         video = "./samples/people-detection.mp4"
@@ -88,6 +88,8 @@ class Cameras_worker(ConsumerMixin):
                 print(f"Clipped video sent to intrusion-management-api with status code {response.status_code}")    
         except Exception as e:
             print("Error: ", e)
+
+        return message
         
 class Consumer_video_request:
 
