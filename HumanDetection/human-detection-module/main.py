@@ -24,14 +24,16 @@ OUTPUT_DIR = "intruders"
 
 print("Started")
 
-human_detection_worker = Human_Detection_Module(OUTPUT_DIR)
 
-human_detection_worker.start_processing(
-    broker_url=RABBIT_MQ_URL,
-    broker_username=RABBIT_MQ_USERNAME,
-    broker_password=RABBIT_MQ_PASSWORD,
-    exchange_name=RABBIT_MQ_EXCHANGE_NAME,
-    queue_name=RABBIT_MQ_QUEUE_NAME
-    )
+
+#human_detection_worker = Human_Detection_Module(OUTPUT_DIR)
+
+#human_detection_worker.start_processing(
+#    broker_url=RABBIT_MQ_URL,
+#    broker_username=RABBIT_MQ_USERNAME,
+#    broker_password=RABBIT_MQ_PASSWORD,
+#    exchange_name=RABBIT_MQ_EXCHANGE_NAME,
+#    queue_name=RABBIT_MQ_QUEUE_NAME
+#    )
 
 print("End of video processing")
