@@ -12,10 +12,8 @@ import consumer
 from unittest.mock import patch
 import pika
 
-from pytest_rabbitmq import factories
 import kombu
 from kombu import Exchange, Producer
-from rabbitpy import Exchange, Queue
 
 
 
