@@ -63,13 +63,14 @@ def attach_to_message_broker(broker_url, broker_username,
         kombu_queue.declare()
         
         kombu_producer.publish(
-            body=json.dumps({"camera_id": frame.camera_id, "timestamp_intrusion": "frame.timestamp_intrusion"}),
+            body=json.dumps({"request-video": "sent to broker"}),
             content_type="application/json",
             headers={
-                "camera_id": frame.camera_id
+                "camera_id": frame.camera_id,
+                "timestamp_intrusion": frame.timestamp_intrusion.strftime("%H:%M:%S")
             }
         )                
-        #print(f"Request made to camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
+        print(f"Request made to camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
 
 #fazer este pedido ao broker
 @router.get("/request-video", status_code=status.HTTP_200_OK)
