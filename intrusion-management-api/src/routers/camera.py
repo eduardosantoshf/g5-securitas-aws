@@ -8,6 +8,7 @@ import kombu
 from kombu import Exchange, Producer
 import json
 import shutil
+from fastapi.responses import FileResponse
 
 
 router = APIRouter(
@@ -124,3 +125,7 @@ def download_video_from_s3():
     except NoCredentialsError:
         print("Credentials not available")
         return False
+
+@router.get("/intrusions-videos")
+async def main():
+    return FileResponse("./src/routers/download-video.mp4")
