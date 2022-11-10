@@ -1,9 +1,14 @@
 #import numpy as np
-#import cv2
+import cv2
 import kombu
 from kombu.mixins import ConsumerMixin
 import os
+import math
 import requests
+#from moviepy.video.io.VideoFileClip import VideoFileClip
+#from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+#import moviepy.editor as mp
+
 
 # Kombu Message Consuming Human_Detection_Worker
 class Cameras_worker(ConsumerMixin):
@@ -24,30 +29,67 @@ class Cameras_worker(ConsumerMixin):
                 #accept=['image/jpeg']
                 )
             ]
-
+        
+    def get_sec(self, time_str):
+        """Get Seconds from time."""
+        h, m, s = time_str.split(':')
+        return int(h) * 3600 + int(m) * 60 + int(s)
 
     # TODO function to handle video requests
-    def on_message(self, body, message):        
-        response = message.body
-        print(response)
-        #print(message)
+    def on_message(self, body, message):
+        camera_id = message.headers["camera_id"]
+        timestamp_intrusion_ = message.headers["timestamp_intrusion"]
+        timestamp_intrusion = self.get_sec(timestamp_intrusion_)
         
-        #camera_id = message.headers["camera_id"]
-        #timestamp_intrusion = message.headers["timestamp_intrusion"]
+        print(f"Received frame from camera {camera_id} with timestamp {message.headers['timestamp_intrusion']}")    
+        message.ack()
+
+        video = "./samples/people-detection.mp4"
         
-        #print(f"Received frame from camera {camera_id} with timestamp {timestamp_intrusion}")
+        cap = cv2.VideoCapture(video)
+        frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        clip_duration = math.trunc(frames / fps)
+        
+        start = 0
+        end = clip_duration
+        before_after = 10
+        # before_after = 180 
+        
+        #to not overclip the video
+        if timestamp_intrusion - before_after >= 0 :
+            start = timestamp_intrusion - before_after
+        if timestamp_intrusion + before_after <= clip_duration :
+            end = timestamp_intrusion + before_after
+            
+        parts = [(start, end)]
+        ret, frame = cap.read()
+        h, w, _ = frame.shape
+        fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+        writers = [cv2.VideoWriter(f"./samples/part{start}-{end}.mp4", fourcc, 10.0, (w, h)) for start, end in parts]
+
+        f = 0
+        while ret:
+            f += 1
+            for i, part in enumerate(parts):
+                start, end = part
+                if start*10 <= f <= end*10:
+                    writers[i].write(frame)
+            ret, frame = cap.read()
+
+        for writer in writers:
+            writer.release()
+        cap.release()
         
         #*send the video through the HTTP to the API
-        """
         try:
-            with open('./samples/people-detection.mp4', 'rb') as f:
+            with open(f"./samples/part{start}-{end}.mp4", 'rb') as f:
                 response = requests.post('http://localhost:8000/cameras/receive-video', files={'file': f})
-                print(response.json())
+                print(f"Clipped video sent to intrusion-management-api with status code {response.status_code}")    
         except Exception as e:
             print("Error: ", e)
-        """
 
-        message.ack()
+        return message
         
 class Consumer_video_request:
 
