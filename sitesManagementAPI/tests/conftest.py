@@ -46,7 +46,7 @@ def test_user(client: TestClient) -> schemas.User:
     user_data = {"name": "Ricardo",
                  "email": "ricardocas@gmail.com",
                  "address": "Rua do francisco perdido"}
-    res = client.post("/users/", json=user_data)
+    res = client.post("/sites-man-api/users/", json=user_data)
 
     new_user = schemas.User(**res.json())
     return new_user
@@ -58,19 +58,19 @@ def test_users(client: TestClient) -> list[schemas.User]:
     user_data = {"name": "Ricardo",
                  "email": "ricardao@gmail.com",
                  "address": "Rua do francisco perdido"}
-    res = client.post("/users/", json=user_data)
+    res = client.post("/sites-man-api/users/", json=user_data)
     users.append(schemas.User(**res.json()))
 
     user_data = {"name": "Rui Aguiar",
                  "email": "ruiAguiar@ua.pt",
                  "address": "Praceira dos cansados"}
-    res = client.post("/users/", json=user_data)
+    res = client.post("/sites-man-api/users/", json=user_data)
     users.append(schemas.User(**res.json()))
 
     user_data = {"name": "Sergio Calado",
                  "email": "sergioCaladoPJ@gmail.com",
                  "address": "Terreiro do chaço"}
-    res = client.post("/users/", json=user_data)
+    res = client.post("/sites-man-api/users/", json=user_data)
     users.append(schemas.User(**res.json()))
 
     return users
@@ -81,7 +81,7 @@ def test_property(client: TestClient, test_user: schemas.User) -> schemas.Proper
     post_body = {
         "address": "Vila Nova"
     }
-    res = client.post("/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
 
     new_property = schemas.Property(**res.json())
 
@@ -94,15 +94,15 @@ def test_properties(client: TestClient, test_user: schemas.User) -> list[schemas
     properties = []
 
     post_body = {"address": "address1"}
-    res = client.post("/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
     properties.append(schemas.Property(**res.json()))
 
     post_body = {"address": "address2"}
-    res = client.post("/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
     properties.append(schemas.Property(**res.json()))
 
     post_body = {"address": "address3"}
-    res = client.post("/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_user.id)}, json=post_body)
     properties.append(schemas.Property(**res.json()))
 
     return properties
@@ -114,7 +114,7 @@ def test_alarm(client: TestClient, test_property: schemas.Property) -> schemas.A
     post_body = {
         "description": "test_description"
     }
-    res = client.post("/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
+    res = client.post("/sites-man-api/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
 
     new_alarm = schemas.Alarm(**res.json())
 
@@ -126,15 +126,15 @@ def test_alarms(client: TestClient, test_property: schemas.Property) -> list[sch
     alarms = []
 
     post_body = {"description": "test_alarm1"}
-    res = client.post("/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
+    res = client.post("/sites-man-api/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
     alarms.append(schemas.Alarm(**res.json()))
 
     post_body = {"description": "test_alarm2"}
-    res = client.post("/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
+    res = client.post("/sites-man-api/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
     alarms.append(schemas.Alarm(**res.json()))
 
     post_body = {"description": "test_alarm3"}
-    res = client.post("/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
+    res = client.post("/sites-man-api/alarms/", params={"property_id": str(test_property.id)}, json=post_body)
     alarms.append(schemas.Alarm(**res.json()))
 
     return alarms
