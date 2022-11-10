@@ -123,7 +123,6 @@ def test_alarm(client: TestClient, test_property: schemas.Property) -> schemas.A
 
 @pytest.fixture(scope="function")
 def test_alarms(client: TestClient, test_property: schemas.Property) -> list[schemas.Alarm]:
-
     alarms = []
 
     post_body = {"description": "test_alarm1"}
