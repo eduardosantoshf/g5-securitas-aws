@@ -19,8 +19,6 @@ services:
             - '5672:5672'
             # HTTP management UI
             - '15672:15672'
-        #networks:
-        #- network
 
     redis:
         container_name: "redis_db"
@@ -31,8 +29,6 @@ services:
         command: redis-server --save 20 1 --loglevel warning
         volumes: 
         - redis:/data
-        #networks:
-        #    - network
     
     #camera:
     #    build:
@@ -46,9 +42,7 @@ services:
 #
     #    depends_on:
     #        - rabbitmq3
-    #    networks:
-    #        - network
-  #
+#
     #human-detection-module:
     #    build:
     #        context: human-detection-module
@@ -62,14 +56,7 @@ services:
     #    depends_on:
     #        - rabbitmq3
     #        - redis
-    #    networks:
-    #        - network
 
 volumes:
     redis:
         driver: local
-
-#networks:
-  # Declare our private network.  We must declare one for the magic
-  # Docker DNS to work, but otherwise its default settings are fine.
-#  network: {}
