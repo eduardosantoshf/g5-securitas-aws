@@ -1,4 +1,4 @@
-from src import schemas
+from src.models import schemas
 from fastapi.testclient import TestClient
 from fastapi import status
 import pytest
