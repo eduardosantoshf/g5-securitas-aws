@@ -6,7 +6,7 @@ from src.db.database import get_db
 
 
 router = APIRouter(
-    prefix="/users",
+    prefix="/sites-man-api/users",
     tags=['Users']
 )
 

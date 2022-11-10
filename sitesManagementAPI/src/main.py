@@ -6,6 +6,7 @@ from src.routers import users, alarms, properties
 
 
 app = FastAPI()
+app = FastAPI(docs_url="/sites-man-api/docs", redoc_url=None)
 
 origins = [
     "http://localhost:3000",
@@ -23,7 +24,6 @@ app.include_router(users.router)
 app.include_router(alarms.router)
 app.include_router(properties.router)
 
-
-@app.get("/")
+@app.get("/sites-man-api")
 def root():
-    return RedirectResponse(url='/docs')
+    return RedirectResponse(url='/sites-man-api/docs')

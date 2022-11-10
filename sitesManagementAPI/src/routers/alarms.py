@@ -6,7 +6,7 @@ import src.db.repositories.properties_crud as properties_crud
 from src.db.database import get_db
 
 router = APIRouter(
-    prefix="/alarms",
+    prefix="/sites-man-api/alarms",
     tags=['Alarms']
 )
 
