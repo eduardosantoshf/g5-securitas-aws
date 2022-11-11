@@ -32,7 +32,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     
     return db_user
 
-@router.put("/{user_id}", response_model=schemas.User , status_code=status.HTTP_200_OK)
+@router.put("/{user_id}", response_model=schemas.User, status_code=status.HTTP_200_OK)
 def update_user(user_id: int, updated_user: schemas.UserBase, db: Session = Depends(get_db)):
     db_user = crud.update_user(db=db, user_id=user_id, updated_user=updated_user)
     if db_user is None:
