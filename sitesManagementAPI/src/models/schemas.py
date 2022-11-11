@@ -31,6 +31,22 @@ class Property(PropertyBase):
         orm_mode = True
 
 
+class IntrusionBase(BaseModel):
+    description: str | None = None
+    datetime: str
+
+class IntrusionCreate(IntrusionBase):
+    pass
+
+class Intrusion(IntrusionBase):
+    id: int
+    user_id: int
+    property_id: int | None = None
+
+    class Config:
+        orm_mode = True
+
+
 class UserBase(BaseModel):
     name: str
     email: str
@@ -42,6 +58,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     properties: list[Property] = []
+    intrusions: list[Intrusion] = []
     
     class Config:
         orm_mode = True

@@ -17,6 +17,7 @@ class User(Base):
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
     properties = relationship("Property", back_populates="owner", cascade="all, delete, delete-orphan")
+    intrusions = relationship("Intrusion", back_populates="user", cascade="all, delete, delete-orphan")
 
 
 class Property(Base):
@@ -40,3 +41,16 @@ class Alarm(Base):
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
     property = relationship("Property", back_populates="alarms")
+
+
+class Intrusion(Base):
+    __tablename__ = "intrusions"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    description = Column(String(100))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    property_id = Column(Integer, nullable=True)
+    datetime = Column(String(100))
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+    user = relationship("User", back_populates="intrusions")
