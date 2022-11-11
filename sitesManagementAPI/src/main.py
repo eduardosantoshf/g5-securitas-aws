@@ -8,7 +8,7 @@ from src.routers import users, alarms, properties
 app = FastAPI(title="Sites managment API", docs_url="/sites-man-api/docs", redoc_url=None)
 
 origins = [
-    "http://localhost:3000",
+    "*",
 ]
 
 app.add_middleware(
