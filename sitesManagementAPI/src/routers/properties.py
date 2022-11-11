@@ -7,7 +7,7 @@ from src.db.database import get_db
 
 
 router = APIRouter(
-    prefix="/properties",
+    prefix="/sites-man-api/properties",
     tags=['Properties']
 )
 

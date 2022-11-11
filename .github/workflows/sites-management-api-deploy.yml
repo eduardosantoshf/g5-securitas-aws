@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:    
       - main
-
+      - feature/sites-man-deploy
     paths:
       - sitesManagementAPI/**
       - '!**.md'
@@ -16,6 +16,7 @@ on:
   push:
     branches:    
       - main
+      - feature/sites-man-deploy
 
     paths:
       - sitesManagementAPI/**
@@ -26,8 +27,8 @@ on:
       - '!**.txt'
 
 env:
-  ECR_REGISTRY_ALIAS: z3i2o8j0
-  ECR_REPOSITORY: sites_man_api                     # set this to your Amazon ECR repository name
+  ECR_REGISTRY_ALIAS: p3i3q7f7
+  ECR_REPOSITORY: sites-man-api                     # set this to your Amazon ECR repository name
   ECS_SERVICE: sites-man-service                    # set this to your Amazon ECS service name
   ECS_CLUSTER: sites-man-cluster                    # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition

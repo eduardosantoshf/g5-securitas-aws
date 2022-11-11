@@ -10,7 +10,7 @@ def test_create_valid_property(client: TestClient, test_user: schemas.User):
     post_body = {"address": "test_address"}
     owner_id = test_user.id
 
-    res = client.post("/properties/", params={"owner_id": str(owner_id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(owner_id)}, json=post_body)
 
     new_property = schemas.Property(**res.json())
     assert new_property.address == "test_address"
@@ -21,7 +21,7 @@ def test_create_existing_property(client: TestClient, test_property: schemas.Pro
     
     post_body = {"address": test_property.address}
     
-    res = client.post("/properties/", params={"owner_id": str(test_property.id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_property.id)}, json=post_body)
 
     assert res.status_code == status.HTTP_400_BAD_REQUEST
     assert res.json().get("detail") == "Property already registred"
@@ -32,7 +32,7 @@ def test_create_property_non_existing_owner(client: TestClient, test_user: schem
     owner_id = test_user.id + 999
     post_body = {"address": "test_address"}
 
-    res = client.post("/properties/", params={"owner_id": str(owner_id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(owner_id)}, json=post_body)
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
     assert res.json().get("detail") == f"User with id {owner_id} not found"
@@ -46,7 +46,7 @@ def test_create_property_non_existing_owner(client: TestClient, test_user: schem
 def test_read_properties(client: TestClient, test_properties: list[schemas.Property],
                          skip: int, limit: int, total: int):
 
-    res = client.get(f"/properties/", params={"skip": str(skip), "limit": str(limit), "total": str(total)})
+    res = client.get(f"/sites-man-api/properties/", params={"skip": str(skip), "limit": str(limit), "total": str(total)})
 
     schemas.Property(**res.json()[0])
     assert len(res.json()) == total
@@ -55,7 +55,7 @@ def test_read_properties(client: TestClient, test_properties: list[schemas.Prope
 
 def test_read_property(client: TestClient, test_property: schemas.Property):
     
-    res = client.get(f"/properties/{test_property.id}")
+    res = client.get(f"/sites-man-api/properties/{test_property.id}")
 
     res_property = schemas.Property(**res.json())
     assert res.status_code == status.HTTP_200_OK
@@ -67,7 +67,7 @@ def test_read_property_invalid_id(client: TestClient, test_property: schemas.Pro
     
     invalid_id = test_property.id + 999
 
-    res = client.get(f"/properties/{invalid_id}")
+    res = client.get(f"/sites-man-api/properties/{invalid_id}")
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
 
@@ -79,7 +79,7 @@ def test_update_property(client: TestClient, test_property: schemas.Property, te
     new_owner_id = new_owner.id
     new_owner_address = new_owner.address
 
-    res = client.put(f"/properties/{id}", params={"new_owner_id": str(new_owner_id), "new_address": str(new_owner_address)})
+    res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": str(new_owner_id), "new_address": str(new_owner_address)})
 
     res_property = schemas.Property(**res.json())
 
@@ -94,7 +94,7 @@ def test_update_property_invalid_owner_id(client: TestClient, test_property: sch
     id = test_property.id
     new_owner_id = new_owner.id + 999
 
-    res = client.put(f"/properties/{id}", params={"new_owner_id": new_owner_id})
+    res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": new_owner_id})
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
 
@@ -105,7 +105,7 @@ def test_update_property_invalid_new_address(client: TestClient, test_property: 
     id = test_property.id
     new_address = test_property.address
 
-    res = client.put(f"/properties/{id}", params={"new_address": new_address})
+    res = client.put(f"/sites-man-api/properties/{id}", params={"new_address": new_address})
 
     assert res.status_code == status.HTTP_400_BAD_REQUEST
 
@@ -113,7 +113,7 @@ def test_update_property_invalid_new_address(client: TestClient, test_property: 
 def test_delete_valid_property(client: TestClient, test_property: schemas.Property):
     
     id = test_property.id
-    res = client.delete(f"/properties/{id}")
+    res = client.delete(f"/sites-man-api/properties/{id}")
 
     assert res.status_code == status.HTTP_204_NO_CONTENT
 
@@ -121,6 +121,6 @@ def test_delete_valid_property(client: TestClient, test_property: schemas.Proper
 def test_delete_invalid_property_id(client: TestClient, test_property: schemas.Property):
     
     id = test_property.id + 999
-    res = client.delete(f"/properties/{id}")
+    res = client.delete(f"/sites-man-api/properties/{id}")
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
