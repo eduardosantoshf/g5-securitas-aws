@@ -75,8 +75,8 @@ jobs:
       - name: Install tox and other packages
         run: pip install tox
       - name: Run tox
-        run: tox -e pytest
-      
+        run: tox -c sitesManagementAPI/tox.ini -e py
+              
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
