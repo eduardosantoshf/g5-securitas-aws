@@ -1,8 +1,20 @@
 name: Deploy HDM to AWS
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+
   pull_request:
-    branches: [ main, development]
+    branches: [ main]
 
     paths:
       - HumanDetection/**
@@ -15,7 +27,7 @@ on:
       - '!**.txt'
     
   push:
-    branches: [ main, development, hdm-cd]
+    branches: [ main, hdm-cd]
 
     paths:
       - HumanDetection/**
@@ -40,6 +52,7 @@ env:
                                                     # file, e.g. .aws/task-definition.json
   HDM_CONTAINER_NAME: human-detection-container     # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
+  
 jobs:
   deploy:
     name: Deploy
@@ -88,6 +101,10 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.HDM_CONTAINER_NAME }}
           image: ${{ steps.build-hdm-image.outputs.image }}
+          environment-variables: |
+            RABBIT_MQ_URL=${{ secrets.RABBIT_MQ_URL }}
+            RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }}
+            RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
             
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
