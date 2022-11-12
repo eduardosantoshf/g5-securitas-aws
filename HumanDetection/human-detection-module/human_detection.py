@@ -144,9 +144,13 @@ class Human_Detection_Module:
     def start_processing(self, broker_url, broker_username,
                          broker_password, exchange_name, queue_name):
 
+        print("Connecting to the broker...")
+
         # Create Connection String
         connection_string = f"amqp://{broker_username}:{broker_password}" \
             f"@{broker_url}/"
+
+        print("Successfully connected to the broker!")
 
         # Kombu Exchange
         self.kombu_exchange = kombu.Exchange(
