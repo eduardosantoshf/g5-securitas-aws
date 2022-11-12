@@ -16,7 +16,6 @@ on:
   pull_request:
     branches:    
       - main
-      - management-ui-cd
     paths:
       - management-ui/**
       - '!**.md'
@@ -28,7 +27,6 @@ on:
   push:
     branches:    
       - main
-      - management-ui-cd
     paths:
       - management-ui/**
       - '!**.md'
@@ -43,7 +41,7 @@ env:
   ECS_SERVICE: web-ui-management-service            # set this to your Amazon ECS service name
   ECS_CLUSTER: web-ui-management-cluster           # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
-  ECS_TASK_DEFINITION: .aws/web-ui-management-task-definition.json    
+  ECS_TASK_DEFINITION: .aws/management-ui-task-definition.json    
                                                     # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: management-ui-container           # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
