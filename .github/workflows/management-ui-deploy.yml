@@ -70,8 +70,8 @@ jobs:
         with:
           registry-type: public
 
-      - name: Build, tag, and push docker api image to Amazon ECR Public
-        id: build-api-image
+      - name: Build, tag, and push docker management UI image to Amazon ECR Public
+        id: build-management-ui-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
@@ -90,13 +90,13 @@ jobs:
           aws-region: eu-west-3
 
 
-      - name: Update API container in ECS task definition
+      - name: Update management UI container in ECS task definition
         id: build-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.db-task-def.outputs.task-definition }}
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.API_CONTAINER_NAME }}
-          image: ${{ steps.build-api-image.outputs.image }}
+          image: ${{ steps.build-management-ui-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
