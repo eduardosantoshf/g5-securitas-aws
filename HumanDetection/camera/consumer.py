@@ -33,14 +33,14 @@ class Cameras_worker(ConsumerMixin):
         return int(h) * 3600 + int(m) * 60 + int(s)
 
     # TODO function to handle video requests
-    def on_message(self, body, message):        
+    def on_message(self, body, message):
         camera_id = message.headers["camera_id"]
         timestamp_intrusion_ = message.headers["timestamp_intrusion"]
         timestamp_intrusion = self.get_sec(timestamp_intrusion_)
         
-        print(f"Received frame from camera {camera_id} with timestamp {timestamp_intrusion}")    
+        print(f"Received frame from camera {camera_id} with timestamp {message.headers['timestamp_intrusion']}")    
         message.ack()
-    
+
         video = "./samples/people-detection.mp4"
         
         cap = cv2.VideoCapture(video)
@@ -85,6 +85,8 @@ class Cameras_worker(ConsumerMixin):
                 print(f"Clipped video sent to intrusion-management-api with status code {response.status_code}")    
         except Exception as e:
             print("Error: ", e)
+
+        return message
         
 class Consumer_video_request:
 

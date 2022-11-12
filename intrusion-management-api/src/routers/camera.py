@@ -9,6 +9,8 @@ from kombu import Exchange, Producer
 import json
 import shutil
 from dotenv import load_dotenv
+from fastapi.responses import FileResponse
+
 
 router = APIRouter(
     prefix="/cameras",
@@ -83,6 +85,7 @@ def request_video_to_cameras(frame):
 def receive_video_from_cameras(file: UploadFile):
     with open(file.filename, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
+    print("Video " + file.filename + " received.")
     return {"message": "Video received", "filename": file.filename}
 
 @router.post("/upload-s3", status_code=status.HTTP_201_CREATED)
@@ -125,3 +128,7 @@ def download_video_from_s3():
     except NoCredentialsError:
         print("Credentials not available")
         return False
+
+@router.get("/intrusions-videos")
+async def main():
+    return FileResponse("./src/routers/download-video.mp4")
