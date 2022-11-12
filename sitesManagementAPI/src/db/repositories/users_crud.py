@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
-import src.models as models, src.schemas as schemas
-
+import src.models.models as models, src.models.schemas as schemas
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
@@ -14,7 +13,7 @@ def get_user_by_address(db: Session, address: str):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
-def create_user(db: Session, user: schemas.BaseUser):
+def create_user(db: Session, user: schemas.UserCreate):
     db_user = models.User(**user.dict())
     db.add(db_user)
     db.commit()
@@ -23,13 +22,16 @@ def create_user(db: Session, user: schemas.BaseUser):
     return db_user
 
 def update_user(db: Session, user_id: int, updated_user: schemas.User):
-    query = db.query(models.User).filter(models.User.id == user_id)
-    if query.first() is None:
+    query = db.query(models.User).filter(models.User.id == user_id).first()
+    if query is None:
         return None
     
-    query.update(updated_user.dict())
+    query.name = updated_user.name
+    query.email = updated_user.email
+    query.address = updated_user.address
+    
     db.commit()
-    return query.first()
+    return query
 
 def delete_user(db: Session, user_id: int):
     query = db.query(models.User).filter(models.User.id == user_id)
