@@ -63,6 +63,34 @@ jobs:
   sonar:
     name: Sites Management API SonarCloud Code Inspection
     runs-on: ubuntu-latest
+
+    env:
+      MARIADB_USER: dev_user
+      MARIADB_PASSWORD: dev_pass 
+      MARIADB_DATABASE: sites_man_db
+      MARIADB_HOST: db
+      MARIADB_PORT: 3306
+    
+    services:
+      db:
+        image: mariadb
+        env:
+          MYSQL_USER: dev_user
+          MYSQL_PASSWORD: dev_pass
+          MYSQL_DATABASE: sites_man_db
+          MYSQL_ROOT_PASSWORD: root
+            
+        ports:
+          - 3306  
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    container: python:3.10
+
+    defaults:
+      run:
+        working-directory: ./sitesManagementAPI
+
+
     steps:
       - uses: actions/checkout@v3
         with:
