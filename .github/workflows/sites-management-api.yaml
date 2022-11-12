@@ -73,7 +73,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install mariadb connector
-        run: apt install mariadb-devel
+        run: sudo apt install mariadb-devel
       - name: Install tox and other packages
         run: pip install tox
       - name: Run tox
