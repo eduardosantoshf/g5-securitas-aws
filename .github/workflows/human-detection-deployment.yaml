@@ -39,9 +39,6 @@ on:
       - '!**.gitignore'
       - '!**.txt'
     
-  # allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 env:
   ECR_REGISTRY_ALIAS: p3i3q7f7
   ECR_REPOSITORY: human-detection-repository        # set this to your Amazon ECR repository name
