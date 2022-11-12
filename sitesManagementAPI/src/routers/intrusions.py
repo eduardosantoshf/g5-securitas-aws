@@ -51,16 +51,21 @@ def read_intrusions_by_user(user_id: int, db: Session = Depends(get_db)):
     return crud.get_intrusions_by_user(user_id=user_id, db=db)  
 
 
-@router.put("/{intrusion_id}", status_code=status.HTTP_200_OK)
-def update_intrusion(intrusion_id: int, updated_intrusion: schemas.IntrusionBase, new_property_id: int | None = None, db: Session = Depends(get_db)):
-    db_intrusion = crud.update_intrusion(db=db, intrusion_id=intrusion_id, new_property_id=new_property_id, updated_intrusion=updated_intrusion)
+@router.put("/{intrusion_id}", response_model=schemas.Intrusion, status_code=status.HTTP_200_OK)
+def update_intrusion(intrusion_id: int, updated_intrusion: schemas.IntrusionBase, new_property_id: int | None = None, new_user_id: int | None = None, db: Session = Depends(get_db)):
+    db_intrusion = crud.update_intrusion(db=db, intrusion_id=intrusion_id, new_property_id=new_property_id, new_user_id=new_user_id, updated_intrusion=updated_intrusion)
+  
     if db_intrusion is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Intrusion with id {intrusion_id} not found")
+    elif db_intrusion == -1:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {new_user_id} not found")
+    elif db_intrusion == -2:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Property with id {new_property_id} not found")
 
     return db_intrusion 
 
 
-@router.delete("/{intrusion_id", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{intrusion_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_intrusion(intrusion_id: int, db: Session = Depends(get_db)):
     intrusion_deleted = crud.delete_intrusion(intrusion_id=intrusion_id, db=db)
 

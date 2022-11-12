@@ -37,6 +37,7 @@ def update_property(db: Session, property_id: int, new_owner_id: int, new_addres
         
     if new_address:
         query_new_address = db.query(models.Property).filter(models.Property.address == new_address).first()
+
         if query_new_address is None:
             query.address = new_address
         else: 
@@ -45,7 +46,7 @@ def update_property(db: Session, property_id: int, new_owner_id: int, new_addres
     db.commit()
     return query
 
-def delete_property(db: Session, property_id):
+def delete_property(db: Session, property_id: int):
     property_delete = db.query(models.Property).filter(models.Property.id == property_id).first()
     
     if property_delete is None:

@@ -34,7 +34,7 @@ def update_alarm(db: Session, alarm_id: int, new_property_id: int, new_descripti
     db.commit()
     return query
 
-def delete_alarm(db: Session, alarm_id):
+def delete_alarm(db: Session, alarm_id: int):
     alarm_delete = db.query(models.Alarm).filter(models.Alarm.id == alarm_id).first()
     
     if alarm_delete is None:

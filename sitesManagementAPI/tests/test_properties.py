@@ -97,6 +97,7 @@ def test_update_property_invalid_owner_id(client: TestClient, test_property: sch
     res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": new_owner_id})
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
+    assert res.json().get("detail") == f"No user with id {new_owner_id}"
 
 
 def test_update_property_invalid_new_address(client: TestClient, test_property: schemas.Property, test_users: list[schemas.User]):
@@ -108,6 +109,7 @@ def test_update_property_invalid_new_address(client: TestClient, test_property: 
     res = client.put(f"/sites-man-api/properties/{id}", params={"new_address": new_address})
 
     assert res.status_code == status.HTTP_400_BAD_REQUEST
+    assert res.json().get("detail") == f'Property already registred at specified address'
 
 
 def test_delete_valid_property(client: TestClient, test_property: schemas.Property):
