@@ -1,13 +1,14 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
-from src.routers import user
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.routers import users, alarms, properties
 
-app = FastAPI()
+
+app = FastAPI(title="Sites managment API", docs_url="/sites-man-api/docs", redoc_url=None)
 
 origins = [
-    "http://localhost:3000",
+    "*",
 ]
 
 app.add_middleware(
@@ -18,8 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(user.router)
+app.include_router(users.router)
+app.include_router(alarms.router)
+app.include_router(properties.router)
 
-@app.get("/")
+@app.get("/sites-man-api")
 def root():
-    return RedirectResponse(url='/docs')
+    return RedirectResponse(url='/sites-man-api/docs')

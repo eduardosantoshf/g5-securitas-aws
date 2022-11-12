@@ -1,6 +1,6 @@
 ---
 slug: 1st-sprint-retrospective
-title: 1st Sprint retrospective
+title: 1st Sprint Retrospective
 authors: joao
 ---
 

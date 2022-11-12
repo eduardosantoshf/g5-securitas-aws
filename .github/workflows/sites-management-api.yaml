@@ -61,13 +61,22 @@ on:
 
 jobs:
   sonar:
-    name: Human Detection Module SonarCloud Code Inspection
+    name: Sites Management API SonarCloud Code Inspection
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # shallow clones should be disabled for a better 
                           # relevancy of analysis
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install tox and other packages
+        run: pip install tox
+      - name: Run tox
+        run: tox -c sitesManagementAPI/tox.ini -e py
+              
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

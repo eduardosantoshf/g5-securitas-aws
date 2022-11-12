@@ -61,7 +61,7 @@ on:
 
 jobs:
   sonar:
-    name: Human Detection Module SonarCloud Code Inspection
+    name: Management UI SonarCloud Code Inspection
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
