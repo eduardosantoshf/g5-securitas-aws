@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from src.routers import camera
 from dotenv import load_dotenv
+import os
 
 
 app = FastAPI()
@@ -22,7 +23,7 @@ app.add_middleware(
 app.include_router(camera.router)
 
 def configure():
-    load_dotenv()
+    load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
 @app.get("/")
 def root():

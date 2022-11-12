@@ -8,6 +8,7 @@ import kombu
 from kombu import Exchange, Producer
 import json
 import shutil
+from dotenv import load_dotenv
 from fastapi.responses import FileResponse
 
 
@@ -16,29 +17,31 @@ router = APIRouter(
     tags=['Cameras']
 )
 
-#! connection to broker
-kombu_connection = os.environ['AMQP_URL'] + ":5672"
-kombu_exchange = "myuser"
-kombu_channel = "mypassword"
-kombu_producer = "request-video-exchange"
-kombu_queue = "request-video-queue"
+load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
+kombu_connection = os.getenv('RABBIT_MQ_URL')
+kombu_exchange = os.getenv('RABBIT_MQ_USERNAME')
+kombu_channel = os.getenv('RABBIT_MQ_PASSWORD')
+kombu_producer = os.getenv('RABBIT_MQ_EXCHANGE_NAME')
+kombu_queue = os.getenv('RABBIT_MQ_QUEUE_NAME')
 
 @router.get("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
+    print(f"Received request from camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
     attach_to_message_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer, kombu_queue, frame)
     return frame
 
-def attach_to_message_broker(broker_url, broker_username,
-                                 broker_password, exchange_name, queue_name, frame):
+def attach_to_message_broker(broker_url, broker_username, broker_password, exchange_name, queue_name, frame):
         # Create Connection String
         connection_string = f"amqp://{broker_username}:{broker_password}" \
             f"@{broker_url}/"
+            
+        print(f"Connecting to {connection_string}")
 
         # Kombu Connection
         kombu_connection = kombu.Connection(
             connection_string,
-            #ssl=True
+            ssl=True
         )
         kombu_channel = kombu_connection.channel()
 
@@ -87,24 +90,22 @@ def receive_video_from_cameras(file: UploadFile):
 
 @router.post("/upload-s3", status_code=status.HTTP_201_CREATED)
 def save_video_to_s3():
-    
     client = boto3.client(
     's3',
     aws_access_key_id = os.getenv('aws_access_key_id'),
     aws_secret_access_key = os.getenv('aws_secret_access_key'),
     region_name = os.getenv('region_name')
     )
-    
-    print("Uploading file to S3")
+
     try:
-        client.upload_file("video-clips-archive", "video", "./src/routers/download-video.mp4")
-        print("Download Successful")
+        client.upload_file(Bucket="video-intrusions-archive", Key="video", Filename="./people-detection.mp4")
+        print("Upload Successful")
         return True
-    except FileNotFoundError:
-        print("The file was not found")
-        return False
     except NoCredentialsError:
         print("Credentials not available")
+        return False
+    except FileNotFoundError:
+        print("The file was not found")
         return False
     
     
@@ -118,7 +119,7 @@ def download_video_from_s3():
     )
     
     try:
-        client.download_file("video-clips-archive", "video", "./src/routers/download-video.mp4")
+        client.download_file(Bucket="video-intrusions-archive", Key="video", Filename="./download-video.mp4")
         print("Download Successful")
         return True
     except FileNotFoundError:
