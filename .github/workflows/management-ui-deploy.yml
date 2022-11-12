@@ -43,7 +43,7 @@ env:
   ECS_SERVICE: web-ui-management-service            # set this to your Amazon ECS service name
   ECS_CLUSTER: web-ui-management-cluster           # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
-  ECS_TASK_DEFINITION: .aws/management-ui-task-definition.json    
+  ECS_TASK_DEFINITION: .aws/management-ui-task-definition.json  
                                                     # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: management-ui-container           # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
@@ -77,7 +77,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
 
         run: |
-          cd sitesManagementAPI
+          cd management-ui
           docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
