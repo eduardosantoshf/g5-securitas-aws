@@ -1,8 +1,25 @@
 import React from "react";
 import "./Intrusions.css";
-import ReactPlayer from "react-player";
 
 function Intrusions() {
+  /*
+  React.useEffect(() => {
+    console.log("Intrusions.js: useEffect() called");
+    api.get("/cameras/intrusions-videos").then((res) => {
+      var myUrl = (window.URL || window.webkitURL).createObjectURL(
+        new Blob([res.data])
+      ); // response.data.data
+
+      var myVid = document.getElementById("vidObj");
+      myVid.setAttribute("src", myUrl);
+      myVid.play(); //# test playback
+      console.log("ACABOU");
+
+      //setVideo(url); //# is this needed?
+    });
+    console.log("ACABOU");
+  });
+  */
   return (
     <>
       <h2 className="title">Intrusions</h2>
