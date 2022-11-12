@@ -1,10 +1,22 @@
 name: Deploy to AWS
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+
   pull_request:
     branches:    
       - main
-
+      - feature/sites-man-deploy
     paths:
       - sitesManagementAPI/**
       - '!**.md'
@@ -16,6 +28,7 @@ on:
   push:
     branches:    
       - main
+      - feature/sites-man-deploy
 
     paths:
       - sitesManagementAPI/**
@@ -27,9 +40,9 @@ on:
 
 env:
   ECR_REGISTRY_ALIAS: p3i3q7f7
-  ECR_REPOSITORY: sites_man_api                     # set this to your Amazon ECR repository name
-  ECS_SERVICE: ServiceSitesMan                      # set this to your Amazon ECS service name
-  ECS_CLUSTER: ClusterSitesMan                      # set this to your Amazon ECS cluster name
+  ECR_REPOSITORY: sites-man-api                     # set this to your Amazon ECR repository name
+  ECS_SERVICE: sites-man-service                    # set this to your Amazon ECS service name
+  ECS_CLUSTER: sites-man-cluster                    # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
   ECS_TASK_DEFINITION: .aws/sites-management-task-definition.json    
                                                     # file, e.g. .aws/task-definition.json
