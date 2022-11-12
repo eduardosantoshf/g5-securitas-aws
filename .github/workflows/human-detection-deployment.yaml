@@ -40,6 +40,7 @@ env:
                                                     # file, e.g. .aws/task-definition.json
   HDM_CONTAINER_NAME: human-detection-container     # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
+
 jobs:
   deploy:
     name: Deploy
@@ -67,6 +68,9 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
+          RABBIT_MQ_URL: b-7f64c42e-2424-4a24-98eb-f95040913e29.mq.eu-west-3.amazonaws.com:5671
+          RABBIT_MQ_USERNAME: ${{ secrets.RABBIT_MQ_USERNAME }}
+          RABBIT_MQ_PASSWORD: ${{ secrets.RABBIT_MQ_PASSWORD }}
 
         run: |
           cd HumanDetection/human-detection-module
