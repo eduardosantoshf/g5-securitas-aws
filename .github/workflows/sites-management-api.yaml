@@ -78,6 +78,7 @@ jobs:
           sudo apt install -y libmariadb3 libmariadb-dev
           python -m pip install --upgrade pip
           pip install tox
+          PYTHONPATH=${PYTHONPATH}:./src
       - name: Run tox
         run: tox -c sitesManagementAPI/tox.ini -e py        
       - name: SonarCloud Scan
@@ -89,7 +90,7 @@ jobs:
           MARIADB_DATABASE: sites_man_db
           MARIADB_HOST: db
           MARIADB_PORT: 3306
-          
+
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
                                                      # information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_SITES_MANAGEMENT_API }}
