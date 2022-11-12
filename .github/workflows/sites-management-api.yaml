@@ -101,7 +101,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install mariadb connector
-        run: sudo apt install libmariadb3 libmariadb-dev
+        run: apt install libmariadb3 libmariadb-dev
       - name: Install tox and other packages
         run: pip install tox
       - name: Run tox
