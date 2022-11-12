@@ -64,6 +64,13 @@ jobs:
     name: Sites Management API SonarCloud Code Inspection
     runs-on: ubuntu-latest
 
+    env:
+      MARIADB_USER: dev_user
+      MARIADB_PASSWORD: dev_pass 
+      MARIADB_DATABASE: sites_man_db
+      MARIADB_HOST: db
+      MARIADB_PORT: 3306
+
     steps:
       - uses: actions/checkout@v3
         with:
