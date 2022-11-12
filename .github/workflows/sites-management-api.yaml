@@ -83,6 +83,13 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
+
+          MARIADB_USER: dev_user
+          MARIADB_PASSWORD: dev_pass 
+          MARIADB_DATABASE: sites_man_db
+          MARIADB_HOST: db
+          MARIADB_PORT: 3306
+          
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
                                                      # information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_SITES_MANAGEMENT_API }}
