@@ -73,8 +73,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
-      - name: Install mariadb connector
-        run: apt install libmariadb3 libmariadb-dev
       - name: Install tox and other packages
         run: |
           python -m pip install --upgrade pip
