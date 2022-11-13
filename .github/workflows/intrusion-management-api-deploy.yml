@@ -16,6 +16,7 @@ on:
   pull_request:
     branches:    
       - main
+      - feature/intrusion-management-api-deploy
     paths:
       - intrusion-management-api/**
       - '!**.md'
@@ -27,6 +28,7 @@ on:
   push:
     branches:    
       - main
+      - feature/intrusion-management-api-deploy
     paths:
       - intrusion-management-api/**
       - '!**.md'
@@ -97,7 +99,7 @@ jobs:
           container-name: ${{ env.DB_CONTAINER_NAME }}
           image: mariadb:10.8
           environment-variables: |
-            MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}
+            MARIADB_DATABASE=intrusion_man_db
             MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
             MARIADB_ROOT_PASSWORD=${{ secrets.MARIADB_ROOT_PASSWORD }}
             MARIADB_USER=${{ secrets.MARIADB_USER }}
@@ -110,10 +112,18 @@ jobs:
           container-name: ${{ env.API_CONTAINER_NAME }}
           image: ${{ steps.build-api-image.outputs.image }}
           environment-variables: |
-            MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}
-            MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
+            MARIADB_DATABASE=intrusion_man_db
             MARIADB_USER=${{ secrets.MARIADB_USER }}
-            
+            MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
+            RABBIT_MQ_URL=${{ secrets.RABBIT_MQ_URL }}
+            RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }}
+            RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
+            RABBIT_MQ_EXCHANGE_NAME=request-video-exchange
+            RABBIT_MQ_QUEUE_NAME=request-video-queue
+            aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            region_name=eu-west-3
+
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
