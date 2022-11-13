@@ -89,7 +89,7 @@ def receive_video_from_cameras(file: UploadFile):
     )
 
     try:
-        client.upload_file(Bucket="video-intrusions-archive", Key="video", Filename="./people-detection.mp4")
+        client.upload_file(Bucket="video-clips-archive", Key="video", Filename="./people-detection.mp4")
         print("Upload Successful")
         return True
     except NoCredentialsError:
@@ -110,7 +110,7 @@ def download_video_from_s3():
     )
     
     try:
-        client.download_file(Bucket="video-intrusions-archive", Key="video", Filename="./download-video.mp4")
+        client.download_file(Bucket="video-clips-archive", Key="video", Filename="./download-video.mp4")
         print("Download Successful")
         return True
     except FileNotFoundError:
