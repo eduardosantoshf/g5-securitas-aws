@@ -37,7 +37,7 @@ on:
       - '.github/workflows/sites-management-api.yaml' # trigger this workflow 
                                                       # only when the module 
                                                       # workflow is changed
-      - 'sitesManagementAPI/**' # trigger this workflow only on the HDM
+      - 'sitesManagementAPI/**' # trigger this workflow only on the site manegement api
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -63,23 +63,45 @@ jobs:
   sonar:
     name: Sites Management API SonarCloud Code Inspection
     runs-on: ubuntu-latest
+
+    env:
+      MARIADB_USER: dev_user
+      MARIADB_PASSWORD: dev_pass 
+      MARIADB_DATABASE: sites_man_db
+      MARIADB_HOST: db
+      MARIADB_PORT: 3306
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # shallow clones should be disabled for a better 
                           # relevancy of analysis
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python }}
+          python-version: '3.10'
       - name: Install tox and other packages
-        run: pip install tox
+        run: |
+          sudo apt install -y libmariadb3 libmariadb-dev
+          python -m pip install --upgrade pip
+          pip install tox
+          PYTHONPATH=${PYTHONPATH}:./src
+      - name: Start docker containers
+        working-directory: ./sitesManagementAPI
+        run: docker-compose -f docker-compose-dev.yml up -d
       - name: Run tox
-        run: tox -c sitesManagementAPI/tox.ini -e py
-              
+        working-directory: ./sitesManagementAPI
+        run: tox -c tox.ini -o -e py        
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
+
+          MARIADB_USER: dev_user
+          MARIADB_PASSWORD: dev_pass 
+          MARIADB_DATABASE: sites_man_db
+          MARIADB_HOST: db
+          MARIADB_PORT: 3306
+
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
                                                      # information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_SITES_MANAGEMENT_API }}
