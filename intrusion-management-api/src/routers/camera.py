@@ -99,7 +99,6 @@ def receive_video_from_cameras(file: UploadFile):
         print("The file was not found")
         return False
     
-    
 @router.get("/download-video", status_code=status.HTTP_200_OK)
 def download_video_from_s3():
     client = boto3.client(
