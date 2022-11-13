@@ -138,3 +138,71 @@ def test_alarms(client: TestClient, test_property: schemas.Property) -> list[sch
     alarms.append(schemas.Alarm(**res.json()))
 
     return alarms
+
+
+@pytest.fixture(scope="function")
+def test_intrusion(client: TestClient, test_user: schemas.User, test_property: schemas.Property) -> schemas.Intrusion:
+
+    user_id = test_user.id
+    property_id = test_property.id
+    post_body = {
+        "description": "intrusion_1: Monday afternoon",
+        "datetime": "7/11/2022 - 14:17h"
+    }
+
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": user_id, "property_id": property_id}, json=post_body)
+
+    new_intrusion = schemas.Intrusion(**res.json())
+
+    return new_intrusion
+
+
+@pytest.fixture(scope="function")
+def test_intrusions(client: TestClient, test_user: schemas.User) -> list[schemas.Intrusion]:
+    intrusions = []
+
+    post_body = {"description": "test_intrusion1", "datetime": "13/12/2022 - 13:23h"}
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.id)}, json=post_body)
+    intrusions.append(schemas.Intrusion(**res.json()))
+
+    post_body = {"description": "test_intrusion2", "datetime": "13/12/2022 - 14:23h"}
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.id)}, json=post_body)
+    intrusions.append(schemas.Intrusion(**res.json()))
+
+    post_body = {"description": "test_intrusion3", "datetime": "13/12/2022 - 15:23h"}
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.id)}, json=post_body)
+    intrusions.append(schemas.Intrusion(**res.json()))
+
+    return intrusions
+
+
+@pytest.fixture(scope="function")
+def test_camera(client: TestClient, test_property: schemas.Property) -> schemas.Camera:
+    
+    post_body = {
+        "description": "test_description"
+    }
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+
+    new_camera = schemas.Camera(**res.json())
+
+    return new_camera
+
+
+@pytest.fixture(scope="function")
+def test_cameras(client: TestClient, test_property: schemas.Property) -> list[schemas.Camera]:
+    cameras = []
+
+    post_body = {"description": "test_camera1"}
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+    cameras.append(schemas.Camera(**res.json()))
+
+    post_body = {"description": "test_camera2"}
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+    cameras.append(schemas.Camera(**res.json()))
+
+    post_body = {"description": "test_camera3"}
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+    cameras.append(schemas.Camera(**res.json()))
+
+    return cameras
