@@ -89,7 +89,7 @@ def receive_video_from_cameras(file: UploadFile):
     )
 
     try:
-        client.upload_file(Bucket="video-intrusions-archive", Key="video", Filename="./people-detection.mp4")
+        client.upload_file(Bucket="video-clips-archive", Key="video", Filename="./people-detection.mp4")
         print("Upload Successful")
         return True
     except NoCredentialsError:
