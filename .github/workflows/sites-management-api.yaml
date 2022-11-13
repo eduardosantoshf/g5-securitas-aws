@@ -84,13 +84,14 @@ jobs:
         run: |
           sudo apt install -y libmariadb3 libmariadb-dev
           python -m pip install --upgrade pip
-          pip install tox tox-gh-actions
+          pip install tox
           PYTHONPATH=${PYTHONPATH}:./src
+      - name: Start docker containers
+        working-directory: ./sitesManagementAPI
+        run: docker-compose -f docker-compose-dev.yml up -d
       - name: Run tox
         working-directory: ./sitesManagementAPI
-        run: |
-          docker-compose -f docker-compose-dev.yml up -d
-          tox -c tox.ini -o -e py        
+        run: tox -c tox.ini -o -e py        
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
