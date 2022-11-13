@@ -10,6 +10,15 @@ function Alarms() {
   var [buildings] = React.useState([]);
   const [property_id, setPropertyId] = React.useState(0);
 
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      borderBottom: '1px dotted pink',
+      color: state.isSelected ? 'black' : 'black',
+      padding: 20,
+    }),
+  }
+  
   const loadData = () => {
     api.get('/alarms').then(res => {
       console.log("loadData");
@@ -145,6 +154,7 @@ function Alarms() {
                       placeholder="Select Building"
                       options={buildings}
                       onChange={e => setPropertyId(e.value)}
+                      styles={customStyles}
                     />
                     </div>
                   </div>
