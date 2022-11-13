@@ -18,7 +18,6 @@ router = APIRouter(
 
 load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
-
 kombu_connection = os.getenv('RABBIT_MQ_URL')
 kombu_exchange = os.getenv('RABBIT_MQ_USERNAME')
 kombu_channel = os.getenv('RABBIT_MQ_PASSWORD')

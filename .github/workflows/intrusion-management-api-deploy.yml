@@ -40,7 +40,7 @@ on:
 env:
   ECR_REGISTRY_ALIAS: p3i3q7f7
   ECR_REPOSITORY: intrusion-management-api          # set this to your Amazon ECR repository name
-  ECS_SERVICE: intrusion-man-api-cluster            # set this to your Amazon ECS service name
+  ECS_SERVICE: intrusion-management-api-cluster     # set this to your Amazon ECS service name
   ECS_CLUSTER: intrusion-man-api-service            # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
   ECS_TASK_DEFINITION: .aws/intrusion-man-api-task-definition.json   
