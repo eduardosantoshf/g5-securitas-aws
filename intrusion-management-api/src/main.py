@@ -5,7 +5,6 @@ from src.routers import camera
 from dotenv import load_dotenv
 import os
 
-
 app = FastAPI(title="Intrusion management API", docs_url="/intrusion-management-api/docs", redoc_url=None)
 
 origins = [

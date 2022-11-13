@@ -49,6 +49,7 @@ env:
                                                     # containerDefinitions section of your task definition
   DB_CONTAINER_NAME: mariadb-container              # set this to the name of the DB container in the
                                                     # containerDefinitions section of your task definition
+  DOCKER_FILE_DIR: intrusion-management-api
 jobs:
   deploy:
     name: Deploy
@@ -78,7 +79,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
 
         run: |
-          cd sitesManagementAPI
+          cd $DB_CONTAINER_NAME
           docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
