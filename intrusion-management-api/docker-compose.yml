@@ -17,7 +17,7 @@ services:
       - MARIADB_PASSWORD=dev_pass
 
     volumes:
-      - mariadb-volume:/var/lib/mysql/
+      - mariadb-intrusion-api-volume:/var/lib/mysql/
 
   api:
     build: 
@@ -40,9 +40,9 @@ services:
       - MARIADB_HOST=db
       - MARIADB_PORT=3306
       
-    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - ./:/usr/app:ro
     
 volumes:
-  mariadb-volume:
+  mariadb-intrusion-api-volume:

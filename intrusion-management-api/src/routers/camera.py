@@ -16,6 +16,7 @@ router = APIRouter(
     tags=['Cameras']
 )
 
+
 load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
 kombu_connection = os.getenv('RABBIT_MQ_URL')
@@ -76,7 +77,10 @@ def attach_to_message_broker(broker_url, broker_username, broker_password, excha
         print(f"Request made to camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
 
 @router.post("/store-video", status_code=status.HTTP_200_OK)
-def receive_video_from_cameras():
+def receive_video_from_cameras(file: UploadFile):
+    with open(file.filename, 'wb') as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    print("Video " + file.filename + " received.")
     
     client = boto3.client(
     's3',
@@ -84,7 +88,7 @@ def receive_video_from_cameras():
     aws_secret_access_key = os.getenv('aws_secret_access_key'),
     region_name = os.getenv('region_name')
     )
-    
+
     try:
         client.upload_file(Bucket="video-clips-archive", Key="video", Filename="./people-detection.mp4")
         print("Upload Successful")
@@ -95,7 +99,6 @@ def receive_video_from_cameras():
     except FileNotFoundError:
         print("The file was not found")
         return False
-    
     
 @router.get("/download-video", status_code=status.HTTP_200_OK)
 def download_video_from_s3():
