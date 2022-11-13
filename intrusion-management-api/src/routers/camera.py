@@ -16,6 +16,7 @@ router = APIRouter(
     tags=['Cameras']
 )
 
+
 load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
 kombu_connection = os.getenv('RABBIT_MQ_URL')
