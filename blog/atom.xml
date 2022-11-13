@@ -2,21 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://eduardosantoshf.github.io /es-project/blog</id>
     <title>G5 Securitas Blog</title>
-    <updated>2022-10-24T00:00:00.000Z</updated>
+    <updated>2022-11-07T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://eduardosantoshf.github.io /es-project/blog"/>
     <subtitle>G5 Securitas Blog</subtitle>
     <icon>https://eduardosantoshf.github.io /es-project/img/favicon.ico</icon>
     <entry>
-        <title type="html"><![CDATA[2nd Sprint Review]]></title>
-        <id>2nd-sprint-review</id>
-        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review"/>
-        <updated>2022-10-24T00:00:00.000Z</updated>
+        <title type="html"><![CDATA[5th Sprint Planning]]></title>
+        <id>5th-sprint-planning</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/5th-sprint-planning"/>
+        <updated>2022-11-07T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
-        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1>]]></content>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master - Eva Bartolomeu</li><li>Product Owner - Pedro Sobral</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Make HDM interact with the Intrusion Management API</li><li>Make Intrusion Management API interact with the cameras</li><li>Develop a functional (not static) interface for the clients.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>List/add/remove alarms (Site Management API)</li><li>List/add/remove alarms (Client Web UI)</li><li>Notify Intrusion Management API (HDM)</li><li>Request intrusion video to the cameras (Intrusion Management API)</li></ul></li></ul>]]></content>
         <author>
-            <name>Pedro Sobral</name>
-            <uri>https://github.com/TheScorpoi</uri>
+            <name>Eva Bartolomeu</name>
+            <uri>https://github.com/eva-pomposo</uri>
         </author>
     </entry>
     <entry>
@@ -29,6 +29,18 @@
         <author>
             <name>Eduardo Santos</name>
             <uri>https://github.com/eduardosantoshf</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2nd Sprint Review]]></title>
+        <id>2nd-sprint-review</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review"/>
+        <updated>2022-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Attendees: all]]></summary>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1>]]></content>
+        <author>
+            <name>Pedro Sobral</name>
+            <uri>https://github.com/TheScorpoi</uri>
         </author>
     </entry>
     <entry>

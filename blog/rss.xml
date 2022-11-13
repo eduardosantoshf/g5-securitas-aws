@@ -4,17 +4,17 @@
         <title>G5 Securitas Blog</title>
         <link>https://eduardosantoshf.github.io /es-project/blog</link>
         <description>G5 Securitas Blog</description>
-        <lastBuildDate>Mon, 24 Oct 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 07 Nov 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <item>
-            <title><![CDATA[2nd Sprint Review]]></title>
-            <link>https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review</link>
-            <guid>2nd-sprint-review</guid>
-            <pubDate>Mon, 24 Oct 2022 00:00:00 GMT</pubDate>
+            <title><![CDATA[5th Sprint Planning]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/5th-sprint-planning</link>
+            <guid>5th-sprint-planning</guid>
+            <pubDate>Mon, 07 Nov 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1>]]></content:encoded>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master - Eva Bartolomeu</li><li>Product Owner - Pedro Sobral</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Make HDM interact with the Intrusion Management API</li><li>Make Intrusion Management API interact with the cameras</li><li>Develop a functional (not static) interface for the clients.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>List/add/remove alarms (Site Management API)</li><li>List/add/remove alarms (Client Web UI)</li><li>Notify Intrusion Management API (HDM)</li><li>Request intrusion video to the cameras (Intrusion Management API)</li></ul></li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[3rd Sprint Planning]]></title>
@@ -23,6 +23,14 @@
             <pubDate>Mon, 24 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
             <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master - Eduardo Santos</li><li>Product Owner - Pedro Bastos</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Make HDM interact with the Intrusion Management API</li><li>Develop a functional (not static) interface for the clients.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Notify Management API (HDM)</li><li>List/add/remove alarms (Site Management API)</li><li>List/add/remove alarms (Management UI)</li><li>Add/remove users (Management UI)</li><li>Request intrusion video to HDM (Intrusion Management API)</li><li>Receive intrusion video request by Intrusion Management API (HDM)</li></ul></li></ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[2nd Sprint Review]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/2nd-sprint-review</link>
+            <guid>2nd-sprint-review</guid>
+            <pubDate>Sun, 23 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 20</p></li><li><p><strong>accomplished:</strong> 13</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 3</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[2nd Sprint Planning]]></title>
