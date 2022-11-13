@@ -81,7 +81,7 @@ class Cameras_worker(ConsumerMixin):
         #*send the video through the HTTP to the API
         try:
             with open(f"./samples/part{start}-{end}.mp4", 'rb') as f:
-                response = requests.post('http://localhost:8000/cameras/receive-video', files={'file': f})
+                response = requests.post(os.getenv('INTRUSION_MANAGEMENT_API_URL') +'/cameras/store-video', files={'file': f})
                 print(f"Clipped video sent to intrusion-management-api with status code {response.status_code}")    
         except Exception as e:
             print("Error: ", e)
