@@ -11,6 +11,24 @@ class AlarmCreate(AlarmBase):
 class Alarm(AlarmBase):
     id: int
     property_id: int
+    is_alive: bool
+    is_active: bool
+
+    class Config:
+        orm_mode = True
+
+
+class CameraBase(BaseModel):
+    description: str | None = None
+
+class CameraCreate(CameraBase):
+    pass
+
+class Camera(CameraBase):
+    id: int
+    property_id: int 
+    is_alive: bool
+    is_streaming: bool
 
     class Config:
         orm_mode = True
@@ -26,6 +44,7 @@ class Property(PropertyBase):
     id: int
     owner_id: int
     alarms: list[Alarm] = []
+    cameras: list[Camera] = []
 
     class Config:
         orm_mode = True

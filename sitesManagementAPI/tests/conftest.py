@@ -174,3 +174,35 @@ def test_intrusions(client: TestClient, test_user: schemas.User) -> list[schemas
     intrusions.append(schemas.Intrusion(**res.json()))
 
     return intrusions
+
+
+@pytest.fixture(scope="function")
+def test_camera(client: TestClient, test_property: schemas.Property) -> schemas.Camera:
+    
+    post_body = {
+        "description": "test_description"
+    }
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+
+    new_camera = schemas.Camera(**res.json())
+
+    return new_camera
+
+
+@pytest.fixture(scope="function")
+def test_cameras(client: TestClient, test_property: schemas.Property) -> list[schemas.Camera]:
+    cameras = []
+
+    post_body = {"description": "test_camera1"}
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+    cameras.append(schemas.Camera(**res.json()))
+
+    post_body = {"description": "test_camera2"}
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+    cameras.append(schemas.Camera(**res.json()))
+
+    post_body = {"description": "test_camera3"}
+    res = client.post("/sites-man-api/cameras/", params={"property_id": str(test_property.id)}, json=post_body)
+    cameras.append(schemas.Camera(**res.json()))
+
+    return cameras

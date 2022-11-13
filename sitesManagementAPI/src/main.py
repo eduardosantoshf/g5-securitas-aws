@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.routers import users, alarms, properties, intrusions
+from src.routers import users, alarms, properties, intrusions, cameras
 
 
 app = FastAPI(title="Sites managment API", docs_url="/sites-man-api/docs", redoc_url=None)
@@ -23,6 +23,7 @@ app.include_router(users.router)
 app.include_router(alarms.router)
 app.include_router(properties.router)
 app.include_router(intrusions.router)
+app.include_router(cameras.router)
 
 @app.get("/sites-man-api")
 def root():
