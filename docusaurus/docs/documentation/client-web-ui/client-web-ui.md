@@ -6,7 +6,7 @@ sidebar_position: 1
 
 The [React](https://reactjs.org/) was the tool chosen to develop the Client Web UI.
 
-First we created two pages, one to list cameras and another to list the client's alarms, so you can see their characteristics.
+First we created two pages, one to list client's cameras and another to list the client's alarms, so you can see their characteristics.
 For this, we implemented a component "Cameras" and another component "Alarms". In each component we develop code from a table, which contains information about the cameras/alarms.
 ![](./img/listCameras.png)
 ![](./img/listAlarms.png)
