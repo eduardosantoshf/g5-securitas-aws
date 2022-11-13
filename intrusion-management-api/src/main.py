@@ -24,7 +24,6 @@ app.include_router(camera.router)
 def configure():
     load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
-
 @app.get("/intrusion-management-api")
 def root():
     configure()
