@@ -87,6 +87,7 @@ jobs:
           pip install tox tox-gh-actions
           PYTHONPATH=${PYTHONPATH}:./src
       - name: Run tox
+        working-directory: ./sitesManagementAPI
         run: |
           docker-compose -f docker-compose-dev.yml up -d
           tox -c sitesManagementAPI/tox.ini -v -e py        
