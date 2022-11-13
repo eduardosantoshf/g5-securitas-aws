@@ -33,7 +33,7 @@ class Camera:
         # Kombu Connection
         self.kombu_connection = kombu.Connection(
             connection_string,
-            ssl=True
+            #ssl=True
         )
         self.kombu_channel = self.kombu_connection.channel()
 

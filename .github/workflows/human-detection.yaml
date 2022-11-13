@@ -75,11 +75,14 @@ jobs:
       - name: Install tox and any other packages
         run: pip install tox
       - name: Run tox
-        run: tox -c HumanDetection/human-detection-module/tox.ini -e py
+        run: | 
+          tox -c HumanDetection/human-detection-module/tox.ini -e py
+          tox -c HumanDetection/camera/tox.ini -e py
 
       - name: Fix SonarClouds code coverage path bug
         run: |
           sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' HumanDetection/coverage.xml
+          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' HumanDetection/coverage_camera.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
