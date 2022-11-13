@@ -8,6 +8,7 @@ import TreeRounded from "@material-ui/icons/AccountTreeRounded";
 import DashboardOut from "@material-ui/icons/BarChartRounded";
 import Camera from '@material-ui/icons/Camera';
 import Alarm from '@material-ui/icons/Alarm';
+import Video from '@material-ui/icons/VideoLibrary';
 
 import { slide as Menu } from "react-burger-menu";
 
@@ -54,7 +55,7 @@ function Sidebar() {
       <a className="menu-item" onClick={intrusions}>
         <span className="lefti">Intrusions </span>
         <span className="righti">
-          <Alarm />
+          <Video />
         </span>
       </a>
     </Menu>

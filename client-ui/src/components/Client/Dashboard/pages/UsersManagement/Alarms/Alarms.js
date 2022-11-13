@@ -1,84 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { useHistory } from 'react-router-dom';
 import './Alarms.css';
-import api from '../../ApiConnections/apiManageAccess';
-
+import api from '../../ApiConnections/site-management-api';
+import Select from 'react-select';
 import Popup from 'reactjs-popup';
 
 function Alarms() {
   const [data, setData] = React.useState([]);
+  var [buildings] = React.useState([]);
+  const [property_id, setPropertyId] = React.useState(0);
 
-  const loadTheFuckingData = () => {
-    api.get('/request_account').then(res => {
+  const loadData = () => {
+    api.get('/alarms').then(res => {
+      console.log("loadData");
       setData(res.data);
       console.log(res.data);
+    });
+    api.get('/properties').then(res => {
+      console.log(res.data);
+      (res.data).forEach(element => {
+        if (buildings.find(building => building.value === element.id) === undefined) {
+          buildings.push({ value: element.id, label: element.id });
+        }
+      });
+      console.log(buildings);
     });
   };
 
   React.useEffect(() => {
-    loadTheFuckingData();
+    loadData();
   }, []);
 
-  const history = useHistory();
-
-  const initDashboard = () => {
-    history.push('/users');
-  };
-
   const handleDelete = id => {
-    api.get(`/request_delete/${id}`).then(res => {
-      loadTheFuckingData();
+    api.delete(`/alarms/${id}`).then(res => {
+      console.log(res.affectedRows);
+      setData(data.filter(item => item.id !== id));
+      loadData();
     });
   };
 
-  const handleAccept = id => {
-    api.get(`/request_accept/${id}`).then(res => {
-      console.log(res.affectedRows);
-      setData(data.filter(item => item.id !== id));
+  const addAlarm = () => {
+    api.post('alarms/?property_id=' + property_id, {}).then(res => {
+      console.log(res.data);
+      loadData();
     });
-    api.get(`/request_accepte_update/${id}`).then(res => {
-      console.log(res.affectedRows);
-      setData(data.filter(item => item.id !== id));
-    });
-    loadTheFuckingData();
   };
-
-  const data_static = [
-    {
-      alarm_id: "132421543",
-      building_id: 'build1',
-      active: 'yes',
-      alive: 'yes',
-    },
-    {
-      alarm_id: "125754345",
-      building_id: 'build1',
-      active: 'yes',
-      alive: 'no',
-    }
-  ]
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
-      field: 'alarm_id',
+      field: 'id',
       headerName: 'Alarm Id',
       sortable: false,
       width: 225,
     },
     {
-      field: 'building_id',
+      field: 'property_id',
       headerName: 'Building Id',
       width: 250,
     },
     {
-      field: 'active',
+      field: 'is_active',
       headerName: 'Active',
       width: 250,
     },
     {
-      field: 'alive',
+      field: 'is_alive',
       headerName: 'Alive',
       width: 250,
     },
@@ -102,7 +89,7 @@ function Alarms() {
                   <div className="header"> Confirmation - Elimination </div>
                   <div className="header" style={{ color: "white" , align: "center", borderBottomWidth: 0 }}>
                     {' '}
-                    Are you sure you want to remove this alarm ( {params.row.alarm_id} ) ?
+                    Are you sure you want to remove this alarm ( {params.row.id} ) ?
                   </div>
                   <div className="actions">
                     <button
@@ -153,12 +140,11 @@ function Alarms() {
                        <div style={{ width:"100px", textAlign: "left"}}>
                         <label style={{width:"40px"}} for="fname">Building</label>
                       </div>
-                    <input
-                      style={{ width: "45%" }}
-                      type="text" id="fname"
-                      name="name"
-                      placeholder="Name"
-                      //</input>onChange={e => setName(e.target.value)}
+                    <Select
+                      className="select"
+                      placeholder="Select Building"
+                      options={buildings}
+                      onChange={e => setPropertyId(e.value)}
                     />
                     </div>
                   </div>
@@ -166,7 +152,7 @@ function Alarms() {
                     <button
                       className="declineBtn"
                       onClick={() => {
-                        //addUser();
+                        addAlarm();
                         close();
                       }}
                     >
@@ -188,11 +174,11 @@ function Alarms() {
       </div>
       <div className="userList">
         <DataGrid
-          rows={data_static}
+          rows={data}
           disableSelectionOnClick
           columns={columns}
           pageSize={9}
-          getRowId={row => row.alarm_id}
+          getRowId={row => row.id}
         />
       </div>
     </>

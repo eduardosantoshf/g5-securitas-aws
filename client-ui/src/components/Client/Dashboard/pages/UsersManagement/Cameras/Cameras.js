@@ -1,85 +1,72 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { useHistory } from 'react-router-dom';
 import './Cameras.css';
-import api from '../../ApiConnections/apiManageAccess';
+import api from '../../ApiConnections/site-management-api';
+import Select from 'react-select';
 
 import Popup from 'reactjs-popup';
 
 function Cameras() {
   const [data, setData] = React.useState([]);
+  var [buildings] = React.useState([]);
+  const [property_id, setPropertyId] = React.useState(0);
 
-  const loadTheFuckingData = () => {
-    api.get('/request_account').then(res => {
+  const loadData = () => {
+    api.get('/cameras').then(res => {
       setData(res.data);
       console.log(res.data);
+    });
+    api.get('/properties').then(res => {
+      console.log(res.data);
+      (res.data).forEach(element => {
+        if (buildings.find(building => building.value === element.id) === undefined) {
+          buildings.push({ value: element.id, label: element.id });
+        }
+      });
+      console.log(buildings);
     });
   };
 
   React.useEffect(() => {
-    loadTheFuckingData();
+    loadData();
   }, []);
 
-  const history = useHistory();
-
-  const initDashboard = () => {
-    history.push('/users');
-  };
-
   const handleDelete = id => {
-    api.get(`/request_delete/${id}`).then(res => {
-      loadTheFuckingData();
+    api.delete(`/cameras/${id}`).then(res => {
+      console.log(res.affectedRows);
+      setData(data.filter(item => item.id !== id));
+      loadData();
     });
   };
 
-  const handleAccept = id => {
-    api.get(`/request_accept/${id}`).then(res => {
-      console.log(res.affectedRows);
-      setData(data.filter(item => item.id !== id));
+  const addCamera = () => {
+    api.post('cameras/?property_id=' + property_id, {}).then(res => {
+      console.log(res.data);
+      loadData();
     });
-    api.get(`/request_accepte_update/${id}`).then(res => {
-      console.log(res.affectedRows);
-      setData(data.filter(item => item.id !== id));
-    });
-    loadTheFuckingData();
   };
-
-  const data_static = [
-    {
-      camera_id: "132421543",
-      building_id: 'build1',
-      active: 'yes',
-      recording: 'yes',
-    },
-    {
-      camera_id: "125754345",
-      building_id: 'build1',
-      active: 'yes',
-      recording: 'no',
-    }
-  ]
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     {
-      field: 'camera_id',
+      field: 'id',
       headerName: 'Camera Id',
       sortable: false,
       width: 225,
     },
     {
-      field: 'building_id',
+      field: 'property_id',
       headerName: 'Building Id',
       width: 250,
     },
     {
-      field: 'active',
-      headerName: 'Active',
+      field: 'is_alive',
+      headerName: 'Alive',
       width: 250,
     },
     {
-      field: 'recording',
-      headerName: 'Recording',
+      field: 'is_streaming',
+      headerName: 'Streaming',
       width: 250,
     },
     {
@@ -102,7 +89,7 @@ function Cameras() {
                   <div className="header"> Confirmation - Elimination </div>
                   <div className="header" style={{ color: "white" , align: "center", borderBottomWidth: 0 }}>
                     {' '}
-                    Are you sure you want to remove this camera ( {params.row.camera_id} ) ?
+                    Are you sure you want to remove this camera ( {params.row.id} ) ?
                   </div>
                   <div className="actions">
                     <button
@@ -153,12 +140,11 @@ function Cameras() {
                        <div style={{ width:"100px", textAlign: "left"}}>
                         <label style={{width:"40px"}} for="fname">Building</label>
                       </div>
-                    <input
-                      style={{ width: "45%" }}
-                      type="text" id="fname"
-                      name="name"
-                      placeholder="Name"
-                      //</input>onChange={e => setName(e.target.value)}
+                      <Select
+                      className="select"
+                      placeholder="Select Building"
+                      options={buildings}
+                      onChange={e => setPropertyId(e.value)}
                     />
                     </div>
                   </div>
@@ -166,7 +152,7 @@ function Cameras() {
                     <button
                       className="declineBtn"
                       onClick={() => {
-                        //addUser();
+                        addCamera();
                         close();
                       }}
                     >
@@ -188,11 +174,11 @@ function Cameras() {
       </div>
       <div className="userList">
         <DataGrid
-          rows={data_static}
-          disableSelectionOnClick
+          rows={data}
+          disableSelectionOnClickcamera_id
           columns={columns}
           pageSize={9}
-          getRowId={row => row.camera_id}
+          getRowId={row => row.id}
         />
       </div>
     </>
