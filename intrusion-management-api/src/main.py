@@ -5,11 +5,10 @@ from src.routers import camera
 from dotenv import load_dotenv
 import os
 
-
-app = FastAPI()
+app = FastAPI(title="Intrusion management API", docs_url="/intrusion-management-api/docs", redoc_url=None)
 
 origins = [
-    "http://localhost:3000",
+    "*",
 ]
 
 app.add_middleware(
@@ -28,4 +27,4 @@ def configure():
 @app.get("/intrusion-management-api")
 def root():
     configure()
-    return RedirectResponse(url='/docs')
+    return RedirectResponse(url='/intrusion-management-api/docs')
