@@ -10,8 +10,6 @@ import json
 import shutil
 from dotenv import load_dotenv
 from fastapi.responses import FileResponse
-import requests
-
 
 router = APIRouter(
     prefix="/intrusion-management-api/cameras",
@@ -77,13 +75,12 @@ def attach_to_message_broker(broker_url, broker_username, broker_password, excha
         )                
         print(f"Request made to camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
 
-
 @router.post("/store-video", status_code=status.HTTP_200_OK)
 def receive_video_from_cameras(file: UploadFile):
     with open(file.filename, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
-    print("Video " + file.filename + " received.")
-
+    print("Video " + file.filename + " received."
+    
     client = boto3.client(
     's3',
     aws_access_key_id = os.getenv('aws_access_key_id'),
@@ -94,7 +91,6 @@ def receive_video_from_cameras(file: UploadFile):
     try:
         client.upload_file(Bucket="video-intrusions-archive", Key="video", Filename="./people-detection.mp4")
         print("Upload Successful")
-        
         return True
     except NoCredentialsError:
         print("Credentials not available")
