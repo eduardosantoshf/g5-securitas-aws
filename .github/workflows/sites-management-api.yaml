@@ -90,7 +90,7 @@ jobs:
         working-directory: ./sitesManagementAPI
         run: |
           docker-compose -f docker-compose-dev.yml up -d
-          tox -c sitesManagementAPI/tox.ini -v -e py        
+          tox -c tox.ini -v -e py        
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
