@@ -79,7 +79,7 @@ def attach_to_message_broker(broker_url, broker_username, broker_password, excha
 def receive_video_from_cameras(file: UploadFile):
     with open(file.filename, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
-    print("Video " + file.filename + " received."
+    print("Video " + file.filename + " received.")
     
     client = boto3.client(
     's3',
