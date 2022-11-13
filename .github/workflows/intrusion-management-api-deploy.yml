@@ -1,0 +1,124 @@
+name: Deploy intrusion management API to AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+
+  pull_request:
+    branches:    
+      - main
+    paths:
+      - intrusion-management-api/**
+      - '!**.md'
+      - '!**.pdf'
+      - '!**.docx'
+      - '!**.gitignore'
+      - '!**.txt'
+    
+  push:
+    branches:    
+      - main
+    paths:
+      - intrusion-management-api/**
+      - '!**.md'
+      - '!**.pdf'
+      - '!**.docx'
+      - '!**.gitignore'
+      - '!**.txt'
+
+env:
+  ECR_REGISTRY_ALIAS: p3i3q7f7
+  ECR_REPOSITORY: intrusion-management-api          # set this to your Amazon ECR repository name
+  ECS_SERVICE: intrusion-man-api-cluster            # set this to your Amazon ECS service name
+  ECS_CLUSTER: intrusion-man-api-service            # set this to your Amazon ECS cluster name
+                                                    # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION: .aws/intrusion-man-api-task-definition.json   
+                                                    # file, e.g. .aws/task-definition.json
+  API_CONTAINER_NAME: fastAPI-container             # set this to the name of the API container in the
+                                                    # containerDefinitions section of your task definition
+  DB_CONTAINER_NAME: mariadb-container              # set this to the name of the DB container in the
+                                                    # containerDefinitions section of your task definition
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials (us-east-1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1   
+
+      - name: Login to Amazon ECR
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Build, tag, and push docker api image to Amazon ECR Public
+        id: build-api-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+
+        run: |
+          cd sitesManagementAPI
+          docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Configure AWS credentials (change to eu-west-3 region)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-3
+
+
+      - name: Update DB container in ECS task definition
+        id: db-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.DB_CONTAINER_NAME }}
+          image: mariadb:10.8
+          environment-variables: |
+            MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}
+            MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
+            MARIADB_ROOT_PASSWORD=${{ secrets.MARIADB_ROOT_PASSWORD }}
+            MARIADB_USER=${{ secrets.MARIADB_USER }}
+
+      - name: Update API container in ECS task definition
+        id: build-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.db-task-def.outputs.task-definition }}
+          container-name: ${{ env.API_CONTAINER_NAME }}
+          image: ${{ steps.build-api-image.outputs.image }}
+          environment-variables: |
+            MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}
+            MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
+            MARIADB_USER=${{ secrets.MARIADB_USER }}
+            
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
+        with:
+          task-definition: ${{ steps.build-task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: false
