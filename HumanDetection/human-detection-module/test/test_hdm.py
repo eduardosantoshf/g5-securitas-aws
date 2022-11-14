@@ -4,6 +4,7 @@ import sys
 from unittest.mock import Mock
 import numpy as np
 import cv2
+import os
 
 sys.path.append("../")
 sys.path.append("../../camera")
@@ -19,7 +20,8 @@ def test_1():
 
     hdw = Human_Detection_Worker(mock, mock, mock, mock)
 
-    test_file = open("test.jpeg", "rb")
+    os.system("ls -la")
+    test_file = open("test/test.jpeg", "rb")
     binary_data = test_file.read()
 
     # Get the original  byte array size
