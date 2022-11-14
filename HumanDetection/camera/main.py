@@ -13,11 +13,12 @@ CAMERA_ID = 1
 NUM_FRAMES_PER_SECOND_TO_PROCESS = 2
 
 # AMQP Variables
-RABBIT_MQ_URL = "b-706d26c8-04b0-434d-a580-2e993164e280.mq.eu-west-3.amazonaws.com:5671"
-RABBIT_MQ_USERNAME = "teste"
-RABBIT_MQ_PASSWORD = "teste1234567"
+RABBIT_MQ_URL = "b-1360ad08-90a3-4944-9178-2d50e2d5ba78.mq.eu-west-3.amazonaws.com:5671"
+RABBIT_MQ_USERNAME = "human-detection-broker"
+RABBIT_MQ_PASSWORD = "broker32745#"
 RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
 RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
+INTRUSION_MANAGEMENT_API_URL = "https://hllwa7dyek.execute-api.eu-west-3.amazonaws.com/v1/intrusion-management-api"
 
 camera = Camera(
     camera_id=CAMERA_ID,
