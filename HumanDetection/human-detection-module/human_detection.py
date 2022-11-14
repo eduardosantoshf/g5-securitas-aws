@@ -27,7 +27,8 @@ class Human_Detection_Worker(ConsumerMixin):
         self.HOGCV = cv2.HOGDescriptor()
         self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
         self.r = redis.Redis(
-                    host='human-detection-cache.gxdzdr.ng.0001.euw3.cache.amazonaws.com',
+                    #host='human-detection-cache.gxdzdr.ng.0001.euw3.cache.amazonaws.com',
+                    host = 'localhost',
                     port=6379,
                     ssl=True
                 )
