@@ -27,7 +27,7 @@ on:
       - '!**.txt'
     
   push:
-    branches: [ main, hdm-cd]
+    branches: [ main, hdm-cd, feature/**]
 
     paths:
       - HumanDetection/**
