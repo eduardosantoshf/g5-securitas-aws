@@ -4,11 +4,11 @@ services:
         container_name: "rabbitmq"
         image: rabbitmq:3.8-management-alpine
         environment:
-            - RABBITMQ_DEFAULT_USER=user_test
-            - RABBITMQ_DEFAULT_PASS=pw_test
+            - RABBITMQ_DEFAULT_USER=myuser
+            - RABBITMQ_DEFAULT_PASS=mypassword
         ports:
             # AMQP protocol port
-            - '5672:5672'
+            - '5671:5671'
             # HTTP management UI
             - '15672:15672'
         #networks:

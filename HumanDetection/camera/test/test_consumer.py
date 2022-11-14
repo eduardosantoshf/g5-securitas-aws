@@ -8,12 +8,28 @@ import kombu
 
 sys.path.append("../")
 import consumer
+import camera
 
 from unittest.mock import patch
 import pika
 
 import kombu
 from kombu import Exchange, Producer
+
+
+def test_camera():
+    #mock = Mock()
+    camera_instance = camera.Camera(1, 2)
+    # AMQP Variables
+    RABBIT_MQ_USERNAME = "myuser"
+    RABBIT_MQ_PASSWORD = "mypassword"
+    RABBIT_MQ_URL = "localhost:5671"
+    RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
+    RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
+    #INTRUSION_MANAGEMENT_API_URL = mock
+    camera_instance.attach_to_message_broker = Mock()
+    camera_instance.transmit_video = Mock()
+
 
 
 
