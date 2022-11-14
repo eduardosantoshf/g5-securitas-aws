@@ -50,7 +50,7 @@ env:
   HDM_CONTAINER_NAME: human-detection-container     # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
   RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
-  RABBIT_MQ_QUEUE_NAME: "human-detection-queue"
+  RABBIT_MQ_QUEUE_NAME: human-detection-queue
 
 jobs:
   deploy:

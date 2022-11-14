@@ -48,6 +48,8 @@ env:
   DB_CONTAINER_NAME: mariadb-container              # set this to the name of the DB container in the
                                                     # containerDefinitions section of your task definition
   DOCKER_FILE_DIR: intrusion-management-api
+  RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
+  RABBIT_MQ_QUEUE_NAME: human-detection-queue
 jobs:
   deploy:
     name: Deploy
@@ -117,8 +119,8 @@ jobs:
             RABBIT_MQ_URL=${{ secrets.RABBIT_MQ_URL }}
             RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }}
             RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
-            RABBIT_MQ_EXCHANGE_NAME=request-video-exchange
-            RABBIT_MQ_QUEUE_NAME=request-video-queue
+            RABBIT_MQ_EXCHANGE_NAME=${{ env.RABBIT_MQ_EXCHANGE_NAME }}
+            RABBIT_MQ_QUEUE_NAME=${{ env.RABBIT_MQ_QUEUE_NAME }}
             aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
             aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
             region_name=eu-west-3
