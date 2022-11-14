@@ -161,7 +161,6 @@ class Human_Detection_Module:
         connection_string = f"amqp://{broker_username}:{broker_password}" \
             f"@{broker_url}/"
 
-        print("Successfully connected to the broker!")
 
         # Kombu Exchange
         self.kombu_exchange = kombu.Exchange(
@@ -183,6 +182,8 @@ class Human_Detection_Module:
             heartbeat=4,
             ssl=True
         )
+        self.kombu_connection.connect()
+        print("Successfully connected to the broker!")
 
         # Start Human Detection Workers
         self.human_detection_worker = Human_Detection_Worker(
