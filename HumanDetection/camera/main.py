@@ -7,18 +7,20 @@
 
 import os
 from camera import Camera
+from dotenv import load_dotenv
+load_dotenv()
 
 # CAMERA VARIABLES
 CAMERA_ID = 1
 NUM_FRAMES_PER_SECOND_TO_PROCESS = 2
 
 # AMQP Variables
-RABBIT_MQ_URL = "b-1360ad08-90a3-4944-9178-2d50e2d5ba78.mq.eu-west-3.amazonaws.com:5671"
-RABBIT_MQ_USERNAME = "human-detection-broker"
-RABBIT_MQ_PASSWORD = "broker32745#"
+RABBIT_MQ_USERNAME = os.environ['RABBIT_MQ_USERNAME']
+RABBIT_MQ_PASSWORD = os.environ['RABBIT_MQ_PASSWORD']
+RABBIT_MQ_URL = os.environ['RABBIT_MQ_URL']
 RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
 RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
-INTRUSION_MANAGEMENT_API_URL = "https://hllwa7dyek.execute-api.eu-west-3.amazonaws.com/v1/intrusion-management-api"
+INTRUSION_MANAGEMENT_API_URL = os.environ['INTRUSION_MANAGEMENT_API_URL']
 
 camera = Camera(
     camera_id=CAMERA_ID,

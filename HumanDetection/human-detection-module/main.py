@@ -9,6 +9,8 @@
 
 import os
 from human_detection import Human_Detection_Module
+from dotenv import load_dotenv
+load_dotenv()
 
 # AMQP Variables
 RABBIT_MQ_USERNAME = os.environ['RABBIT_MQ_USERNAME']
