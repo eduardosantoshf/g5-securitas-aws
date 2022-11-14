@@ -21,11 +21,11 @@ def test_camera():
     #mock = Mock()
     camera_instance = camera.Camera(1, 2)
     # AMQP Variables
-    RABBIT_MQ_USERNAME = "myuser"
-    RABBIT_MQ_PASSWORD = "mypassword"
-    RABBIT_MQ_URL = "localhost:5671"
-    RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
-    RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
+    #RABBIT_MQ_USERNAME = "myuser"
+    #RABBIT_MQ_PASSWORD = "mypassword"
+    #RABBIT_MQ_URL = "localhost:5671"
+    #RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
+    #RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
     #INTRUSION_MANAGEMENT_API_URL = mock
     camera_instance.attach_to_message_broker = Mock()
     camera_instance.transmit_video = Mock()
@@ -45,6 +45,10 @@ def test_1():
     received = cameras_worker.on_message(message.body, message)
 
     assert message == received
+
+def test_consumer():
+    cvr = consumer.Consumer_video_request("intruders")
+    cvr.start_processing = Mock()
     
 
 
