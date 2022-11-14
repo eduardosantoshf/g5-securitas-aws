@@ -11,9 +11,9 @@ import os
 from human_detection import Human_Detection_Module
 
 # AMQP Variables
-RABBIT_MQ_USERNAME = "human-detection-broker"
-RABBIT_MQ_PASSWORD = "broker327456"
-RABBIT_MQ_URL = "b-c6c5f47e-f161-4c4d-a994-e63d5a5e48e0.mq.eu-west-3.amazonaws.com:5671"
+RABBIT_MQ_USERNAME = os.environ['RABBIT_MQ_USERNAME']
+RABBIT_MQ_PASSWORD = os.environ['RABBIT_MQ_PASSWORD']
+RABBIT_MQ_URL = os.environ['RABBIT_MQ_URL']
 RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"
 RABBIT_MQ_QUEUE_NAME = "human-detection-queue"
 
