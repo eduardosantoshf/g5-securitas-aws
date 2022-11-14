@@ -50,6 +50,7 @@ env:
   DOCKER_FILE_DIR: intrusion-management-api
   RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
   RABBIT_MQ_QUEUE_NAME: human-detection-queue
+
 jobs:
   deploy:
     name: Deploy
