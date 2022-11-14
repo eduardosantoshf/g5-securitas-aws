@@ -10,6 +10,7 @@ sys.path.append("../")
 sys.path.append("../../camera")
 
 from human_detection import Human_Detection_Worker
+from human_detection import Human_Detection_Module
 
 
 r = redis.Redis(host='localhost', port=6379)
@@ -20,7 +21,6 @@ def test_1():
 
     hdw = Human_Detection_Worker(mock, mock, mock, mock)
 
-    os.system("ls -la")
     test_file = open("test/test.jpeg", "rb")
     binary_data = test_file.read()
 
@@ -58,6 +58,16 @@ def test_4():
     print(hdw.create_database_entry("camera_testing", 3, 1, str(datetime.datetime.now())))
 
     assert hdw.alarm_if_needed("camera_testing", 3) == True
+
+def test_5():
+
+    hdw = Human_Detection_Worker(Mock(), Mock(), Mock(), Mock())
+
+    hdw.on_message = Mock()
+
+    hdm = Human_Detection_Module("intruders")
+
+    hdm.start_processing = Mock()
 
 
 
