@@ -49,6 +49,8 @@ env:
                                                     # file, e.g. .aws/task-definition.json
   HDM_CONTAINER_NAME: human-detection-container     # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
+  RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
+  RABBIT_MQ_QUEUE_NAME: "human-detection-queue"
 
 jobs:
   deploy:
@@ -105,6 +107,8 @@ jobs:
             RABBIT_MQ_URL=${{ secrets.RABBIT_MQ_URL }}
             RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }}
             RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
+            RABBIT_MQ_EXCHANGE_NAME=${{ env.RABBIT_MQ_EXCHANGE_NAME }}
+            RABBIT_MQ_QUEUE_NAME=${{ env.RABBIT_MQ_QUEUE_NAME }}
             
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
