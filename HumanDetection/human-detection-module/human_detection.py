@@ -92,6 +92,8 @@ class Human_Detection_Worker(ConsumerMixin):
             ts=frame_timestamp
         )
 
+        print("Saved on the database")
+
         # Do we need to raise an alarm?
         alarm_raised = self.alarm_if_needed(
             camera_id=msg_source,
