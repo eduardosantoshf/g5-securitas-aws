@@ -23,6 +23,9 @@ jobs:
     name: Run management API tests
     runs-on: ubuntu-latest
     
+    container: python:3.10
+    
+    # job env variables
     env:
       MARIADB_USER: dev_user
       MARIADB_PASSWORD: dev_pass 
@@ -33,6 +36,8 @@ jobs:
     services:
       db:
         image: mariadb
+        
+        # container env variables
         env:
           MYSQL_USER: dev_user
           MYSQL_PASSWORD: dev_pass
@@ -43,7 +48,6 @@ jobs:
           - 3306  
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
 
-    container: python:3.10
 
     defaults:
       run:
@@ -60,12 +64,11 @@ jobs:
           python-version: '3.10'
       - name: Install all dependencies
         run: |
-          apt install -y libmariadb3 libmariadb-dev
           python -m pip install --upgrade pip
           pip install tox
-      - name: Start docker containers
-        working-directory: ./sitesManagementAPI
-        run: docker-compose -f ./sitesManagementAPI/docker-compose-dev.yml up --build -d
+          pip install -r requirements.txt
+      
+      
       - name: Run tox
         working-directory: ./sitesManagementAPI
         run: tox -c ./sitesManagementAPI/tox.ini -e py   
