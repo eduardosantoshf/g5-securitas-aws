@@ -23,7 +23,7 @@ jobs:
     name: Run management API tests
     runs-on: ubuntu-latest
     
-    container: ubuntu-latest
+    container: ubuntu:latest
     
     # job env variables
     env:
