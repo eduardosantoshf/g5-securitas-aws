@@ -65,7 +65,7 @@ jobs:
           pip install tox
       - name: Start docker containers
         working-directory: ./sitesManagementAPI
-        run: docker-compose -f docker-compose-dev.yml up -d
+        run: docker-compose -f ./docker-compose-dev.yml up --build -d
       - name: Run tox
         working-directory: ./sitesManagementAPI
         run: tox -c tox.ini -e py   
