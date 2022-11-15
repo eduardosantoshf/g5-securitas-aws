@@ -74,6 +74,12 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     pass
 
+class UserOut(UserBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
 class User(UserBase):
     id: int
     properties: list[Property] = []

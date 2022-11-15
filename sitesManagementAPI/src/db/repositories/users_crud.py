@@ -43,3 +43,19 @@ def delete_user(db: Session, user_id: int):
     db.commit()
     
     return user_delete
+
+
+def get_properties_by_owner(db: Session, owner_id: int):
+    is_valid_id = verify_user_id(db=db, user_id=owner_id)
+    if not is_valid_id:
+        return -1
+    
+    return db.query(models.Property).filter(models.Property.owner_id == owner_id).all()
+
+
+#aux function to check if user is in db
+def verify_user_id(db: Session, user_id: int):
+    query = db.query(models.User).filter(models.User.id == user_id)
+
+    return False if query is None else True
+        

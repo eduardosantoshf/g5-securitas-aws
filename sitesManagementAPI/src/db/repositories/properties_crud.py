@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 
+import src.db.repositories
 import src.models.models as models, src.models.schemas as schemas
 
 
@@ -8,9 +9,6 @@ def get_property(db: Session, property_id: int):
 
 def get_properties(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Property).offset(skip).limit(limit).all()
-
-def get_properties_by_owner(db: Session, owner_id: int):
-    return db.query(models.Property).filter(models.Property.owner_id == owner_id).all()
 
 def create_property(db: Session, property: schemas.PropertyCreate, owner_id: int):
     query = db.query(models.Property).filter(models.Property.address == property.address, models.Property.owner_id == owner_id).first()
@@ -56,3 +54,21 @@ def delete_property(db: Session, property_id: int):
     db.commit()
     
     return property_delete
+
+
+#return None if property is invalid
+def get_cameras_by_property(db: Session, property_id: int):
+    db_property = get_property(property_id=property_id, db=db)
+
+    if db_property is None:
+        return None
+
+    return db_property.cameras
+
+def get_alarms_by_property(db: Session, property_id: int):
+    db_property = get_property(property_id=property_id, db=db)
+
+    if db_property is None:
+        return None
+
+    return db_property.alarms
