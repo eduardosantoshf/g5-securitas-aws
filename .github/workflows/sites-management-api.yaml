@@ -1,109 +1,75 @@
-name: Sites Management API Module Pipeline
+name: Sites Management API testing
 
-# controls when the action will run
 on:
-  # triggers the workflow on push for the develop and deployment branches
   push:
     paths:
-      - '.github/workflows/sites-management-api.yaml' # trigger this workflow 
-                                                      # only when the module 
-                                                      # workflow is changed
-      - 'sitesManagementAPI/**' # trigger this workflow only on the HDM
+      - sitesManagementAPI/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
       - '!**.gitignore'
       - '!**.txt'
-    
-    #-- the code bellow won't work because "you may only define one of `paths` 
-    #   and `paths-ignore` for a single event" --#
-
-    #paths-ignore:
-    #  # don't run this workflow when the are pushes and there are only changes 
-    #  # for the following files:
-    #  - '**.md'
-    #  - '**.pdf'
-    #  - '**.docx'
-    #  - '**.gitignore'
-    #  - '**.txt'
-
-  # triggers the workflow on pull requests for the main branch
   pull_request:
-    branches: [ main, development, feature/**] # triggers the workflow on the
-                                               # main, development and every
-                                               # branch whose name starts 
-                                               # with feature/
     paths:
-      - '.github/workflows/sites-management-api.yaml' # trigger this workflow 
-                                                      # only when the module 
-                                                      # workflow is changed
-      - 'sitesManagementAPI/**' # trigger this workflow only on the site manegement api
+      - sitesManagementAPI/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
       - '!**.gitignore'
       - '!**.txt'
-
-    #-- the code bellow won't work because "you may only define one of `paths` 
-    #   and `paths-ignore` for a single event" --#
-
-    #paths-ignore:
-    #  # don't run this workflow when the are pull requests, and there are only 
-    #  # changes for the following files:
-    #  - '**.md'
-    #  - '**.pdf'
-    #  - '**.docx'
-    #  - '**.gitignore'
-    #  - '**.txt'
-
-  # allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 jobs:
-  sonar:
-    name: Sites Management API SonarCloud Code Inspection
+  run_tests:
+    name: Run management API tests
     runs-on: ubuntu-latest
-
+    
     env:
       MARIADB_USER: dev_user
       MARIADB_PASSWORD: dev_pass 
       MARIADB_DATABASE: sites_man_db
       MARIADB_HOST: db
       MARIADB_PORT: 3306
+    
+    services:
+      db:
+        image: mariadb
+        env:
+          MYSQL_USER: dev_user
+          MYSQL_PASSWORD: dev_pass
+          MYSQL_DATABASE: sites_man_db
+          MYSQL_ROOT_PASSWORD: root
+            
+        ports:
+          - 3306  
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    container: python:3.10
+
+    defaults:
+      run:
+        working-directory: ./sitesManagementAPI
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Pulling git repo
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # shallow clones should be disabled for a better 
-                          # relevancy of analysis
+          fetch-depth: 0
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install tox and other packages
+      - name: Install all dependencies
         run: |
           sudo apt install -y libmariadb3 libmariadb-dev
           python -m pip install --upgrade pip
           pip install tox
-          PYTHONPATH=${PYTHONPATH}:./src
       - name: Start docker containers
         working-directory: ./sitesManagementAPI
         run: docker-compose -f docker-compose-dev.yml up -d
       - name: Run tox
         working-directory: ./sitesManagementAPI
-        run: tox -c tox.ini -o -e py        
+        run: tox -c tox.ini -e py   
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-
-          MARIADB_USER: dev_user
-          MARIADB_PASSWORD: dev_pass 
-          MARIADB_DATABASE: sites_man_db
-          MARIADB_HOST: db
-          MARIADB_PORT: 3306
-
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
-                                                     # information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_SITES_MANAGEMENT_API }}
-        with:
-          projectBaseDir: sitesManagementAPI/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

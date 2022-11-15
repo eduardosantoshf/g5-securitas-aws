@@ -23,7 +23,7 @@ app.include_router(users.router)
 app.include_router(alarms.router)
 app.include_router(properties.router)
 app.include_router(cameras.router)
-# app.include_router(intrusions.router)
+app.include_router(intrusions.router)
 
 @app.get("/sites-man-api")
 def root():
