@@ -3,6 +3,7 @@ name: Sites Management API testing
 on:
   push:
     paths:
+      - '.github/workflows/sites-management-api.yaml'
       - sitesManagementAPI/**
       - '!**.md'
       - '!**.pdf'
