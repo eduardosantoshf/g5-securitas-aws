@@ -1,25 +1,25 @@
 import React from "react";
 import "./Intrusions.css";
+import api from '../../ApiConnections/intrusion-management-api';
 
 function Intrusions() {
-  /*
-  React.useEffect(() => {
-    console.log("Intrusions.js: useEffect() called");
-    api.get("/cameras/intrusions-videos").then((res) => {
-      var myUrl = (window.URL || window.webkitURL).createObjectURL(
-        new Blob([res.data])
-      ); // response.data.data
+  // React.useEffect(() => {
+  //   console.log("Intrusions.js: useEffect() called");
+  //   api.get("/intrusion-management-api/cameras/intrusions-videos").then((res) => {
+  //     var myUrl = (window.URL || window.webkitURL).createObjectURL(
+  //       new Blob([res.data])
+  //     ); // response.data.data
 
-      var myVid = document.getElementById("vidObj");
-      myVid.setAttribute("src", myUrl);
-      myVid.play(); //# test playback
-      console.log("ACABOU");
+  //     var myVid = document.getElementById("vidObj");
+  //     myVid.setAttribute("src", myUrl);
+  //     myVid.play(); //# test playback
+  //     console.log("ACABOU");
 
-      //setVideo(url); //# is this needed?
-    });
-    console.log("ACABOU");
-  });
-  */
+  //     //setVideo(url); //# is this needed?
+  //   });
+  //   console.log("ACABOU");
+  // });
+
   return (
     <>
       <h2 className="title">Intrusions</h2>
@@ -33,7 +33,7 @@ function Intrusions() {
       >
         <div className="player-wrapper">
           <video
-            id="vidObj"
+            id="vidObj1"
             width="50%"
             height="50%"
             controls
@@ -42,13 +42,13 @@ function Intrusions() {
             autoplay
           >
             <source
-              src="http://localhost:8000/cameras/intrusions-videos"
+              src="http://localhost:5000/intrusion-management-api/cameras/intrusions-videos"
               type="video/mp4"
             />
           </video>
         </div>
         <div className="player-wrapper">
-        <video
+        {/* <video
             id="vidObj"
             width="50%"
             height="50%"
@@ -58,10 +58,9 @@ function Intrusions() {
             autoplay
           >
             <source
-              src="http://localhost:8000/cameras/intrusions-videos"
               type="video/mp4"
             />
-          </video>
+          </video> */}
         </div>
       </div>
     </>
