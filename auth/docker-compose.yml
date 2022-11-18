@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+
+    hostname: postgres
+
+    restart: always
+
+    environment:
+      POSTGRES_DB: keycloak_db
+      POSTGRES_USER: kc_dev
+      POSTGRES_PASSWORD: kc_pass
+
+
+  keycloak:
+    build: 
+      context: .
+      dockerfile: Dockerfile.kc
+    
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_PORT: 5432
+      DB_USER: kc_dev
+      DB_PASSWORD: kc_pass
+      DB_DATABASE: keycloak_db
+      KEYCLOAK_USER: kc_user
+      KEYCLOAK_PASSWORD: kc_pass
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+
+
+    ports:
+      - '8443:8443'
+    depends_on:
+      - postgres
+    restart: always    
