@@ -4,17 +4,17 @@
         <title>G5 Securitas Blog</title>
         <link>https://eduardosantoshf.github.io /es-project/blog</link>
         <description>G5 Securitas Blog</description>
-        <lastBuildDate>Mon, 07 Nov 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 14 Nov 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <item>
-            <title><![CDATA[5th Sprint Planning]]></title>
-            <link>https://eduardosantoshf.github.io /es-project/blog/5th-sprint-planning</link>
-            <guid>5th-sprint-planning</guid>
-            <pubDate>Mon, 07 Nov 2022 00:00:00 GMT</pubDate>
+            <title><![CDATA[4th Sprint Planning]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/4th-sprint-planning</link>
+            <guid>4th-sprint-planning</guid>
+            <pubDate>Mon, 14 Nov 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master - Eva Bartolomeu</li><li>Product Owner - Pedro Sobral</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Make HDM interact with the Intrusion Management API</li><li>Make Intrusion Management API interact with the cameras</li><li>Develop a functional (not static) interface for the clients.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>List/add/remove alarms (Site Management API)</li><li>List/add/remove alarms (Client Web UI)</li><li>Notify Intrusion Management API (HDM)</li><li>Request intrusion video to the cameras (Intrusion Management API)</li></ul></li></ul>]]></content:encoded>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (14/11/2022 - 21/11/2022) - Pedro Bastos</li><li>Product Owner (14/11/2022 - 21/11/2022) - Eduardo Santos</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Connection between micro services and start implementing IDP</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Admin's management system and Property owner's management system protected by an IDP (IDP)</li><li>Connect HDM to Elasticache</li><li>Notify Intrusion Management API (HDM)</li><li>Send intrusion to client web ui (Intrusion Management API)</li><li>Request intrusion video to the cameras (Intrusion Management API)</li></ul></li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[3rd Sprint Planning]]></title>
@@ -22,7 +22,7 @@
             <guid>3rd-sprint-planning</guid>
             <pubDate>Mon, 24 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master - Eduardo Santos</li><li>Product Owner - Pedro Bastos</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Make HDM interact with the Intrusion Management API</li><li>Develop a functional (not static) interface for the clients.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Notify Management API (HDM)</li><li>List/add/remove alarms (Site Management API)</li><li>List/add/remove alarms (Management UI)</li><li>Add/remove users (Management UI)</li><li>Request intrusion video to HDM (Intrusion Management API)</li><li>Receive intrusion video request by Intrusion Management API (HDM)</li></ul></li></ul>]]></content:encoded>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (24/10/2022 - 31/10/2022) - Eduardo Santos</li><li>Product Owner (24/10/2022 - 31/10/2022) - Pedro Bastos</li><li>Scrum Master (31/10/2022 - 07/11/2022) - Diogo Vicente</li><li>Product Owner (31/10/2022 - 07/11/2022) - João Diogo Ferreira</li><li>Scrum Master (07/11/2022 - 14/11/2022) - Eva Bartolomeu</li><li>Product Owner (07/11/2022 - 14/11/2022) - Pedro Sobral</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Make HDM interact with the Intrusion Management API</li><li>Make Intrusion Management API interact with the cameras</li><li>Develop a functional (not static) interface for the clients.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Receive HDM intrusion warning (Intrusion Management API)</li><li>Notify Intrusion Management API (HDM)</li><li>List/add/remove alarms (Site Management API, Client Web UI)</li><li>Add/remove users (Management UI)</li><li>Request intrusion video to HDM (Intrusion Management API)</li><li>Receive intrusion video request by Intrusion Management API (HDM)</li><li>Request intrusion video to the cameras (Intrusion Management API)</li></ul></li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[2nd Sprint Review]]></title>
