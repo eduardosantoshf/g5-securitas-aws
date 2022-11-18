@@ -87,3 +87,15 @@ def read_user_alarms(user_id: int, db: Session = Depends(get_db)):
         alarms.extend(tmp)
 
     return alarms
+
+@router.get("/{user_id}/properties", response_model=list[schemas.Property])
+def read_user_properties(user_id: int, db: Session = Depends(get_db)):
+    valid_id = crud.verify_user_id(db=db, user_id=user_id)
+    if not valid_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+    
+    db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
+    if db_properties is None:
+        return []
+
+    return db_properties
