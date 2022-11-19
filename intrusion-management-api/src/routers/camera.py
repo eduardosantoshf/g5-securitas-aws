@@ -41,7 +41,7 @@ def attach_to_message_broker(broker_url, broker_username, broker_password, excha
         # Kombu Connection
         kombu_connection = kombu.Connection(
             connection_string,
-            ssl=True
+            #ssl=True
         )
         kombu_channel = kombu_connection.channel()
 
@@ -78,6 +78,10 @@ def attach_to_message_broker(broker_url, broker_username, broker_password, excha
 
 @router.post("/store-video", status_code=status.HTTP_200_OK)
 def receive_video_from_cameras(file: UploadFile):
+
+    if not file.filename.endswith(".mp4"):
+        return Response(status_code=status.HTTP_400_BAD_REQUEST, content="File must be mp4")
+
     with open(file.filename, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
     print("Video " + file.filename + " received.")
@@ -90,15 +94,15 @@ def receive_video_from_cameras(file: UploadFile):
     )
 
     try:
-        client.upload_file(Bucket="video-clips-archive", Key="video", Filename="./people-detection.mp4")
+        #client.upload_file(Bucket="video-clips-archive", Key="video", Filename="./people-detection.mp4")
         print("Upload Successful")
-        return True
+        return Response(status_code=status.HTTP_200_OK)
     except NoCredentialsError:
         print("Credentials not available")
-        return False
+        return Response(status_code=status.HTTP_401_UNAUTHORIZED)
     except FileNotFoundError:
         print("The file was not found")
-        return False
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
     
 @router.get("/download-video", status_code=status.HTTP_200_OK)
 def download_video_from_s3():
@@ -110,16 +114,19 @@ def download_video_from_s3():
     )
     
     try:
-        client.download_file(Bucket="video-clips-archive", Key="video", Filename="./download-video.mp4")
+        #client.download_file(Bucket="video-clips-archive", Key="video", Filename="./download-video.mp4")
         print("Download Successful")
-        return True
+        return Response(status_code=status.HTTP_200_OK)
     except FileNotFoundError:
         print("The file was not found")
-        return False
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
     except NoCredentialsError:
         print("Credentials not available")
-        return False
+        return Response(status_code=status.HTTP_401_UNAUTHORIZED)
 
 @router.get("/intrusions-videos")
-async def main():
-    return FileResponse("./src/routers/download-video.mp4")
+async def send_intrusion_video():
+    try:
+        return FileResponse("./src/routers/download-video.mp4", media_type="video/mp4")
+    except FileNotFoundError:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
