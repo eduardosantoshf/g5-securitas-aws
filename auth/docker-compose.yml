@@ -28,8 +28,10 @@ services:
       DB_DATABASE: keycloak_db
       KEYCLOAK_USER: kc_user
       KEYCLOAK_PASSWORD: kc_pass
-      KC_HEALTH_ENABLED: true
-      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: 'true'
+      KC_METRICS_ENABLED: 'true'
+      KEYCLOAK_ADMIN: kc_admin
+      KEYCLOAK_ADMIN_PASSWORD: kc_admin_pass
 
 
     ports:
