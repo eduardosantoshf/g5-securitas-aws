@@ -15,6 +15,7 @@ Even though we have 2 "private" subnets they are not truly private since they ar
 
 > **NOTE:**
 In the case of the intrusion management API and sites management API because they rely on a local database container we are limited to a single EC2 instance, even though does services are deployed in a scalable cluster. This can be solved be using a service like RDS (relational database service) that provides higher availability. We intend to migrate to this alternative in the future.
+
 ### Routing
 
 Since each EC2 is given a random public IP address and that elastic IP address service is not available in the free tier, the routing is handled by the ELB together with the API Gateway. When a service or a client issues a request to the API Gateway it's forwarded to the ELB that is responsible to route it to the appropriate place.
