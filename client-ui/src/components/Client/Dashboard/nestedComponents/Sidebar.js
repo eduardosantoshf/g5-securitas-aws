@@ -1,7 +1,7 @@
 import React from "react";
 import "./Sidebar.css";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
 import TreeRounded from "@material-ui/icons/AccountTreeRounded";
@@ -13,22 +13,22 @@ import Video from '@material-ui/icons/VideoLibrary';
 import { slide as Menu } from "react-burger-menu";
 
 function Sidebar() {
-  const history = useHistory();
+  let navigate = useNavigate(); 
 
   const initDashboard = () => {
-    history.push("/");
+    navigate("/");
   };
 
   const cameras = () => {
-    history.push("/cameras");
+    navigate("/cameras");
   };
 
   const alarms = () => {
-    history.push("/alarms");
+    navigate("/alarms");
   };
 
   const intrusions = () => {
-    history.push("/intrusions");
+    navigate("/intrusions");
   };
 
 
