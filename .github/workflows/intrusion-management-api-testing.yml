@@ -22,15 +22,14 @@ jobs:
     name: Run Intrusion Management API tests
     runs-on: ubuntu-latest
 
-    - name: Start RabbitMQ
-        uses: namoshek/rabbitmq-github-action@v1
-        with:
-          version: '3.8.9'
-          ports: '5672:5672 15672:15672'
-          certificates: ${{ github.workspace }}/.ci/tls-certificates
-          config: ${{ github.workspace }}/.ci/rabbitmq.conf
-          definitions: ${{ github.workspace }}/.ci/definitions.json
-          container-name: 'mqtt'
+    services:
+      rabbitmq:
+        image: rabbitmq:3.8-management-alpine
+        env:
+          RABBITMQ_DEFAULT_USER: myuser
+          RABBITMQ_DEFAULT_PASS: mypassword
+        ports:
+          - 5672:5672
 
     container: python:3.10-alpine
 
@@ -45,4 +44,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test with pytest
-        run: PYTHONPATH=${PYTHONPATH}:./src python -m pytest
+        run: |
+          PYTHONPATH=${PYTHONPATH}:./src python -m pytest
+        env:
+          RABBITMQ_HOST: 127.0.0.1
+          RABBITMQ_PORT: ${{ job.services.rabbitmq.ports['5672'] }}
