@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+    rabbitmq3:
+        container_name: "rabbitmq-tests"
+        image: rabbitmq:3.8-management-alpine
+        environment:
+            - RABBITMQ_DEFAULT_USER=myuser
+            - RABBITMQ_DEFAULT_PASS=mypassword
+            - RABBIT_MQ_URL=localhost:5672
+            - RABBIT_MQ_USERNAME=myuser
+            - RABBIT_MQ_PASSWORD=mypassword
+            - RABBIT_MQ_EXCHANGE_NAME=request-video-exchange
+            - RABBIT_MQ_QUEUE_NAME=request-video-queue
+        ports:
+            # AMQP protocol port
+            - '5672:5672'
+            # HTTP management UI
+            - '15672:15672'
