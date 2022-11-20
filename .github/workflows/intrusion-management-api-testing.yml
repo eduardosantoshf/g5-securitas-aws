@@ -11,7 +11,7 @@ on:
       - '!**.txt'
   pull_request:
     paths:
-       - intrusion-management-api/**
+      - intrusion-management-api/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
