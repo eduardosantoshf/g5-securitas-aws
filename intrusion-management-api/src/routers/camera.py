@@ -16,15 +16,13 @@ router = APIRouter(
     tags=['Cameras']
 )
 
-
 load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
-
-kombu_connection = "localhost" + ":5672"
-kombu_exchange = "guest"
-kombu_channel = "guest"
-kombu_producer = "request-video-exchange"
-kombu_queue = "request-video-queue"
+kombu_connection = os.getenv('RABBIT_MQ_URL')
+kombu_exchange = os.getenv('RABBIT_MQ_USERNAME')
+kombu_channel = os.getenv('RABBIT_MQ_PASSWORD')
+kombu_producer = os.getenv('RABBIT_MQ_EXCHANGE_NAME')
+kombu_queue = os.getenv('RABBIT_MQ_QUEUE_NAME')
 
 @router.get("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
@@ -36,15 +34,8 @@ def attach_to_message_broker(broker_url, broker_username, broker_password, excha
         # Create Connection String
         connection_string = f"amqp://{broker_username}:{broker_password}" \
             f"@{broker_url}/"
-        
+            
         print(f"Connecting to {connection_string}")
-        
-        
-        print("RABBIT_MQ_URL: ", broker_url)
-        print("RABBIT_MQ_USERNAME: ", broker_username)
-        print("RABBIT_MQ_PASSWORD: ", broker_password)
-        print("RABBIT_MQ_EXCHANGE_NAME: ", exchange_name)
-        print("RABBIT_MQ_QUEUE_NAME: ", queue_name)
 
         # Kombu Connection
         kombu_connection = kombu.Connection(
