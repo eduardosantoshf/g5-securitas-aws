@@ -2,20 +2,20 @@ from fastapi.testclient import TestClient
 from fastapi import status, UploadFile
 from fastapi.responses import FileResponse
 import pytest
-import mimetypes
 
+"""
 def test_receive_intrusion_frame(client: TestClient) -> None:
     post_body = {
         "camera_id": 2,
         "timestamp_intrusion": "12:00:00"
     }
 
-    res = client.get("/intrusion-management-api/cameras/receive-intrusion-frame", json=post_body, verify=False)
+    res = client.get("/intrusion-management-api/cameras/receive-intrusion-frame", json=post_body)
     assert res.status_code == status.HTTP_200_OK
     res = res.json()
     assert res["camera_id"] == 2
     assert res["timestamp_intrusion"] == "12:00:00"
-    
+""" 
 def test_receive_intrusion_frame_invalid_camera_id(client: TestClient) -> None:
     post_body = {
         "camera_id": "XXX",
