@@ -25,7 +25,7 @@ jobs:
     env:
       RABBIT_MQ_USERNAME: myuser
       RABBIT_MQ_PASSWORD: mypassword
-      RABBIT_MQ_URL: 127.0.0.1:5672
+      RABBIT_MQ_URL: localhost:5672
       RABBIT_MQ_EXCHANGE_NAME: request-video-exchange
       RABBIT_MQ_QUEUE_NAME: request-video-queue
 
@@ -35,7 +35,7 @@ jobs:
         env:
           RABBIT_MQ_USERNAME: myuser
           RABBIT_MQ_PASSWORD: mypassword
-          RABBIT_MQ_URL: 127.0.0.1:5672
+          RABBIT_MQ_URL: localhost:5672
           RABBIT_MQ_EXCHANGE_NAME: request-video-exchange
           RABBIT_MQ_QUEUE_NAME: request-video-queue
         ports:
@@ -55,4 +55,4 @@ jobs:
           pip install -r requirements.txt
       - name: Test with pytest
         run: |
-          PYTHONPATH=${PYTHONPATH}:./src python -m pytest
+          PYTHONPATH=${PYTHONPATH}:./src python -m pytest -vv
