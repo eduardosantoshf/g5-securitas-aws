@@ -19,11 +19,12 @@ router = APIRouter(
 
 load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
-kombu_connection = os.environ('RABBIT_MQ_URL')
-kombu_exchange = os.environ('RABBIT_MQ_USERNAME')
-kombu_channel = os.environ('RABBIT_MQ_PASSWORD')
-kombu_producer = os.environ('RABBIT_MQ_EXCHANGE_NAME')
-kombu_queue = os.environ('RABBIT_MQ_QUEUE_NAME')
+
+kombu_connection = "localhost" + ":5672"
+kombu_exchange = "guest"
+kombu_channel = "guest"
+kombu_producer = "request-video-exchange"
+kombu_queue = "request-video-queue"
 
 @router.get("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
