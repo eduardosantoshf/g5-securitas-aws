@@ -1,0 +1,5 @@
+[build-system]
+requires = [
+    "libmariadb3",
+    "libmariadb-dev"
+]

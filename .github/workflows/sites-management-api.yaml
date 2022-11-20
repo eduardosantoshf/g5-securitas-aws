@@ -1,4 +1,4 @@
-name: Sites Management API testing
+name: Sites Management API Coverage and Testing
 
 on:
   push:
