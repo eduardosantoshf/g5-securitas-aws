@@ -22,12 +22,22 @@ jobs:
     name: Run Intrusion Management API tests
     runs-on: ubuntu-latest
 
+    env:
+      RABBIT_MQ_USERNAME: myuser
+      RABBIT_MQ_PASSWORD: mypassword
+      RABBIT_MQ_URL: 127.0.0.1:5672
+      RABBIT_MQ_EXCHANGE_NAME: request-video-exchange
+      RABBIT_MQ_QUEUE_NAME: request-video-queue
+
     services:
       rabbitmq:
         image: rabbitmq:3.8-management-alpine
         env:
-          RABBITMQ_DEFAULT_USER: myuser
-          RABBITMQ_DEFAULT_PASS: mypassword
+          RABBIT_MQ_USERNAME: myuser
+          RABBIT_MQ_PASSWORD: mypassword
+          RABBIT_MQ_URL: 127.0.0.1:5672
+          RABBIT_MQ_EXCHANGE_NAME: request-video-exchange
+          RABBIT_MQ_QUEUE_NAME: request-video-queue
         ports:
           - 5672:5672
 
@@ -46,6 +56,3 @@ jobs:
       - name: Test with pytest
         run: |
           PYTHONPATH=${PYTHONPATH}:./src python -m pytest
-        env:
-          RABBITMQ_HOST: 127.0.0.1
-          RABBITMQ_PORT: ${{ job.services.rabbitmq.ports['5672'] }}
