@@ -51,7 +51,7 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.get("/{user_id}/cameras", response_model=list[schemas.Camera])
+@router.get("/{user_id}/cameras", response_model=list[schemas.Camera], status_code=status.HTTP_200_OK)
 def read_user_cameras(user_id: int, db: Session = Depends(get_db)):
     valid_id = crud.verify_user_id(db=db, user_id=user_id)
     if not valid_id:
@@ -70,7 +70,7 @@ def read_user_cameras(user_id: int, db: Session = Depends(get_db)):
     return cameras
 
 
-@router.get("/{user_id}/alarms", response_model=list[schemas.Alarm])
+@router.get("/{user_id}/alarms", response_model=list[schemas.Alarm], status_code=status.HTTP_200_OK)
 def read_user_alarms(user_id: int, db: Session = Depends(get_db)):
     valid_id = crud.verify_user_id(db=db, user_id=user_id)
     if not valid_id:
@@ -88,7 +88,7 @@ def read_user_alarms(user_id: int, db: Session = Depends(get_db)):
 
     return alarms
 
-@router.get("/{user_id}/properties", response_model=list[schemas.Property])
+@router.get("/{user_id}/properties", response_model=list[schemas.Property], status_code=status.HTTP_200_OK)
 def read_user_properties(user_id: int, db: Session = Depends(get_db)):
     valid_id = crud.verify_user_id(db=db, user_id=user_id)
     if not valid_id:

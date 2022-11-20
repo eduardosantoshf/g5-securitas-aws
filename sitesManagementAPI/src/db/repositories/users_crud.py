@@ -55,7 +55,7 @@ def get_properties_by_owner(db: Session, owner_id: int):
 
 #aux function to check if user is in db
 def verify_user_id(db: Session, user_id: int):
-    query = db.query(models.User).filter(models.User.id == user_id)
+    query = db.query(models.User).filter(models.User.id == user_id).first()
 
     return False if query is None else True
         
