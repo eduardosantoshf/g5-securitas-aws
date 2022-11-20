@@ -4,8 +4,6 @@ services:
         container_name: "rabbitmq-tests"
         image: rabbitmq:3.8-management-alpine
         environment:
-            - RABBITMQ_DEFAULT_USER=myuser
-            - RABBITMQ_DEFAULT_PASS=mypassword
             - RABBIT_MQ_URL=localhost:5672
             - RABBIT_MQ_USERNAME=myuser
             - RABBIT_MQ_PASSWORD=mypassword
