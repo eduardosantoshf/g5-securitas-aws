@@ -41,7 +41,7 @@ jobs:
           tox -c intrusion-management-api/tox.ini -e py
       - name: Fix SonarClouds code coverage path bug
         run: |
-          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' converage-intrusion-management-api.xml
+          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' coverage-intrusion-management-api.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
