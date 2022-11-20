@@ -37,13 +37,14 @@ def attach_to_message_broker(broker_url, broker_username, broker_password, excha
         connection_string = f"amqp://{broker_username}:{broker_password}" \
             f"@{broker_url}/"
         
+        print(f"Connecting to {connection_string}")
+        
+        
         print("RABBIT_MQ_URL: ", broker_url)
         print("RABBIT_MQ_USERNAME: ", broker_username)
         print("RABBIT_MQ_PASSWORD: ", broker_password)
         print("RABBIT_MQ_EXCHANGE_NAME: ", exchange_name)
         print("RABBIT_MQ_QUEUE_NAME: ", queue_name)
-        
-        print(f"Connecting to {connection_string}")
 
         # Kombu Connection
         kombu_connection = kombu.Connection(
