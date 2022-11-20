@@ -9,7 +9,6 @@ on:
       - '!**.docx'
       - '!**.gitignore'
       - '!**.txt'
-      - '!**.mp4'
   pull_request:
     paths:
        - intrusion-management-api/**
@@ -18,7 +17,6 @@ on:
       - '!**.docx'
       - '!**.gitignore'
       - '!**.txt'
-      - '!**.mp4'
 jobs:
   run_tests:
     name: Run Intrusion Management API tests
