@@ -3,7 +3,6 @@ from fastapi import status, UploadFile
 from fastapi.responses import FileResponse
 import pytest
 
-""" comentada pq ainda tou com o problema do ligar ao broker
 def test_receive_intrusion_frame(client: TestClient) -> None:
     post_body = {
         "camera_id": 2,
@@ -14,7 +13,7 @@ def test_receive_intrusion_frame(client: TestClient) -> None:
     assert res.status_code == status.HTTP_200_OK
     res = res.content.decode("utf-8")
     assert res == "Message sent to message broker and notification triggered"
-"""
+
 def test_receive_intrusion_frame_invalid_camera_id(client: TestClient) -> None:
     post_body = {
         "camera_id": "XXX",
