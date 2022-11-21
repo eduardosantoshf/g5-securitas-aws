@@ -3,7 +3,7 @@ from fastapi import status, UploadFile
 from fastapi.responses import FileResponse
 import pytest
 
-"""
+""" comentada pq ainda tou com o problema do ligar ao broker
 def test_receive_intrusion_frame(client: TestClient) -> None:
     post_body = {
         "camera_id": 2,
@@ -12,10 +12,9 @@ def test_receive_intrusion_frame(client: TestClient) -> None:
 
     res = client.get("/intrusion-management-api/cameras/receive-intrusion-frame", json=post_body)
     assert res.status_code == status.HTTP_200_OK
-    res = res.json()
-    assert res["camera_id"] == 2
-    assert res["timestamp_intrusion"] == "12:00:00"
-"""    
+    res = res.content.decode("utf-8")
+    assert res == "Message sent to message broker and notification triggered"
+"""
 def test_receive_intrusion_frame_invalid_camera_id(client: TestClient) -> None:
     post_body = {
         "camera_id": "XXX",
@@ -37,23 +36,16 @@ def test_receive_intrusion_frame_invalid_timestamp(client: TestClient) -> None:
     
 def test_receive_clipped_video_from_camera(client: TestClient) -> None:
     res = None
-    with open("people-detection.mp4", "rb") as f:
+    with open("./videos/people-detection.mp4", "rb") as f:
         res = client.post("/intrusion-management-api/cameras/store-video", files={'file':f})
-
     assert res.status_code == status.HTTP_200_OK
     
 def test_receive_clipped_video_from_camera_invalid_file(client: TestClient) -> None:
     res = None
     with open("people-detection.txt", "rb") as f:
         res = client.post("/intrusion-management-api/cameras/store-video", files={'file':f})
-
-    assert res.status_code == status.HTTP_400_BAD_REQUEST
+    assert res.status_code == status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
 
 def test_download_video_from_s3(client: TestClient) -> None:
-    res = client.get("/intrusion-management-api/cameras/download-video")
-    assert res.status_code == status.HTTP_200_OK
-    
-def test_send_intrusions_videos(client: TestClient) -> None:
     res = client.get("/intrusion-management-api/cameras/intrusions-videos")
     assert res.status_code == status.HTTP_200_OK
-    
