@@ -26,14 +26,26 @@ class Human_Detection_Worker(ConsumerMixin):
         self.output_dir = output_dir
         self.HOGCV = cv2.HOGDescriptor()
         self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-        self.r = redis.Redis(
-                    host='human-detection-cache.gxdzdr.ng.0001.euw3.cache.amazonaws.com',
-                    #host = 'localhost',
-                    port=6379,
-                    ssl=True
-                )
-        if self.r.ping(): print("pinged")
-        if not self.r.ping(): print("not pinged!!!")
+        try:
+            self.r = redis.Redis(
+                        host='human-detection-cache.gxdzdr.ng.0001.euw3.cache.amazonaws.com',
+                        #host = 'localhost',
+                        port=6379,
+                        ssl=True,
+                        ssl_cert_reqs=None
+                    )
+            print(self.r)
+
+            try:
+                print(self.r.ping())
+                print(self.r.set('foo','bar'))
+                self.r.get('foo')
+            except Exception as e:
+                print('get set error: ', e)
+
+        except Exception as e:
+            print('redis err: ', e)
+
                 
 
 
