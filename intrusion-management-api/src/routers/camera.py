@@ -47,7 +47,6 @@ def receive_intrusion_frame(frame: schemas.Frame):
     else:
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Message not sent to message broker or notification not triggered")
 
-
 @router.post("/store-video", status_code=status.HTTP_200_OK)
 def receive_video_from_cameras_and_save(file: UploadFile):
     if not file.filename.endswith(".mp4"):
