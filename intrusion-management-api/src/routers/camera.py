@@ -1,4 +1,4 @@
-from fastapi import Depends, Response, HTTPException, status, APIRouter, UploadFile, File
+from fastapi import Depends, Response, status, APIRouter, UploadFile
 import src.models.schemas as schemas
 from fastapi.responses import ORJSONResponse
 import boto3
@@ -14,6 +14,10 @@ from botocore.exceptions import NoCredentialsError
 import src.service.camera_service as camera_service
 import src.service.alarm_service as alarm_service
 import src.service.notification_service as notification_service
+from sqlalchemy.orm import Session
+from src.database import get_db
+
+
 
 router = APIRouter(
     prefix="/intrusion-management-api/cameras",
@@ -53,7 +57,7 @@ def receive_video_from_cameras_and_save(file: UploadFile):
         return Response(status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE , content="File must be mp4")    
     
     try:
-        with open(file.filename, 'wb') as buffer:
+        with open("./videos/" + file.filename, 'wb') as buffer:
             shutil.copyfileobj(file.file, buffer)
     except Exception as e:
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error saving video")
@@ -64,22 +68,39 @@ def receive_video_from_cameras_and_save(file: UploadFile):
     elif res == NoCredentialsError:
         return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
     
+    try:
+        os.remove("./videos/" + file.filename)
+    except Exception as e:
+        print("Error deleting video: " +  e)
+        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    
 @router.get("/intrusions-videos", status_code=status.HTTP_200_OK)
-def download_video_from_s3_and_send():
-    #fazer parte de ir buscar o ficheiro ao s3 do cliente
+def download_video_from_s3_and_send(user_id: schemas.VideoUsers, db: Session = Depends(get_db)):
     filename = "download-video.mp4"
     
-    res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, filename)
+    user_video = camera_service.get_user_videos(db, user_id=user_id)
     
-    if res == FileNotFoundError:
-        return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
-    elif res == NoCredentialsError:
-        return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
-    
-    try:
-        return FileResponse("./videos/" + filename, media_type="video/mp4")
-    except FileNotFoundError:
-        return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
+    for i in user_video:
+        res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, filename)
+        
+        if res == FileNotFoundError:
+            return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
+        elif res == NoCredentialsError:
+            return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
+        
+        #!####################
+        #!como sao pelo menos 1 video, ver o StremingResponse para mandar logo todos de uma vez
+        #!####################
+        try:
+            return FileResponse("./videos/" + filename, media_type="video/mp4")
+        except FileNotFoundError:
+            return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
+        finally:
+            try:
+                os.remove("./videos/" + filename)
+            except Exception as e:
+                print("Error deleting video: " +  e)
+                return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
 
 """
 @router.get("/intrusions-videos", status_code=status.HTTP_200_OK)
@@ -89,3 +110,7 @@ def send_intrusion_video():
     except FileNotFoundError:
         return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
 """
+
+@router.get("/teste", status_code=status.HTTP_200_OK)
+def test(db: Session = Depends(get_db)):
+    return camera_service.get_user_videos(db=db)

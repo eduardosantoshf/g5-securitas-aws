@@ -4,6 +4,7 @@ from fastapi.responses import RedirectResponse
 from src.routers import camera
 from dotenv import load_dotenv
 import os
+from src.database import Base, engine
 
 app = FastAPI(title="Intrusion management API", docs_url="/intrusion-management-api/docs", redoc_url=None)
 
@@ -18,6 +19,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+Base.metadata.create_all(bind=engine)
+
 
 app.include_router(camera.router)
 

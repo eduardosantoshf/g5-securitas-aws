@@ -1,11 +1,15 @@
 from pydantic import BaseSettings
+import os
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.getcwd(), "src/.env"))
 
 class Settings(BaseSettings):
-    MARIADB_USER: str
-    MARIADB_PASSWORD: str
-    MARIADB_DATABASE: str
-    MARIADB_HOST: str
-    MARIADB_PORT: str
+    MARIADB_USER: str = os.getenv("MARIADB_USER")
+    MARIADB_PASSWORD: str = os.getenv("MARIADB_PASSWORD")
+    MARIADB_DATABASE: str = os.getenv("MARIADB_DATABASE")
+    MARIADB_HOST: str = os.getenv("MARIADB_HOST")
+    MARIADB_PORT: str = os.getenv("MARIADB_PORT")
 
     class Config:
         env_file = ".env"
