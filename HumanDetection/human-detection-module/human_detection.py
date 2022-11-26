@@ -26,10 +26,24 @@ class Human_Detection_Worker(ConsumerMixin):
         self.output_dir = output_dir
         self.HOGCV = cv2.HOGDescriptor()
         self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-        self.r = redis.Redis(
-                    host='localhost',
-                    port=6379
-                )
+        try:
+            self.r = redis.Redis(
+                        host = os.environ['REDIS_URL'],
+                        port = 6379
+                    )
+            print(self.r)
+
+            try:
+                print(self.r.ping())
+                print(self.r.set('foo','bar'))
+                self.r.get('foo')
+            except Exception as e:
+                print('get set error: ', e)
+
+        except Exception as e:
+            print('redis err: ', e)
+
+                
 
 
     def detect_number_of_humans(self, frame):
@@ -90,6 +104,8 @@ class Human_Detection_Worker(ConsumerMixin):
             num_humans=num_humans,
             ts=frame_timestamp
         )
+
+        print("Saved on the database")
 
         # Do we need to raise an alarm?
         alarm_raised = self.alarm_if_needed(

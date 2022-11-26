@@ -21,11 +21,11 @@ function Cameras() {
   }
 
   const loadData = () => {
-    api.get('/cameras').then(res => {
+    api.get('/users/1/cameras').then(res => {
       setData(res.data);
       console.log(res.data);
     });
-    api.get('/properties').then(res => {
+    api.get('/users/1/properties').then(res => {
       console.log(res.data);
       (res.data).forEach(element => {
         if (buildings.find(building => building.value === element.id) === undefined) {
