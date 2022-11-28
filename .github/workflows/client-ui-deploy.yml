@@ -27,7 +27,6 @@ on:
   push:
     branches:    
       - main
-      - deploy/client-ui
     paths:
       - client-ui/**
       - '!**.md'
