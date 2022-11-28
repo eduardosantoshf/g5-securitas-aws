@@ -1,5 +1,11 @@
 version: '3'
 
+
+volumes:
+  postgres_data:
+     driver: local
+
+
 services:
   postgres:
     image: postgres
@@ -26,16 +32,18 @@ services:
       DB_USER: kc_dev
       DB_PASSWORD: kc_pass
       DB_DATABASE: keycloak_db
-      KEYCLOAK_USER: kc_user
-      KEYCLOAK_PASSWORD: kc_pass
-      KC_HEALTH_ENABLED: 'true'
-      KC_METRICS_ENABLED: 'true'
       KEYCLOAK_ADMIN: kc_admin
       KEYCLOAK_ADMIN_PASSWORD: kc_admin_pass
 
+      KEYCLOAK_USER: kc_user
+      KEYCLOAK_PASSWORD: kc_pass
+
+      KC_HEALTH_ENABLED: 'true'
+      KC_METRICS_ENABLED: 'true'
+      KC_FEATURES: declarative-user-profile
 
     ports:
       - '8443:8443'
     depends_on:
       - postgres
-    restart: always    
+    restart: always
