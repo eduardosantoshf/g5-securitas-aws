@@ -1,12 +1,7 @@
 from fastapi import Depends, Response, status, APIRouter, UploadFile
 import src.models.schemas as schemas
-from fastapi.responses import ORJSONResponse
-import boto3
 from botocore.exceptions import NoCredentialsError
 import os
-import kombu
-from kombu import Exchange, Producer
-import json
 import shutil
 from dotenv import load_dotenv
 from fastapi.responses import FileResponse
@@ -16,8 +11,6 @@ import src.service.alarm_service as alarm_service
 import src.service.notification_service as notification_service
 from sqlalchemy.orm import Session
 from src.database import get_db
-
-
 
 router = APIRouter(
     prefix="/intrusion-management-api/cameras",
@@ -39,7 +32,7 @@ aws_secret_access_key = os.getenv('aws_secret_access_key')
 region_name = os.getenv('region_name')
 bucket_name = os.getenv('bucket_name')
 
-@router.get("/receive-intrusion-frame", response_model=schemas.Frame)
+@router.post("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
     send_message_camera = camera_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_camera, kombu_queue_camera, frame)
     send_message_alarm = alarm_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_alarm, kombu_queue_alarm, frame.camera_id)
@@ -52,13 +45,17 @@ def receive_intrusion_frame(frame: schemas.Frame):
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Message not sent to message broker or notification not triggered")
 
 @router.post("/store-video", status_code=status.HTTP_200_OK)
-def receive_video_from_cameras_and_save(file: UploadFile):
+def receive_video_from_cameras_and_save(file: UploadFile, db: Session = Depends(get_db)):
     if not file.filename.endswith(".mp4"):
         return Response(status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE , content="File must be mp4")    
+    
+    #mais harcoded do que isto é impossivel
+    user_id = 3
     
     try:
         with open("./videos/" + file.filename, 'wb') as buffer:
             shutil.copyfileobj(file.file, buffer)
+        user_video = camera_service.add_user_video(db, user_id=user_id, video_name=file.filename, video_path="./videos/" + file.filename)
     except Exception as e:
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error saving video")
 
@@ -74,43 +71,30 @@ def receive_video_from_cameras_and_save(file: UploadFile):
         print("Error deleting video: " +  e)
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
     
-@router.get("/intrusions-videos", status_code=status.HTTP_200_OK)
-def download_video_from_s3_and_send(user_id: schemas.VideoUsers, db: Session = Depends(get_db)):
-    filename = "download-video.mp4"
-    
-    user_video = camera_service.get_user_videos(db, user_id=user_id)
-    
-    for i in user_video:
-        res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, filename)
+@router.get("/intrusions-videos/{video_name}", status_code=status.HTTP_200_OK)
+def download_video_from_s3_and_send(db: Session = Depends(get_db), video_name: str = None):        
         
-        if res == FileNotFoundError:
-            return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
-        elif res == NoCredentialsError:
-            return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
-        
-        #!####################
-        #!como sao pelo menos 1 video, ver o StremingResponse para mandar logo todos de uma vez
-        #!####################
-        try:
-            return FileResponse("./videos/" + filename, media_type="video/mp4")
-        except FileNotFoundError:
-            return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
-        finally:
-            try:
-                os.remove("./videos/" + filename)
-            except Exception as e:
-                print("Error deleting video: " +  e)
-                return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, video_name)
+    
+    if res == FileNotFoundError:
+        return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
+    elif res == NoCredentialsError:
+        return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
 
-"""
-@router.get("/intrusions-videos", status_code=status.HTTP_200_OK)
-def send_intrusion_video():
     try:
-        return FileResponse("./videos/download-video.mp4", media_type="video/mp4")
+        print("Video {filename} sent")
+        return FileResponse("./videos_downloaded/" + video_name, media_type="video/mp4")
     except FileNotFoundError:
         return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
-"""
+    finally:
+        try:
+            os.remove("./videos_downloaded/" + video_name)
+        except Exception as e:
+            print("Error deleting video: " +  e)
+            return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
 
 @router.get("/teste", status_code=status.HTTP_200_OK)
 def test(db: Session = Depends(get_db)):
-    return camera_service.get_user_videos(db=db)
+    
+    #return camera_service.get_user_videos(db, user_id=5)
+    return camera_service.add_user_video(db, user_id=7, video_name="download-video.mp4", video_path="/tmp/" + "download-video.mp4")

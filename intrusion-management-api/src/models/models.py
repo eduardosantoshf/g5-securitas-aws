@@ -13,4 +13,4 @@ class VideoUsers(Base):
     user_id = Column(Integer, nullable=False)
     video_name = Column(String(100), nullable=False)
     video_path = Column(String(100), nullable=False)
-    video_date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+    video_date = Column(TIMESTAMP(timezone=True), nullable=True, server_default=text('now()'))
