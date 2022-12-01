@@ -1,0 +1,94 @@
+name: Human Detection Module Pipeline
+
+# controls when the action will run
+on:
+  # triggers the workflow on push for the develop and deployment branches
+  push:
+    paths:
+      - '.github/workflows/human-detection.yaml' # trigger this workflow only 
+                                                 # when the module workflow is
+                                                 # changed
+      - 'HumanDetection/**' # trigger this workflow only on the HDM
+      - '!**.md'
+      - '!**.pdf'
+      - '!**.docx'
+      - '!**.gitignore'
+      - '!**.txt'
+    
+    #-- the code bellow won't work because "you may only define one of `paths` 
+    #   and `paths-ignore` for a single event" --#
+
+    #paths-ignore:
+    #  # don't run this workflow when the are pushes and there are only changes 
+    #  # for the following files:
+    #  - '**.md'
+    #  - '**.pdf'
+    #  - '**.docx'
+    #  - '**.gitignore'
+    #  - '**.txt'
+
+  # triggers the workflow on pull requests for the main branch
+  pull_request:
+    branches: [ main, development, feature/**] # triggers the workflow on the
+                                               # main, development and every
+                                               # branch whose name starts 
+                                               # with feature/
+    paths:
+      - '.github/workflows/human-detection.yaml' # trigger this workflow only 
+                                                 # when the module workflow is
+                                                 # changed
+      - 'HumanDetection/**' # trigger this workflow only on the HDM
+      - '!**.md'
+      - '!**.pdf'
+      - '!**.docx'
+      - '!**.gitignore'
+      - '!**.txt'
+
+    #-- the code bellow won't work because "you may only define one of `paths` 
+    #   and `paths-ignore` for a single event" --#
+
+    #paths-ignore:
+    #  # don't run this workflow when the are pull requests, and there are only 
+    #  # changes for the following files:
+    #  - '**.md'
+    #  - '**.pdf'
+    #  - '**.docx'
+    #  - '**.gitignore'
+    #  - '**.txt'
+
+  # allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sonar:
+    name: Human Detection Module SonarCloud Code Inspection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # shallow clones should be disabled for a better 
+                          # relevancy of analysis
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install tox and any other packages
+        run: pip install tox
+      - name: Run tox
+        run: | 
+          tox -c HumanDetection/human-detection-module/tox.ini -e py
+          tox -c HumanDetection/camera/tox.ini -e py
+
+      - name: Fix SonarClouds code coverage path bug
+        run: |
+          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' HumanDetection/coverage.xml
+          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' HumanDetection/coverage_camera.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
+                                                     # information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_HUMAN_DETECTION }}
+        with:
+          projectBaseDir: HumanDetection/

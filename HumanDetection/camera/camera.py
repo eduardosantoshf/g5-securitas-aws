@@ -31,7 +31,12 @@ class Camera:
             f"@{broker_url}/"
 
         # Kombu Connection
-        self.kombu_connection = kombu.Connection(connection_string)
+        self.kombu_connection = kombu.Connection(
+            connection_string,
+            ssl=True
+        )
+        self.kombu_connection.connect()
+        print("Successfully connected to the broker!")
         self.kombu_channel = self.kombu_connection.channel()
 
         # Kombu Exchange

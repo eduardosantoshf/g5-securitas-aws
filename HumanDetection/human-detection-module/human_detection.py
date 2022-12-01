@@ -12,19 +12,41 @@ import kombu
 from kombu.mixins import ConsumerMixin
 import datetime
 import os
-import glob
+import redis
+import requests
 
 
 # Kombu Message Consuming Human_Detection_Worker
 class Human_Detection_Worker(ConsumerMixin):
 
-    def __init__(self, connection, queues, database, output_dir):
+    def __init__(self, connection, queues, database, output_dir, redis_url):
         self.connection = connection
         self.queues = queues
         self.database = database
         self.output_dir = output_dir
+        self.redis_url = redis_url
         self.HOGCV = cv2.HOGDescriptor()
         self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+        try:
+            self.r = redis.Redis(
+                        host = redis_url,
+                        port = 6379,
+                        ssl = True,
+                        ssl_cert_reqs = None
+                    )
+            print(self.r)
+
+            try:
+                print(self.r.ping())
+                print(self.r.set('foo','bar'))
+                self.r.get('foo')
+            except Exception as e:
+                print('get set error: ', e)
+
+        except Exception as e:
+            print('redis err: ', e)
+
+                
 
 
     def detect_number_of_humans(self, frame):
@@ -86,6 +108,8 @@ class Human_Detection_Worker(ConsumerMixin):
             ts=frame_timestamp
         )
 
+        print("Saved on the database")
+
         # Do we need to raise an alarm?
         alarm_raised = self.alarm_if_needed(
             camera_id=msg_source,
@@ -106,28 +130,29 @@ class Human_Detection_Worker(ConsumerMixin):
         # Remove Message From Queue
         message.ack()
 
-
     def create_database_entry(self, camera_id, frame_id, num_humans, ts):
-        num_humans_key = f"camera_{camera_id}_frame_{frame_id}_n_humans"
-        timestamp_key = f"camera_{camera_id}_frame_{frame_id}_timestamp"
-        self.database[num_humans_key] = num_humans
-        self.database[timestamp_key] = ts
+        if num_humans > 0:
+            self.r.hset(camera_id, frame_id, ts)
+
+    def notify_management_api(self, camera_id, video_id):
+        #data = {"camera_id": camera_id, "video_id": video_id}
+        data = {"name": "zezoca"}
+        url = "https://reqres.in/api/users" #mudar para management API
+        reply = requests.post(url, json=data)
+        print(reply.text)
 
 
     def alarm_if_needed(self, camera_id, frame_id):
-        n_human_key = f"camera_{camera_id}_frame_{frame_id}_n_humans"
-        prev1_n_human_key = f"camera_{camera_id}_frame_{frame_id-1}_n_humans"
-        prev2_n_human_key = f"camera_{camera_id}_frame_{frame_id-2}_n_humans"
+        prev1_frame_n_humans = self.r.hget(camera_id, frame_id - 1)
+        prev2_frame_n_humans = self.r.hget(camera_id, frame_id - 2)
+        curr_frame_n_humans = self.r.hget(camera_id, frame_id)
 
-        prev1_frame_n_humans = self.database.get(prev1_n_human_key, 0)
-        curr_frame_n_humans = self.database.get(n_human_key, 0)
-        prev2_frame_n_humans = self.database.get(prev2_n_human_key, 0)
+        if prev1_frame_n_humans and prev2_frame_n_humans and curr_frame_n_humans:
+            print(f"A Human was found in frame {frame_id} on {curr_frame_n_humans.decode('utf-8')}")
+            #self.notify_management_api(camera_id, 1)
 
-        if prev1_frame_n_humans + curr_frame_n_humans + prev2_frame_n_humans >= 3:
-            timestamp_key = f"camera_{camera_id}_frame_{frame_id}_timestamp"
-            timestamp = self.database.get(timestamp_key, "")
-            print(f"[!!!] INTRUDER DETECTED AT TIMESTAMP {timestamp}[!!!]")
             return True
+            
         return False
 
 
@@ -147,11 +172,14 @@ class Human_Detection_Module:
             os.mkdir(self.output_dir)
 
     def start_processing(self, broker_url, broker_username,
-                         broker_password, exchange_name, queue_name):
+                         broker_password, exchange_name, queue_name, redis_url):
+
+        print("Connecting to the broker...")
 
         # Create Connection String
         connection_string = f"amqp://{broker_username}:{broker_password}" \
             f"@{broker_url}/"
+
 
         # Kombu Exchange
         self.kombu_exchange = kombu.Exchange(
@@ -170,14 +198,18 @@ class Human_Detection_Module:
         # Kombu Connection
         self.kombu_connection = kombu.Connection(
             connection_string,
-            heartbeat=4
+            heartbeat=4,
+            ssl=True
         )
+        self.kombu_connection.connect()
+        print("Successfully connected to the broker!")
 
         # Start Human Detection Workers
         self.human_detection_worker = Human_Detection_Worker(
             connection=self.kombu_connection,
             queues=self.kombu_queues,
             database=self.database,
-            output_dir=self.output_dir
+            output_dir=self.output_dir,
+            redis_url = redis_url
         )
         self.human_detection_worker.run()
