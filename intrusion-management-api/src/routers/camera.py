@@ -25,7 +25,7 @@ kombu_channel = os.getenv('RABBIT_MQ_PASSWORD')
 kombu_producer = os.getenv('RABBIT_MQ_EXCHANGE_NAME')
 kombu_queue = os.getenv('RABBIT_MQ_QUEUE_NAME')
 
-@router.get("/receive-intrusion-frame", response_model=schemas.Frame)
+@router.post("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
     print(f"Received request from camera {frame.camera_id} with timestamp {frame.timestamp_intrusion}")
     attach_to_message_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer, kombu_queue, frame)
