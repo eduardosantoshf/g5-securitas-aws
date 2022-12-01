@@ -51,7 +51,7 @@ env:
                                                     # containerDefinitions section of your task definition
   RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
   RABBIT_MQ_QUEUE_NAME: human-detection-queue
-
+  INTRUSION_MANAGEMENT_API_URL: https://hllwa7dyek.execute-api.eu-west-3.amazonaws.com/v1/intrusion-management-api
 jobs:
   deploy:
     name: Deploy
@@ -107,7 +107,8 @@ jobs:
             RABBIT_MQ_EXCHANGE_NAME=${{ env.RABBIT_MQ_EXCHANGE_NAME }}
             RABBIT_MQ_QUEUE_NAME=${{ env.RABBIT_MQ_QUEUE_NAME }}
             REDIS_URL=${{ secrets.REDIS_URL }}
-            
+            INTRUSION_MANAGEMENT_API_URL=${{ env.INTRUSION_MANAGEMENT_API_URL }}
+
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
         with:
