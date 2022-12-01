@@ -23,7 +23,7 @@ jobs:
     name: Run management API tests
     runs-on: ubuntu-latest
     
-    container: python:3.10
+    container: python:3.10-slim
     
     # job env variables
     env:
