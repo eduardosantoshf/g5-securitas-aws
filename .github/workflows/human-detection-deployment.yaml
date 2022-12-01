@@ -106,7 +106,7 @@ jobs:
             RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
             RABBIT_MQ_EXCHANGE_NAME=${{ env.RABBIT_MQ_EXCHANGE_NAME }}
             RABBIT_MQ_QUEUE_NAME=${{ env.RABBIT_MQ_QUEUE_NAME }}
-            REDIS_URL = ${{ secrets.REDIS_URL }}
+            REDIS_URL=${{ secrets.REDIS_URL }}
             
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
