@@ -210,7 +210,7 @@ class Human_Detection_Module:
             queues=self.kombu_queues,
             database=self.database,
             output_dir=self.output_dir,
-            redis_url=redis_url
+            redis_url=redis_url,
             intrusion_management_api_url=intrusion_management_api_url 
         )
         self.human_detection_worker.run()
