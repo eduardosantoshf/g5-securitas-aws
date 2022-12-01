@@ -79,10 +79,6 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
-          RABBIT_MQ_URL: ${{ secrets.RABBIT_MQ_URL }}
-          RABBIT_MQ_USERNAME: ${{ secrets.RABBIT_MQ_USERNAME }}
-          RABBIT_MQ_PASSWORD: ${{ secrets.RABBIT_MQ_PASSWORD }}
-          REDIS_URL: ${{ secrets.REDIS_URL }}
 
         run: |
           cd HumanDetection/human-detection-module
