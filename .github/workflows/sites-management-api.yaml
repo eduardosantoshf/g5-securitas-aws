@@ -23,30 +23,30 @@ jobs:
     name: Run management API tests
     runs-on: ubuntu-latest
     
-    container: python:3.10
+    # container: python:3.10
     
-    # job env variables
-    env:
-      MARIADB_USER: dev_user
-      MARIADB_PASSWORD: dev_pass 
-      MARIADB_DATABASE: sites_man_db
-      MARIADB_HOST: db
-      MARIADB_PORT: 3306
+    # # job env variables
+    # env:
+    #   MARIADB_USER: dev_user
+    #   MARIADB_PASSWORD: dev_pass 
+    #   MARIADB_DATABASE: sites_man_db
+    #   MARIADB_HOST: db
+    #   MARIADB_PORT: 3306
     
-    services:
-      db:
-        image: mariadb
+    # services:
+    #   db:
+    #     image: mariadb
         
-        # container env variables
-        env:
-          MYSQL_USER: dev_user
-          MYSQL_PASSWORD: dev_pass
-          MYSQL_DATABASE: sites_man_db
-          MYSQL_ROOT_PASSWORD: root
+    #     # container env variables
+    #     env:
+    #       MYSQL_USER: dev_user
+    #       MYSQL_PASSWORD: dev_pass
+    #       MYSQL_DATABASE: sites_man_db
+    #       MYSQL_ROOT_PASSWORD: root
             
-        ports:
-          - 3306  
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+    #     ports:
+    #       - 3306  
+    #     options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
 
 
     defaults:
@@ -60,12 +60,10 @@ jobs:
           fetch-depth: 0
       - name: Install all dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
           pip install tox
       
       - name: Run tox
-        run: PYTHONPATH=${PYTHONPATH}:./src tox -e py   
+        run: tox -e py   
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
