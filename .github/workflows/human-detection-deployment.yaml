@@ -14,7 +14,7 @@ on:
         - debug
 
   pull_request:
-    branches: [ main]
+    branches: [ development ]
 
     paths:
       - HumanDetection/**
@@ -27,7 +27,7 @@ on:
       - '!**.txt'
     
   push:
-    branches: [ main, hdm-cd, feature/**]
+    branches: [ development, hdm-cd, feature/** ]
 
     paths:
       - HumanDetection/**
