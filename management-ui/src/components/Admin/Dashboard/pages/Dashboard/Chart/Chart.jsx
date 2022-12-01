@@ -2,7 +2,7 @@ import React from 'react';
 import './chart.css';
 import { Chart as ChartJS, registerables } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import api from '../../ApiConnections/apiManageAccess';
+import api from '../../ApiConnections/site-management-api';
 ChartJS.register(...registerables);
 
 //TODO: https://stackoverflow.com/questions/51508665/using-data-from-api-with-chart-js
