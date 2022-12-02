@@ -28,21 +28,18 @@ services:
       context: .
     
     environment:
-      DB_VENDOR: mariadb
-      DB_ADDR: db
-      DB_PORT: 3306
-      DB_USER: kc_dev
-      DB_PASSWORD: kc_pass
-      DB_DATABASE: keycloak_db
-      KEYCLOAK_ADMIN: kc_admin
-      KEYCLOAK_ADMIN_PASSWORD: kc_admin_pass
-
-      KEYCLOAK_USER: kc_user
-      KEYCLOAK_PASSWORD: kc_pass
-
       KC_HEALTH_ENABLED: 'true'
       KC_METRICS_ENABLED: 'true'
       KC_FEATURES: declarative-user-profile
+      DB_VENDOR: mariadb
+      DB_ADDR: db
+      DB_PORT: 3306
+      
+      DB_DATABASE: keycloak_db
+      DB_USER: kc_dev
+      DB_PASSWORD: kc_pass
+      KEYCLOAK_ADMIN: kc_admin
+      KEYCLOAK_ADMIN_PASSWORD: kc_admin_pass
 
     ports:
       - '8443:8443'
