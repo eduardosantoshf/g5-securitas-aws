@@ -104,7 +104,7 @@ jobs:
             MARIADB_ROOT_PASSWORD=${{ secrets.MARIADB_ROOT_PASSWORD }}
             MARIADB_USER=${{ secrets.MARIADB_USER }}
 
-      - name: Update API container in ECS task definition
+      - name: Update IDP container in ECS task definition
         id: build-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:

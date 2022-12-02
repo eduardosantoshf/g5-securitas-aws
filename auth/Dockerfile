@@ -8,6 +8,7 @@ RUN /opt/keycloak/bin/kc.sh build
 FROM quay.io/keycloak/keycloak:latest
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
+
 COPY my_realms.bck /opt/keycloak/
 # RUN /opt/keycloak/bin/kc.sh import --file /opt/keycloak/my_realms.bck
 
