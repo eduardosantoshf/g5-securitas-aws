@@ -5,17 +5,17 @@ volumes:
   db-volume:
 
 services:
-  postgres:
+  mariadb:
     image: mariadb
 
-    hostname: db
+    hostname: mariadb
     ports:
       - 3306:3306
 
     restart: always
 
     environment:
-      - MARIADB_DATABASE=keycloak_db
+      - MARIADB_DATABASE=keycloak
       - MARIADB_ROOT_PASSWORD=root 
       - MARIADB_USER=kc_dev
       - MARIADB_PASSWORD=kc_pass 
@@ -27,17 +27,22 @@ services:
     build: 
       context: .
     
+    command: "start-dev --spi-connections-jpa-legacy-initialize-empty=true"
+
     environment:
       KC_HEALTH_ENABLED: 'true'
       KC_METRICS_ENABLED: 'true'
       KC_FEATURES: declarative-user-profile
       DB_VENDOR: mariadb
-      DB_ADDR: db
-      DB_PORT: 3306
+      # DB_ADDR: db
+      # DB_PORT: 3306
 
-      DB_DATABASE: keycloak_db
-      DB_USER: kc_dev
-      DB_PASSWORD: kc_pass
+      # KC_DB_SCHEMA: keycloak
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_URL_HOST: mariadb
+      KC_DB_URL_PORT: 3306
+      KC_DB_USERNAME: kc_dev
+      KC_DB_PASSWORD: kc_pass
       KEYCLOAK_ADMIN: kc_admin
       KEYCLOAK_ADMIN_PASSWORD: kc_admin_pass
 
@@ -45,6 +50,6 @@ services:
       - '8443:8443'
       - '8080:8080'
     depends_on:
-      - postgres
+      - mariadb
     restart: always
 
