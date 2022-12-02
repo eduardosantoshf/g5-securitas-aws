@@ -1,4 +1,4 @@
-name: Deploy HDM to AWS
+name: Deploy idp to AWS
 
 on:
   workflow_dispatch:
@@ -14,10 +14,10 @@ on:
         - debug
 
   pull_request:
-    branches: [ main]
-
+    branches:    
+      - main
     paths:
-      - HumanDetection/**
+      - auth/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -25,29 +25,28 @@ on:
       - '!**.txt'
     
   push:
-    branches: [ main, hdm-cd, feature/**]
-
+    branches:    
+      - main
     paths:
-      - HumanDetection/**
+      - auth/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
       - '!**.gitignore'
       - '!**.txt'
-    
+
 env:
   ECR_REGISTRY_ALIAS: p3i3q7f7
-  ECR_REPOSITORY: human-detection-repository        # set this to your Amazon ECR repository name
-  ECS_SERVICE: human-detection-service              # set this to your Amazon ECS service name
-  ECS_CLUSTER: human-detection-cluster              # set this to your Amazon ECS cluster name
+  ECR_REPOSITORY: idp                         # set this to your Amazon ECR repository name
+  ECS_SERVICE: idp-service                    # set this to your Amazon ECS service name
+  ECS_CLUSTER: idp-cluster                    # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
-  ECS_TASK_DEFINITION: .aws/human-detection-task-definition.json    
+  ECS_TASK_DEFINITION: .aws/idp-task-definition.json    
                                                     # file, e.g. .aws/task-definition.json
-  HDM_CONTAINER_NAME: human-detection-container     # set this to the name of the API container in the
+  KEYCLOAK_CONTAINER_NAME: keycloak-container       # set this to the name of the Keycloak container in the
                                                     # containerDefinitions section of your task definition
-  RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
-  RABBIT_MQ_QUEUE_NAME: human-detection-queue
-
+  DB_CONTAINER_NAME: mariadb-container              # set this to the name of the DB container in the
+                                                    # containerDefinitions section of your task definition
 jobs:
   deploy:
     name: Deploy
@@ -70,18 +69,14 @@ jobs:
         with:
           registry-type: public
 
-      - name: Build, tag, and push docker hdm image to Amazon ECR Public
-        id: build-hdm-image
+      - name: Build, tag, and push docker idp image to Amazon ECR Public
+        id: build-idp-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
-          RABBIT_MQ_URL: ${{ secrets.RABBIT_MQ_URL }}
-          RABBIT_MQ_USERNAME: ${{ secrets.RABBIT_MQ_USERNAME }}
-          RABBIT_MQ_PASSWORD: ${{ secrets.RABBIT_MQ_PASSWORD }}
-          REDIS_URL: ${{ secrets.REDIS_URL }}
 
         run: |
-          cd HumanDetection/human-detection-module
+          cd auth
           docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
@@ -93,20 +88,34 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
 
-      - name: Update HDM container in ECS task definition
-        id: build-task-def
+
+      - name: Update DB container in ECS task definition
+        id: db-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: ${{ env.HDM_CONTAINER_NAME }}
-          image: ${{ steps.build-hdm-image.outputs.image }}
+          container-name: ${{ env.DB_CONTAINER_NAME }}
+          image: mariadb:10.8
           environment-variables: |
-            RABBIT_MQ_URL=${{ secrets.RABBIT_MQ_URL }}
-            RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }}
-            RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
-            RABBIT_MQ_EXCHANGE_NAME=${{ env.RABBIT_MQ_EXCHANGE_NAME }}
-            RABBIT_MQ_QUEUE_NAME=${{ env.RABBIT_MQ_QUEUE_NAME }}
-            
+            MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}
+            MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
+            MARIADB_ROOT_PASSWORD=${{ secrets.MARIADB_ROOT_PASSWORD }}
+            MARIADB_USER=${{ secrets.MARIADB_USER }}
+
+      - name: Update IDP container in ECS task definition
+        id: build-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.db-task-def.outputs.task-definition }}
+          container-name: ${{ env.KEYCLOAK_CONTAINER_NAME }}
+          image: ${{ steps.build-idp-image.outputs.image }}
+          environment-variables: |
+            DB_DATABASE=${{ secrets.MARIADB_DATABASE }}
+            DB_USER=${{ secrets.MARIADB_USER }}
+            DB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
+            KEYCLOAK_ADMIN=${{ secrets.KEYCLOAK_ADMIN }}
+            KEYCLOAK_ADMIN_PASSWORD=${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}
+
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
         with:
