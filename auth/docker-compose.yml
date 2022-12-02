@@ -34,7 +34,7 @@ services:
       DB_VENDOR: mariadb
       DB_ADDR: db
       DB_PORT: 3306
-      
+
       DB_DATABASE: keycloak_db
       DB_USER: kc_dev
       DB_PASSWORD: kc_pass
@@ -43,6 +43,7 @@ services:
 
     ports:
       - '8443:8443'
+      - '8080:8080'
     depends_on:
       - postgres
     restart: always
