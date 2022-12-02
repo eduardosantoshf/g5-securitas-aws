@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import './Alarms.css';
 import api from '../../ApiConnections/site-management-api';

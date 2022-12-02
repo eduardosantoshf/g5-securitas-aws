@@ -19,17 +19,19 @@ import requests
 # Kombu Message Consuming Human_Detection_Worker
 class Human_Detection_Worker(ConsumerMixin):
 
-    def __init__(self, connection, queues, database, output_dir):
+    def __init__(self, connection, queues, database, output_dir, redis_url):
         self.connection = connection
         self.queues = queues
         self.database = database
         self.output_dir = output_dir
+        self.redis_url = redis_url
         self.HOGCV = cv2.HOGDescriptor()
         self.HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
         try:
             self.r = redis.Redis(
-                        host = os.environ['REDIS_URL'],
-                        port = 6379
+                        host = redis_url,
+                        port = 6379,
+                        ssl_cert_reqs = None
                     )
             print(self.r)
 
@@ -169,7 +171,7 @@ class Human_Detection_Module:
             os.mkdir(self.output_dir)
 
     def start_processing(self, broker_url, broker_username,
-                         broker_password, exchange_name, queue_name):
+                         broker_password, exchange_name, queue_name, redis_url):
 
         print("Connecting to the broker...")
 
@@ -206,6 +208,7 @@ class Human_Detection_Module:
             connection=self.kombu_connection,
             queues=self.kombu_queues,
             database=self.database,
-            output_dir=self.output_dir
+            output_dir=self.output_dir,
+            redis_url = redis_url
         )
         self.human_detection_worker.run()
