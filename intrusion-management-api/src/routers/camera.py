@@ -74,24 +74,25 @@ def receive_video_from_cameras_and_save(file: UploadFile, db: Session = Depends(
 @router.get("/intrusions-videos/{video_name}", status_code=status.HTTP_200_OK)
 def download_video_from_s3_and_send(db: Session = Depends(get_db), video_name: str = None):        
         
-    res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, video_name)
+    # res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, video_name)
     
-    if res == FileNotFoundError:
-        return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
-    elif res == NoCredentialsError:
-        return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
+    # if res == FileNotFoundError:
+    #     return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
+    # elif res == NoCredentialsError:
+    #     return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
 
     try:
-        print("Video {filename} sent")
-        return FileResponse("./videos_downloaded/" + video_name, media_type="video/mp4")
+        # print("Video {filename} sent")
+        # return FileResponse("./videos_downloaded/" + video_name, media_type="video/mp4")
+        return FileResponse("./videos/" + video_name, media_type="video/mp4")
     except FileNotFoundError:
         return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
-    finally:
-        try:
-            os.remove("./videos_downloaded/" + video_name)
-        except Exception as e:
-            print("Error deleting video: " +  e)
-            return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    # finally:
+    #     try:
+    #         os.remove("./videos_downloaded/" + video_name)
+    #     except Exception as e:
+    #         print("Error deleting video: " +  e)
+    #         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
 
 @router.get("/teste", status_code=status.HTTP_200_OK)
 def test(db: Session = Depends(get_db)):
