@@ -16,6 +16,7 @@ on:
   pull_request:
     branches:    
       - main
+      - feature/idp
     paths:
       - auth/**
       - '!**.md'
@@ -27,6 +28,7 @@ on:
   push:
     branches:    
       - main
+      - feature/idp
     paths:
       - auth/**
       - '!**.md'

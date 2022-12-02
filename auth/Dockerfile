@@ -11,5 +11,4 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY my_realms.bck /opt/keycloak/
 # RUN /opt/keycloak/bin/kc.sh import --file /opt/keycloak/my_realms.bck
 
-
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
