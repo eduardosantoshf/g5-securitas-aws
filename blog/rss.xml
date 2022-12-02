@@ -4,17 +4,41 @@
         <title>G5 Securitas Blog</title>
         <link>https://eduardosantoshf.github.io /es-project/blog</link>
         <description>G5 Securitas Blog</description>
-        <lastBuildDate>Mon, 14 Nov 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 29 Nov 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[5th Sprint Planning]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/5th-sprint-planning</link>
+            <guid>5th-sprint-planning</guid>
+            <pubDate>Tue, 29 Nov 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (28/11/2022 - 12/12/2022) - Pedro Sobral</li><li>Product Owner (28/11/2022 - 12/12/2022) - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Integrate user authentication to all services</li><li>Enhance the client web UI interface to display all the triggered events and corresponding intrusion video and integrate alarms into our system.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Deploy IDP to AWS</li><li>Intrusion management API IDP integration</li><li>Sites management API IDP integration</li><li>Client UI IDP integration</li><li>Management UI IDP integration</li><li>Send a broker message to the target alarms</li><li>Endpoints to retrieve all events triggered</li><li>User interface to visualize all events triggered</li></ul></li></ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[4st Sprint Retrospective]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/4st-sprint-retrospective</link>
+            <guid>4st-sprint-retrospective</guid>
+            <pubDate>Mon, 28 Nov 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>What went well?</strong></p></li><li><p><strong>What were the problem?</strong></p><ul><li>Enable to finish all tasks according to the definition of ready.  </li><li>The team wasn't committed to the sprint objective. </li></ul></li><li><p><strong>Lesson learned</strong></p></li></ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[4st Sprint Review]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/4st-sprint-review</link>
+            <guid>4st-sprint-review</guid>
+            <pubDate>Mon, 28 Nov 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 29</p></li><li><p><strong>accomplished:</strong> 0</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 0</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready.</p><h1>Value added to the costumer</h1><ul><li>Non</li></ul>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[4th Sprint Planning]]></title>
             <link>https://eduardosantoshf.github.io /es-project/blog/4th-sprint-planning</link>
             <guid>4th-sprint-planning</guid>
             <pubDate>Mon, 14 Nov 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (14/11/2022 - 21/11/2022) - Pedro Bastos</li><li>Product Owner (14/11/2022 - 21/11/2022) - Eduardo Santos</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Connection between micro services and start implementing IDP</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Admin's management system and Property owner's management system protected by an IDP (IDP)</li><li>Connect HDM to Elasticache</li><li>Notify Intrusion Management API (HDM)</li><li>Send intrusion to client web ui (Intrusion Management API)</li><li>Request intrusion video to the cameras (Intrusion Management API)</li></ul></li></ul>]]></content:encoded>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (14/11/2022 - 28/11/2022) - Pedro Bastos</li><li>Product Owner (14/11/2022 - 28/11/2022) - Eduardo Santos</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Connection between micro services and start implementing IDP</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Admin's management system and Property owner's management system protected by an IDP (IDP)</li><li>Connect HDM to Elasticache</li><li>Notify Intrusion Management API (HDM)</li><li>Send intrusion to client web ui (Intrusion Management API)</li><li>Request intrusion video to the cameras (Intrusion Management API)</li></ul></li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[3rd Sprint Planning]]></title>
@@ -55,7 +79,7 @@ estimating story points and defining acceptance  criteria.</li><li>Every week th
             <guid>1st-sprint-review</guid>
             <pubDate>Mon, 17 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 15</p></li><li><p><strong>accomplished:</strong> 5</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 1</p></li><li><p><strong>Unfinished user stories:</strong> 4</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1><ul><li>A functional Managment UI blueprint with dashboards (using static data).</li><li>A backend to store cameras' video temporarily in redis.</li></ul>]]></content:encoded>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 15</p></li><li><p><strong>accomplished:</strong> 5</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 1</p></li><li><p><strong>Unfinished user stories:</strong> 4</p></li></ul><p>Unfinished user stories don't meet the definition of ready, missing software tests.</p><h1>Value added to the costumer</h1><ul><li>A functional Management UI blueprint with dashboards (using static data).</li><li>A backend to store cameras' video temporarily in redis.</li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[1st Sprint Planning]]></title>
