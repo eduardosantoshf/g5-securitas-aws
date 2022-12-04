@@ -2,7 +2,7 @@ import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { useHistory } from 'react-router-dom';
 import './Cameras.css';
-import api from '../../ApiConnections/site-management-api';
+import api from '../../ApiConnections/apiManageAccess';
 
 import Popup from 'reactjs-popup';
 
