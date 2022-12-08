@@ -10,7 +10,7 @@ def get_property(db: Session, property_id: int):
 def get_properties(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Property).offset(skip).limit(limit).all()
 
-def create_property(db: Session, property: schemas.PropertyCreate, owner_id: int):
+def create_property(db: Session, property: schemas.PropertyCreate, owner_id: str):
     query = db.query(models.Property).filter(models.Property.address == property.address, models.Property.owner_id == owner_id).first()
     if query is not None:
         return None

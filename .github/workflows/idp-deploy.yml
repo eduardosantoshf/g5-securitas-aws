@@ -27,9 +27,7 @@ on:
   push:
     branches:    
       - main
-      - feature/idp
     paths:
-      - auth/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'

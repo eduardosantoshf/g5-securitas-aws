@@ -10,7 +10,7 @@ from src.db.database import Base
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, autoincrement=True, primary_key=True, nullable=False, index=True)
+    id = Column(String(150), primary_key=True, nullable=False, index=True)
     name = Column(String(100), nullable=False)
     email = Column(String(100), nullable=False, unique=True, index=True)
     address = Column(String(100), nullable=False)
@@ -25,7 +25,7 @@ class Property(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True, nullable=False)
     address = Column(String(100), nullable=False)
-    owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    owner_id = Column(String(150), ForeignKey("users.id", ondelete="CASCADE"))
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
     owner = relationship("User", back_populates="properties")
@@ -64,7 +64,7 @@ class Intrusion(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     description = Column(String(100))
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    user_id = Column(String(150), ForeignKey("users.id", ondelete="CASCADE"))
     property_id = Column(Integer, nullable=True)
     datetime = Column(String(100))
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))

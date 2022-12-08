@@ -5,11 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.routers import users, alarms, properties, intrusions, cameras
 from src.idp.idp import idp
 
-app = FastAPI(title="Sites managment API", docs_url="/sites-man-api/docs", redoc_url=None)
-
 origins = [
     "*",
 ]
+
+app = FastAPI(title="Sites managment API", docs_url="/sites-man-api/docs", redoc_url=None)
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +17,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 app.include_router(users.router)

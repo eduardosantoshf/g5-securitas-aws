@@ -45,10 +45,10 @@ def delete_user(db: Session, user_id: int):
     return user_delete
 
 
-def get_properties_by_owner(db: Session, owner_id: int):
-    is_valid_id = verify_user_id(db=db, user_id=owner_id)
-    if not is_valid_id:
-        return -1
+def get_properties_by_owner(db: Session, owner_id: str):
+    # is_valid_id = verify_user_id(db=db, user_id=owner_id)
+    # if not is_valid_id:
+    #     return -1
     
     return db.query(models.Property).filter(models.Property.owner_id == owner_id).all()
 
