@@ -109,7 +109,7 @@ class Camera:
                         content_type='image/jpeg',
                         content_encoding='binary',
                         headers={
-                            "source": f"camera_{self.camera_id}",
+                            "source": f"{self.camera_id}",
                             "timestamp": str(time_now),
                             "frame_count": frame_count,
                             "frame_id": frame_id

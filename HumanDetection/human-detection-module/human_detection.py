@@ -32,17 +32,17 @@ class Human_Detection_Worker(ConsumerMixin):
             self.r = redis.Redis(
                         host = redis_url,
                         port = 6379,
-                        ssl = True,
+                        #ssl = True,
                         ssl_cert_reqs = None
                     )
             print(self.r)
 
-            try:
-                print(self.r.ping())
-                print(self.r.set('foo','bar'))
-                self.r.get('foo')
-            except Exception as e:
-                print('get set error: ', e)
+            #try:
+            #    print(self.r.ping())
+            #    print(self.r.set('foo','bar'))
+            #    self.r.get('foo')
+            #except Exception as e:
+            #    print('get set error: ', e)
 
         except Exception as e:
             print('redis err: ', e)
@@ -72,7 +72,7 @@ class Human_Detection_Worker(ConsumerMixin):
 
     def on_message(self, body, message):
         # Get message headers' information
-        msg_source = message.headers["source"]
+        msg_source = int(message.headers["source"])
         frame_timestamp = message.headers["timestamp"]
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
@@ -136,8 +136,11 @@ class Human_Detection_Worker(ConsumerMixin):
         if num_humans > 0:
             self.r.hset(camera_id, frame_id, ts)
 
-    def notify_management_api(self, camera_id, video_id):
-        data = {"camera_id": camera_id, "video_id": video_id}
+    def notify_management_api(self, camera_id, timestamp):
+        print("ENTROU AQUI")
+        timestamp = timestamp.split(".")[0]
+        ts = timestamp.split(" ")[1]
+        data = {"camera_id": camera_id, "timestamp_intrusion": ts}
         reply = requests.post(f"{self.intrusion_management_api_url}/cameras/receive-intrusion-frame", json=data)
 
 
@@ -175,6 +178,9 @@ class Human_Detection_Module:
                          broker_password, exchange_name, queue_name, redis_url, intrusion_management_api_url):
 
         print("Connecting to the broker...")
+        print(broker_username)
+        print(broker_password)
+        print(broker_url)
 
         # Create Connection String
         connection_string = f"amqp://{broker_username}:{broker_password}" \
