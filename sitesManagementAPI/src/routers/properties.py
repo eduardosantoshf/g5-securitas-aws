@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=schemas.Property, status_code=status.HTTP_201_CREATED)
-def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session = Depends(get_db)):#, user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     # db_owner = users_crud.get_user(db=db, user_id=owner_id)
     # if db_owner is None:
     #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'User with id {owner_id} not found')
@@ -29,7 +29,7 @@ def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session
 
 
 @router.get("/", response_model=list[schemas.Property])
-def read_properties(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+def read_properties(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):#, user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
     return crud.get_properties(skip=skip, limit=limit, db=db)
 
 

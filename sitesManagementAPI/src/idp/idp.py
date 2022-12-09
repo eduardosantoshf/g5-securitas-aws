@@ -10,8 +10,8 @@ import os
 
 server_url = "http://keycloak:8080"
 client_id = "sites-man-api"
-client_secret = "JSLdFNv2bsf3aEGvhA1YZLHdgjqawbD3"
-admin_client_secret = "WOeL7gjZnJ29Mr2hSLQ7HBgg58yndKLa"
+client_secret = "lWacDWzN1T9blKLFpK2Zuz1zZe9uDYaf"
+admin_client_secret = "FiX4KgaZ1LCs7IHXaff5sbnxHOdInpvF"
 realm = "g5-securitas"
 callback_uri = "http://sitesmanagementapi-api-1:8070/callback"
 timeout = 50

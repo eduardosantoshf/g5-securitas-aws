@@ -11,9 +11,9 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(String(150), primary_key=True, nullable=False, index=True)
-    name = Column(String(100), nullable=False)
-    email = Column(String(100), nullable=False, unique=True, index=True)
-    address = Column(String(100), nullable=False)
+    name = Column(String(100))
+    email = Column(String(100), unique=True, index=True)
+    address = Column(String(100))
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
     properties = relationship("Property", back_populates="owner", cascade="all, delete, delete-orphan")

@@ -67,6 +67,7 @@ class Intrusion(IntrusionBase):
 
 
 class UserBase(BaseModel):
+    id: str
     name: str
     email: str
     address: str
@@ -75,13 +76,10 @@ class UserCreate(UserBase):
     pass
 
 class UserOut(UserBase):
-    id: int
-
     class Config:
         orm_mode = True
 
 class User(UserBase):
-    id: str
     properties: list[Property] = []
     intrusions: list[Intrusion] = []
     

@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=schemas.Camera, status_code=status.HTTP_201_CREATED)
-def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db)): #, user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     db_property = properties_crud.get_property(db, property_id)
     if db_property is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Property with id {property_id} not found")
@@ -24,7 +24,7 @@ def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = 
 
 
 @router.get("/", response_model=list[schemas.Camera])
-def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):#, user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
     return crud.get_cameras(db=db, skip=skip, limit=limit)
 
 
