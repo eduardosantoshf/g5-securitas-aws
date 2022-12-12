@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, Response, HTTPException, status, APIRouter
 from fastapi.responses import RedirectResponse
-from fastapi_keycloak import OIDCUser
+from fastapi_keycloak import OIDCUser, KeycloakUser
 
 from src.db.repositories import properties_crud
 import src.db.repositories.users_crud as crud, src.models.schemas as schemas
@@ -15,41 +15,26 @@ router = APIRouter(
 
 
 
-#### ONLY FOR TESTING
-@router.post("/", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    # db_user = crud.get_user_by_email(db=db, email=user.email)
-    # if db_user:
-    #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
-
-    return crud.create_user(db=db, user=user)
-
-# @router.get("/", response_model=list[schemas.UserOut])
-# def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     users = crud.get_users(db=db, skip=skip, limit=limit)
-#     return users
-
-@router.get("/")
-def read_users(skip: int = 0, limit: int = 100):
+@router.get("/", response_model=list[KeycloakUser])
+def read_users(user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
     return idp.get_all_users()
 
 
-@router.get("/{user_id}", response_model=schemas.UserOut)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db=db, user_id=user_id)
-    if db_user is None:
+@router.get("/{user_id}", response_model=KeycloakUser)
+def read_user(user_id: str = None, query: str = "", user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+    try:
+        return idp.get_user(user_id=user_id, query=query)
+    except:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
-    
-    return db_user
 
 
 @router.get("/{user_id}/cameras", response_model=list[schemas.Camera], status_code=status.HTTP_200_OK)
-def read_user_cameras(user_id: str, db: Session = Depends(get_db), user = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
-# def read_user_cameras(user_id: str, db: Session = Depends(get_db)):
-    # valid_id = crud.verify_user_id(db=db, user_id=user_id)
-    # if not valid_id:
-    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
-    
+def read_user_cameras(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+    try:
+        idp.get_user(user_id=user_id, query=query)
+    except:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
@@ -64,12 +49,12 @@ def read_user_cameras(user_id: str, db: Session = Depends(get_db), user = Depend
 
 
 @router.get("/{user_id}/alarms", response_model=list[schemas.Alarm], status_code=status.HTTP_200_OK)
-# def read_user_alarms(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
-def read_user_alarms(user_id: str, db: Session = Depends(get_db)):
-    # valid_id = crud.verify_user_id(db=db, user_id=user_id)
-    # if not valid_id:
-    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
-    
+def read_user_alarms(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+    try:
+        idp.get_user(user_id=user_id, query=query)
+    except:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
@@ -82,12 +67,13 @@ def read_user_alarms(user_id: str, db: Session = Depends(get_db)):
 
     return alarms
 
+
 @router.get("/{user_id}/properties", response_model=list[schemas.Property], status_code=status.HTTP_200_OK)
-# def read_user_properties(user_id: str, db: Session = Depends(get_db), user = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
-def read_user_properties(user_id: str, db: Session = Depends(get_db)):
-    # valid_id = crud.verify_user_id(db=db, user_id=user_id)
-    # if not valid_id:
-    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+def read_user_properties(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+    try:
+        idp.get_user(user_id=user_id, query=query)
+    except:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")    
     
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:

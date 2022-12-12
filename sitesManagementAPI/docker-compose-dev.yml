@@ -2,16 +2,6 @@ version: '3'
 
 services:
 
-  # nginx:
-  #   image: nginx
-  #   build: 
-  #     context: .
-  #     dockerfile: Dockerfile.nginx
-
-  #   hostname: nginx 
-  #   ports: 
-  #     - 80:80
-
   mariadb:
     image: mariadb
 

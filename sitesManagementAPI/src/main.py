@@ -9,7 +9,8 @@ origins = [
     "*",
 ]
 
-app = FastAPI(title="Sites managment API", docs_url="/sites-man-api/docs", redoc_url=None)
+app = FastAPI(title="Sites managment API", docs_url="/sites-man-api/docs", redoc_url=None,\
+                openapi_url="/sites-man-api/openapi")
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,7 +18,6 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"]
 )
 
 app.include_router(users.router)

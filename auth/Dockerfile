@@ -4,24 +4,15 @@ FROM quay.io/keycloak/keycloak:latest as builder
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 
-# Configure a database vendor
-# ENV KC_DB=postgres
-
 WORKDIR /opt/keycloak
-# for demonstration purposes only, please make sure to use proper certificates in production instead
-# RUN keytool -genkeypair -storepass password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname "CN=server" -alias server -ext "SAN:c=DNS:localhost,IP:127.0.0.1" -keystore conf/server.keystore
-RUN /opt/keycloak/bin/kc.sh build
+RUN /opt/keycloak/bin/kc.sh build --features=preview,scripts
 
 FROM quay.io/keycloak/keycloak:latest
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
-COPY ./realm-export.json /opt/keycloak/data/import/
+COPY realm-export.json /opt/keycloak/data/import/
 
 # change these values to point to a running postgres instance
-# ENV KC_DB_URL=<DBURL>
-# ENV KC_DB_USERNAME=<DBUSERNAME>
-# ENV KC_DB_PASSWORD=<DBPASSWORD>
 ENV KEYCLOAK_ADMIN=kc_admin
 ENV KEYCLOAK_ADMIN_PASSWORD=kc_admin_pass
-ENV KC_FEATURES="scripts,preview"
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]

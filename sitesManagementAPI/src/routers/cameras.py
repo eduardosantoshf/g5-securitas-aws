@@ -15,7 +15,9 @@ router = APIRouter(
 
 
 @router.post("/", response_model=schemas.Camera, status_code=status.HTTP_201_CREATED)
-def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db)): #, user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db), \
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+
     db_property = properties_crud.get_property(db, property_id)
     if db_property is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Property with id {property_id} not found")
@@ -24,7 +26,9 @@ def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = 
 
 
 @router.get("/", response_model=list[schemas.Camera])
-def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):#, user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), \
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+
     return crud.get_cameras(db=db, skip=skip, limit=limit)
 
 
@@ -40,7 +44,7 @@ def read_camera_by_id(camera_id: int, db: Session = Depends(get_db), user: OIDCU
 
 @router.put("/{camera_id}", response_model=schemas.Camera, status_code=status.HTTP_200_OK)
 def update_camera(camera_id: int, new_description: str | None = None, new_property_id: int | None = None, db: Session = Depends(get_db), \
-                user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
 
     if new_property_id:
         query = properties_crud.get_property(db=db, property_id=new_property_id)
@@ -57,7 +61,7 @@ def update_camera(camera_id: int, new_description: str | None = None, new_proper
 
 @router.delete("/{camera_id}")
 def delete_camera(camera_id: int, db: Session = Depends(get_db), \
-                user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
     
     camera_deleted = crud.delete_camera(db=db, camera_id=camera_id)
     if camera_deleted is None:

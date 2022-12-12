@@ -8,12 +8,12 @@ import os
 # realm = os.environ.get('IDP_REALM')
 # callback_uri = os.environ.get('IDP_CALLBACK_URI')
 
-server_url = "http://keycloak:8080"
+server_url = "http://172.24.0.4:8080"
 client_id = "sites-man-api"
-client_secret = "lWacDWzN1T9blKLFpK2Zuz1zZe9uDYaf"
-admin_client_secret = "FiX4KgaZ1LCs7IHXaff5sbnxHOdInpvF"
+client_secret = "yokvqXNGK5aipoYsbuR50dbHW2dW8t2m"
+admin_client_secret = "I5HOlChZu372L7e77WAkgRcdowfeAnsr"
 realm = "g5-securitas"
-callback_uri = "http://sitesmanagementapi-api-1:8070/callback"
+callback_uri = "http://172.24.0.2:8070/callback"
 timeout = 50
 
 idp = None
