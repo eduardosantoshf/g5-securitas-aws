@@ -28,6 +28,7 @@ on:
     branches:    
       - main
     paths:
+      - auth/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
