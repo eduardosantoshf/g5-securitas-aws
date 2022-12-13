@@ -18,8 +18,10 @@ router = APIRouter(
 def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session = Depends(get_db), \
                         user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
     try:
-        idp.get_user(user_id=user_id, query=query)
-    except:
+        idp.get_user(user_id=owner_id, query=query)
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except: 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
 
     query = crud.create_property(property=property, owner_id=owner_id, db=db)
@@ -33,8 +35,10 @@ def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session
 @router.get("/", response_model=list[schemas.Property])
 def read_properties(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), \
                         user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
-
-    return crud.get_properties(skip=skip, limit=limit, db=db)
+    try: 
+        return crud.get_properties(skip=skip, limit=limit, db=db)
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
 
 
 @router.get("/{property_id}", response_model=schemas.Property)

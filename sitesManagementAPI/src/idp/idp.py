@@ -10,8 +10,8 @@ import os
 
 server_url = "http://172.24.0.4:8080"
 client_id = "sites-man-api"
-client_secret = "yokvqXNGK5aipoYsbuR50dbHW2dW8t2m"
-admin_client_secret = "I5HOlChZu372L7e77WAkgRcdowfeAnsr"
+client_secret = "mAU40Ii41oGPPjTJgKt7Amv2JSUkckye"
+admin_client_secret = "J94QlvqOKLvZpxzayboqCD0kZ9L49w5A"
 realm = "g5-securitas"
 callback_uri = "http://172.24.0.2:8070/callback"
 timeout = 50
