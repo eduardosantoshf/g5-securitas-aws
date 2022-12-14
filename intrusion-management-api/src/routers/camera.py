@@ -56,51 +56,54 @@ def receive_video_from_cameras_and_save(file: UploadFile):
     if not file.filename.endswith(".mp4"):
         return Response(status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE , content="File must be mp4")    
     
+    print("11111111")
+    print(os.system("ls -la"))
     try:
-        with open("./videos/" + file.filename, 'wb') as buffer:
+        with open("videos_/" + file.filename, 'wb') as buffer:
             shutil.copyfileobj(file.file, buffer)
     except Exception as e:
+        print(e)
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error saving video")
 
+    print("2222222")
+    
     res = camera_service.save_on_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, file.filename, file)
     if res == FileNotFoundError:
             return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
     elif res == NoCredentialsError:
         return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
     
-    try:
-        os.remove("./videos/" + file.filename)
+    print("3333333")
+    
+    """try:
+        os.remove("../videos/" + file.filename)
     except Exception as e:
         print("Error deleting video: " +  e)
-        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")"""
     
 @router.get("/intrusions-videos", status_code=status.HTTP_200_OK)
-def download_video_from_s3_and_send(user_id: schemas.VideoUsers, db: Session = Depends(get_db)):
+def download_video_from_s3_and_send():
     filename = "download-video.mp4"
     
-    user_video = camera_service.get_user_videos(db, user_id=user_id)
+    #user_video = camera_service.get_user_videos(db, user_id=user_id)
     
-    for i in user_video:
-        res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, filename)
-        
-        if res == FileNotFoundError:
-            return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
-        elif res == NoCredentialsError:
-            return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
-        
-        #!####################
-        #!como sao pelo menos 1 video, ver o StremingResponse para mandar logo todos de uma vez
-        #!####################
-        try:
-            return FileResponse("./videos/" + filename, media_type="video/mp4")
-        except FileNotFoundError:
-            return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
-        finally:
-            try:
-                os.remove("./videos/" + filename)
-            except Exception as e:
-                print("Error deleting video: " +  e)
-                return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, filename)
+    
+    if res == FileNotFoundError:
+        return Response(status_code=status.HTTP_404_NOT_FOUND, content="The file was not found")
+    elif res == NoCredentialsError:
+        return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
+    
+    try:
+        return FileResponse("./videos/" + filename, media_type="video/mp4")
+    except FileNotFoundError:
+        return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
+    #finally:
+        #try:
+        #    os.remove("./videos/" + filename)
+        #except Exception as e:
+        #    print("Error deleting video: " +  e)
+        #    return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
 
 """
 @router.get("/intrusions-videos", status_code=status.HTTP_200_OK)
