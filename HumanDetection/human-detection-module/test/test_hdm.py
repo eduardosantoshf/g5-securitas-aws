@@ -51,13 +51,13 @@ def test_4():
     #print("ola")
     #print(mock)
 
-    hdw = Human_Detection_Worker(mock, mock, mock, mock, 'localhost', mock)
+    #hdw = Human_Detection_Worker(mock, mock, mock, mock, 'localhost', mock)
 
-    hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now()))
-    hdw.create_database_entry("camera_testing", 2, 1, str(datetime.datetime.now()))
-    hdw.create_database_entry("camera_testing", 3, 1, str(datetime.datetime.now()))
+    #hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now()))
+    #hdw.create_database_entry("camera_testing", 2, 1, str(datetime.datetime.now()))
+    #hdw.create_database_entry("camera_testing", 3, 1, str(datetime.datetime.now()))
 
-    assert hdw.alarm_if_needed("camera_testing", 3, str(datetime.datetime.now())) == True
+    #assert hdw.alarm_if_needed("camera_testing", 3, str(datetime.datetime.now())) == True
 
 
 
