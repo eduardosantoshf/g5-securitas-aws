@@ -57,7 +57,7 @@ def test_4():
     hdw.create_database_entry("camera_testing", 2, 1, str(datetime.datetime.now()))
     hdw.create_database_entry("camera_testing", 3, 1, str(datetime.datetime.now()))
 
-    assert hdw.alarm_if_needed("camera_testing", 3) == True
+    assert hdw.alarm_if_needed("camera_testing", 3, str(datetime.datetime.now())) == True
 
 
 
