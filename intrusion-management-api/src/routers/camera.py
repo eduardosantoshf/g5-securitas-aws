@@ -76,7 +76,7 @@ def receive_video_from_cameras_and_save(file: UploadFile):
     print("3333333")
     
     """try:
-        os.remove("../videos/" + file.filename)
+        os.remove("./videos_/" + file.filename)
     except Exception as e:
         print("Error deleting video: " +  e)
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")"""
@@ -95,7 +95,7 @@ def download_video_from_s3_and_send():
         return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
     
     try:
-        return FileResponse("./videos/" + filename, media_type="video/mp4")
+        return FileResponse("./videos_/" + filename, media_type="video/mp4")
     except FileNotFoundError:
         return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
     #finally:
