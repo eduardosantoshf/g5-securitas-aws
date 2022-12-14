@@ -39,7 +39,7 @@ def test_3():
     #print("ola")
     #print(mock)
 
-    hdw = Human_Detection_Worker(mock, mock, mock, mock, mock, mock)
+    hdw = Human_Detection_Worker(mock, mock, mock, mock, 'localhost', mock)
 
     hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now()))
 
@@ -51,7 +51,7 @@ def test_4():
     #print("ola")
     #print(mock)
 
-    hdw = Human_Detection_Worker(mock, mock, mock, mock, mock, mock)
+    hdw = Human_Detection_Worker(mock, mock, mock, mock, 'localhost', mock)
 
     hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now()))
     hdw.create_database_entry("camera_testing", 2, 1, str(datetime.datetime.now()))
