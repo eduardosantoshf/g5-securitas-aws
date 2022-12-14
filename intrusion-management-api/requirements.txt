@@ -8,3 +8,8 @@ python-multipart==0.0.5
 python-dotenv==0.19.1
 kombu==5.2.4
 alembic==1.8.1
+pytest
+requests
+pytest-cov
+urllib3
+tox
