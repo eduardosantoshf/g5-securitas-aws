@@ -6,4 +6,4 @@ from sqlalchemy.sql import text
 
 def get_events_triggered(db: Session, user_id: int) -> list:
     #return db.query(models.VideoUsers).filter(models.VideoUsers.user_id == user_id)
-    return db.execute(text("SELECT id, video_date, video_name FROM videos_user WHERE user_id = :user_id"), {'user_id': user_id}).fetchall()
+    return db.execute(text("SELECT id, building_id, camera_id, video_date, video_name FROM videos_user WHERE user_id = :user_id"), {'user_id': user_id}).fetchall()
