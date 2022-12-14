@@ -114,3 +114,53 @@ def test_delete_user_notFound(test_user: schemas.User, client: TestClient):
 
     # Assert
     assert res.status_code == status.HTTP_404_NOT_FOUND
+
+def test_read_users_cameras(test_user: schemas.User, test_cameras: schemas.Camera, client: TestClient):
+
+    id = test_user.id
+
+    res = client.get(f"/sites-man-api/users/{id}/cameras")
+
+    assert len(res.json()) == len(test_cameras)
+    assert res.status_code == status.HTTP_200_OK
+
+def test_read_users_cameras_invalid_id(test_user: schemas.User, client: TestClient):
+
+    id = test_user.id + 100
+
+    res = client.get(f"/sites-man-api/users/{id}/cameras")
+
+    assert res.status_code == status.HTTP_404_NOT_FOUND
+
+def test_read_users_no_cameras(test_user: schemas.User, client: TestClient):
+
+    id = test_user.id
+
+    res = client.get(f"/sites-man-api/users/{id}/cameras")
+
+    assert res.json() == []
+
+def test_read_users_alarms(test_user: schemas.User, test_alarms: schemas.Alarm, client: TestClient):
+
+    id = test_user.id
+
+    res = client.get(f"/sites-man-api/users/{id}/alarms")
+
+    assert len(res.json()) == len(test_alarms)
+    assert res.status_code == status.HTTP_200_OK
+
+def test_read_users_alarms_invalid_id(test_user: schemas.User, client: TestClient):
+
+    id = test_user.id + 100
+
+    res = client.get(f"/sites-man-api/users/{id}/alarms")
+
+    assert res.status_code == status.HTTP_404_NOT_FOUND
+
+def test_read_users_no_alarms(test_user: schemas.User, client: TestClient):
+
+    id = test_user.id
+
+    res = client.get(f"/sites-man-api/users/{id}/alarms")
+
+    assert res.json() == []

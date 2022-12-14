@@ -42,13 +42,18 @@ def send_message_to_broker(broker_url, broker_username, broker_password, exchang
         print(f"Error sending message to message broker: {e}")
         return False
     
-def get_user_videos(db: Session, user_id: int):
-    print("get_user_videos")
-    query = db.query(models.VideoUsers).filter(models.VideoUsers.user_id == user_id).all()
-    print(query) #should return a list of videos
-    return query
+def get_user_videos(db: Session, user_id: int) -> list:
+    return db.query(models.VideoUsers).filter(models.VideoUsers.user_id == user_id).all()
     
-def save_on_s3_bucket(access_key_id, secret_access_key, region_name, bucket_name, filename, file):
+def add_user_video(db: Session, user_id: int, video_name: str, video_path: str):
+    db_user_video = models.VideoUsers(user_id=user_id, video_name=video_name, video_path=video_path)
+    db.add(db_user_video)
+    db.commit()
+    db.refresh(db_user_video)
+    return db_user_video
+    
+    
+def save_on_s3_bucket(access_key_id, secret_access_key, region_name, bucket_name, filename, file_path):
     client = boto3.client(
     's3',
     aws_access_key_id = access_key_id,
@@ -72,11 +77,14 @@ def get_from_s3_bucket(access_key_id, secret_access_key, region_name, bucket_nam
     region_name = region_name
     )
     
+    print("video name: (dentro) ", filename)
+    
     try:
         client.download_file(Bucket=bucket_name, Key=filename, Filename="./videos_/" + filename)
         print("get_from_s3_bucket")
         return True
     except FileNotFoundError:
+        print("o caralho é que nao encontras oh filho da puta")
         return FileNotFoundError
     except NoCredentialsError:
         return NoCredentialsError
