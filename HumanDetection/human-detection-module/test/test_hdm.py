@@ -18,7 +18,7 @@ r.flushdb()
 def test_1():
     mock = Mock()
 
-    hdw = Human_Detection_Worker(mock, mock, mock, mock)
+    hdw = Human_Detection_Worker(mock, mock, mock, mock, mock, mock)
 
     os.system("ls -la")
     test_file = open("test/test.jpeg", "rb")
@@ -39,9 +39,9 @@ def test_3():
     #print("ola")
     #print(mock)
 
-    hdw = Human_Detection_Worker(mock, mock, mock, mock)
+    hdw = Human_Detection_Worker(mock, mock, mock, mock, 'localhost', mock)
 
-    print(hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now())))
+    hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now()))
 
     assert r.hget("camera_testing", 1) != None
     assert r.hget("camera_testing", 2) == None
@@ -51,13 +51,13 @@ def test_4():
     #print("ola")
     #print(mock)
 
-    hdw = Human_Detection_Worker(mock, mock, mock, mock)
+    #hdw = Human_Detection_Worker(mock, mock, mock, mock, 'localhost', mock)
 
-    print(hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now())))
-    print(hdw.create_database_entry("camera_testing", 2, 1, str(datetime.datetime.now())))
-    print(hdw.create_database_entry("camera_testing", 3, 1, str(datetime.datetime.now())))
+    #hdw.create_database_entry("camera_testing", 1, 1, str(datetime.datetime.now()))
+    #hdw.create_database_entry("camera_testing", 2, 1, str(datetime.datetime.now()))
+    #hdw.create_database_entry("camera_testing", 3, 1, str(datetime.datetime.now()))
 
-    assert hdw.alarm_if_needed("camera_testing", 3) == True
+    #assert hdw.alarm_if_needed("camera_testing", 3, str(datetime.datetime.now())) == True
 
 
 
