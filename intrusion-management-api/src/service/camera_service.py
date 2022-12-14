@@ -62,7 +62,7 @@ def save_on_s3_bucket(access_key_id, secret_access_key, region_name, bucket_name
     )
 
     try:
-        client.upload_file(Bucket=bucket_name, Key=filename, Filename=file_path)
+        client.upload_file(Bucket=bucket_name, Key=filename, Filename="./videos_/" + filename)
         return True
     except FileNotFoundError:
         return FileNotFoundError
@@ -80,7 +80,7 @@ def get_from_s3_bucket(access_key_id, secret_access_key, region_name, bucket_nam
     print("video name: (dentro) ", filename)
     
     try:
-        client.download_file(Bucket=bucket_name, Key="download-video.mp4", Filename="download-video.mp4")
+        client.download_file(Bucket=bucket_name, Key=filename, Filename="./videos_/" + filename)
         print("get_from_s3_bucket")
         return True
     except FileNotFoundError:
