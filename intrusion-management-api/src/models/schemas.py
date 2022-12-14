@@ -7,3 +7,9 @@ class Frame(BaseModel):
     
     class Config:
         orm_mode = True
+
+class VideoUsers(BaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True
