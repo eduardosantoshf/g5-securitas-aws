@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 
+from src.db.repositories import properties_crud, users_crud
 import src.models.models as models, src.models.schemas as schemas
+
 
 
 def get_camera(db: Session, camera_id: int):

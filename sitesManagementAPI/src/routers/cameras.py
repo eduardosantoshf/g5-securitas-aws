@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=schemas.Camera, status_code=status.HTTP_201_CREATED)
-def create_(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db)):
+def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db)):
     db_property = properties_crud.get_property(db, property_id)
     if db_property is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Property with id {property_id} not found")
@@ -27,7 +27,7 @@ def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
 
 
 @router.get("/{camera_id}", response_model=schemas.Camera)
-def read_camera(camera_id: int, db: Session = Depends(get_db)):
+def read_camera_by_id(camera_id: int, db: Session = Depends(get_db)):
     
     db_camera = crud.get_camera(db=db, camera_id=camera_id)
     if db_camera is None:

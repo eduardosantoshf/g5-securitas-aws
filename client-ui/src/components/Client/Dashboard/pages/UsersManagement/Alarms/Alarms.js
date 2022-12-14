@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import './Alarms.css';
 import api from '../../ApiConnections/site-management-api';
@@ -20,12 +20,12 @@ function Alarms() {
   }
   
   const loadData = () => {
-    api.get('/alarms').then(res => {
+    api.get('/users/1/alarms').then(res => {
       console.log("loadData");
       setData(res.data);
       console.log(res.data);
     });
-    api.get('/properties').then(res => {
+    api.get('/users/1/properties').then(res => {
       console.log(res.data);
       (res.data).forEach(element => {
         if (buildings.find(building => building.value === element.id) === undefined) {
