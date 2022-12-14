@@ -18,17 +18,17 @@ from kombu import Exchange, Producer
 
 
     
-def test_1():
-    mock = Mock()
-    kombu_connection = mock
-    kombu_channel = kombu_connection.channel()
-
-    message = kombu.Message(json.dumps({"camera_id": 1, "timestamp_intrusion": "11:34:56"}), headers={"camera_id": 1, "timestamp_intrusion": "11:34:56"}, channel=kombu_channel)
-
-    cameras_worker = consumer.Cameras_worker(mock, mock, mock, mock)
-    received = cameras_worker.on_message(message.body, message)
-
-    assert message == received
+#def test_1():
+#    mock = Mock()
+#    kombu_connection = mock
+#    kombu_channel = kombu_connection.channel()
+#
+#    message = kombu.Message(json.dumps({"camera_id": 1, "timestamp_intrusion": "11:34:56"}), headers={"camera_id": 1, "timestamp_intrusion": "11:34:56"}, channel=kombu_channel)
+#
+#    cameras_worker = consumer.Cameras_worker(mock, mock, mock, mock)
+#    received = cameras_worker.on_message(message.body, message)
+#
+#    assert message == received
     
 
 
