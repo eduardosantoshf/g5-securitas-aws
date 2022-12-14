@@ -14,7 +14,7 @@ def send_message_to_broker(broker_url, broker_username, broker_password, exchang
         f"@{broker_url}/"        
     print(f"Connecting to {connection_string}")
     try:# Kombu Connection
-        kombu_connection = kombu.Connection(connection_string) #ssl=True)
+        kombu_connection = kombu.Connection(connection_string, ssl=True) 
         kombu_channel = kombu_connection.channel()
     except Exception as e:
         print(f"Error connecting to message broker: {e}")
