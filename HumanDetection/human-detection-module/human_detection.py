@@ -72,7 +72,7 @@ class Human_Detection_Worker(ConsumerMixin):
 
     def on_message(self, body, message):
         # Get message headers' information
-        msg_source = int(message.headers["source"])
+        msg_source = int(message.headers["source"].split('_')[1])
         frame_timestamp = message.headers["timestamp"]
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
