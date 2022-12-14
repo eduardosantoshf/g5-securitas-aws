@@ -14,12 +14,11 @@ on:
         - debug
 
   pull_request:
-    branches: [ development ]
+    branches: [ main ]
 
     paths:
       - HumanDetection/**
-      - .github/**
-      - .aws/**
+      - .github/human-detection-deployment.yaml
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -27,12 +26,11 @@ on:
       - '!**.txt'
     
   push:
-    branches: [ development, hdm-cd, feature/** ]
+    branches: [ main ]
 
     paths:
       - HumanDetection/**
-      - .github/**
-      - .aws/**
+      - .github/human-detection-deployment.yaml
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
