@@ -7,8 +7,8 @@ authors: pedroBastos
 **Attendees**: all 
 
 * **Define Team Roles**:
-  * Scrum Master (14/11/2022 - 21/11/2022) - Pedro Bastos
-  * Product Owner (14/11/2022 - 21/11/2022) - Eduardo Santos
+  * Scrum Master (14/11/2022 - 28/11/2022) - Pedro Bastos
+  * Product Owner (14/11/2022 - 28/11/2022) - Eduardo Santos
 
 * **Sprint Goals**:
   * Connection between micro services and start implementing IDP
