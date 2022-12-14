@@ -32,53 +32,6 @@ def test_1():
     
 
 
-
-# AMQP Variables
-#kombu_connection = "localhost:5672"
-#kombu_exchange = "myuser"
-#kombu_channel = "mypassword"
-#kombu_producer = "request-video-exchange"
-#kombu_queue = "request-video-queue"
-#
-## OUTPUT
-#OUTPUT_DIR = "intruders"
-
-#def test_rabbitmq():
-#
-#    
-#
-#    mock = Mock()
-#    #mock_publish()
-#
-#    #url = f"amqp://myuser:mypassword" \
-#    #        f"@localhost:5672/"
-#
-#    #params = pika.URLParameters(url)
-#
-#    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
-#    channel = connection.channel()
-#
-#    channel.exchange_declare(exchange='request-video-exchange', exchange_type='fanout')
-#
-#    channel.basic_publish(exchange='request-video-exchange', routing_key='', body=json.dumps({"camera_id": 1, "timestamp_intrusion": "10:10:10"}))
-#    print(" [x] Sent test message")
-#    connection.close()
-#
-#    camera_consumer = consumer.Consumer_video_request(OUTPUT_DIR)
-#    
-#    print("aqui")
-#    camera_consumer.start_processing(
-#        broker_url=kombu_connection,
-#        broker_username=kombu_exchange,
-#        broker_password=kombu_channel,
-#        exchange_name=kombu_producer,
-#        queue_name=kombu_queue
-#        )
-#
-#    #camera_consumer.start_processing(mock, mock, mock, mock, mock)
-#
-#    print("published")
-    
     
 
 
