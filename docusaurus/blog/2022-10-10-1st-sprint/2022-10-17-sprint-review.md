@@ -21,5 +21,5 @@ authors: joao
 Unfinished user stories don't meet the definition of ready, missing software tests.
 
 # Value added to the costumer
-* A functional Management UI blueprint with dashboards (using static data).
+* A functional Managment UI blueprint with dashboards (using static data).
 * A backend to store cameras' video temporarily in redis.

@@ -7,28 +7,14 @@ from src.db.database import Base
 
 # defines sqlalchemy models 
 
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, autoincrement=True, primary_key=True, nullable=False, index=True)
-    name = Column(String(100), nullable=False)
-    email = Column(String(100), nullable=False, unique=True, index=True)
-    address = Column(String(100), nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-
-    properties = relationship("Property", back_populates="owner", cascade="all, delete, delete-orphan")
-    intrusions = relationship("Intrusion", back_populates="user", cascade="all, delete, delete-orphan")
-
-
 class Property(Base):
     __tablename__ = "properties"
 
     id = Column(Integer, autoincrement=True, primary_key=True, nullable=False)
     address = Column(String(100), nullable=False)
-    owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    owner_id = Column(String(150), nullable=False, index=True)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-    owner = relationship("User", back_populates="properties")
     alarms = relationship("Alarm", back_populates="property", cascade="delete, delete-orphan")
     cameras = relationship("Camera", back_populates="property", cascade="delete, delete-orphan")
 
@@ -64,9 +50,7 @@ class Intrusion(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     description = Column(String(100))
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
-    property_id = Column(Integer, nullable=True)
+    user_id = Column(String(150), index=True)
+    property_id = Column(Integer, nullable=False)
     datetime = Column(String(100))
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-
-    user = relationship("User", back_populates="intrusions")

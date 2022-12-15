@@ -1,4 +1,4 @@
-name: Deploy sites management to AWS
+name: Deploy idp to AWS
 
 on:
   workflow_dispatch:
@@ -16,8 +16,9 @@ on:
   pull_request:
     branches:    
       - main
+      - feature/idp
     paths:
-      - sitesManagementAPI/**
+      - auth/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -28,6 +29,7 @@ on:
     branches:    
       - main
     paths:
+      - auth/**
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -36,13 +38,13 @@ on:
 
 env:
   ECR_REGISTRY_ALIAS: p3i3q7f7
-  ECR_REPOSITORY: sites-man-api                     # set this to your Amazon ECR repository name
-  ECS_SERVICE: sites-man-service                    # set this to your Amazon ECS service name
-  ECS_CLUSTER: sites-man-cluster                    # set this to your Amazon ECS cluster name
+  ECR_REPOSITORY: idp                         # set this to your Amazon ECR repository name
+  ECS_SERVICE: idp-service                    # set this to your Amazon ECS service name
+  ECS_CLUSTER: idp-cluster                    # set this to your Amazon ECS cluster name
                                                     # set this to the path to your Amazon ECS task definition
-  ECS_TASK_DEFINITION: .aws/sites-management-task-definition.json    
+  ECS_TASK_DEFINITION: .aws/idp-task-definition.json    
                                                     # file, e.g. .aws/task-definition.json
-  API_CONTAINER_NAME: fastAPI-container             # set this to the name of the API container in the
+  KEYCLOAK_CONTAINER_NAME: keycloak-container       # set this to the name of the Keycloak container in the
                                                     # containerDefinitions section of your task definition
   DB_CONTAINER_NAME: mariadb-container              # set this to the name of the DB container in the
                                                     # containerDefinitions section of your task definition
@@ -68,14 +70,14 @@ jobs:
         with:
           registry-type: public
 
-      - name: Build, tag, and push docker api image to Amazon ECR Public
-        id: build-api-image
+      - name: Build, tag, and push docker idp image to Amazon ECR Public
+        id: build-idp-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
 
         run: |
-          cd sitesManagementAPI
+          cd auth
           docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
@@ -101,18 +103,19 @@ jobs:
             MARIADB_ROOT_PASSWORD=${{ secrets.MARIADB_ROOT_PASSWORD }}
             MARIADB_USER=${{ secrets.MARIADB_USER }}
 
-      - name: Update API container in ECS task definition
+      - name: Update IDP container in ECS task definition
         id: build-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ steps.db-task-def.outputs.task-definition }}
-          container-name: ${{ env.API_CONTAINER_NAME }}
-          image: ${{ steps.build-api-image.outputs.image }}
+          container-name: ${{ env.KEYCLOAK_CONTAINER_NAME }}
+          image: ${{ steps.build-idp-image.outputs.image }}
           environment-variables: |
-            MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}
-            MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
-            MARIADB_USER=${{ secrets.MARIADB_USER }}
-            
+            DB_DATABASE=${{ secrets.MARIADB_DATABASE }}
+            DB_USER=${{ secrets.MARIADB_USER }}
+            DB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
+            KEYCLOAK_ADMIN=${{ secrets.KEYCLOAK_ADMIN }}
+            KEYCLOAK_ADMIN_PASSWORD=${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10

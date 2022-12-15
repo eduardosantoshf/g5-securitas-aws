@@ -1,10 +1,11 @@
 version: '3'
 
 services:
-  db:
+
+  mariadb:
     image: mariadb
 
-    hostname: db
+    hostname: mariadb
     ports:
       - 3306:3306
 
@@ -26,10 +27,10 @@ services:
     
     hostname: api
     ports:
-      - 8000:8000
+      - 8070:8070
     
     depends_on:
-      - db
+      - mariadb
     
     restart: always
     
@@ -37,12 +38,17 @@ services:
       - MARIADB_DATABASE=sites_man_db
       - MARIADB_USER=dev_user
       - MARIADB_PASSWORD=dev_pass 
-      - MARIADB_HOST=db
+      - MARIADB_HOST=mariadb
       - MARIADB_PORT=3306
       
-    command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8070 --reload"
     volumes:
       - ./:/usr/app:ro
 
 volumes:
   mariadb-volume:
+
+networks:
+  default:
+    name: kc-api-bridge
+    external: true
