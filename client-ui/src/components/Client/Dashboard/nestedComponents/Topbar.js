@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./Topbar.css";
 import { useKeycloak } from "@react-keycloak/web";
 
@@ -6,6 +6,16 @@ import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
 
 function Topbar() {
   const { keycloak, initialized } = useKeycloak();
+
+  // useEffect(() => {
+  //   keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
+  //     if (!authenticated) {
+  //       keycloak.login();
+  //     }
+  //   });
+  // }, []);
+
+
   return (
     <div className="topbar">
       <div className="topbarWrapper">
