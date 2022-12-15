@@ -4,13 +4,6 @@ import { useKeycloak } from "@react-keycloak/web";
 
 import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
 
-const handleLogout = () => {
-  localStorage.removeItem("token");
-  window.location.href = "http://localhost:3000";
-  localStorage.removeItem("user");
-  localStorage.removeItem("type_user");
-};
-
 function Topbar() {
   const { keycloak, initialized } = useKeycloak();
   return (
@@ -21,7 +14,21 @@ function Topbar() {
         </div>
         <div className="topRigth">
           {!keycloak.authenticated && (
-            <div className="icons" onClick={() => keycloak.login()}>
+            <div
+              className="icons"
+              onClick={() => {
+
+                keycloak.login()
+                .then(() => {
+                  // The request to the token endpoint was successful
+                  console.log(keycloak.token)
+                })
+                .catch(error => {
+                  // There was an error with the request to the token endpoint
+                  console.log(error)
+                });
+              }}
+            >
               Login
             </div>
           )}
