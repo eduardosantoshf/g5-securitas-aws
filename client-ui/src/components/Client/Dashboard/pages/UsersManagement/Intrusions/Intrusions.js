@@ -1,67 +1,104 @@
 import React from "react";
+import { DataGrid } from "@material-ui/data-grid";
 import "./Intrusions.css";
-import api from '../../ApiConnections/intrusion-management-api';
+import Popup from "reactjs-popup";
+import api, {apiBaseUrl} from '../../ApiConnections/intrusion-management-api';
 
 function Intrusions() {
-  // React.useEffect(() => {
-  //   console.log("Intrusions.js: useEffect() called");
-  //   api.get("/intrusion-management-api/cameras/intrusions-videos").then((res) => {
-  //     var myUrl = (window.URL || window.webkitURL).createObjectURL(
-  //       new Blob([res.data])
-  //     ); // response.data.data
+  const [data, setData] = React.useState([]);
 
-  //     var myVid = document.getElementById("vidObj");
-  //     myVid.setAttribute("src", myUrl);
-  //     myVid.play(); //# test playback
-  //     console.log("ACABOU");
+  const loadData = () => {
+    api.get("/intrusion/events-triggered/1").then((res) => {
+        res.data.forEach((element) => {
+        element.date = element.video_date.split("T")[0];
+        element.time = element.video_date.split("T")[1];
+      });     
+      setData(res.data);
+    });
+  };
 
-  //     //setVideo(url); //# is this needed?
-  //   });
-  //   console.log("ACABOU");
-  // });
+  React.useEffect(() => {
+    loadData();
+  }, []);
+
+  const columns = [
+    {
+      field: "building_id",
+      headerName: "Building ID",
+      width: 225,
+    },
+    {
+      field: "camera_id",
+      headerName: "Camera ID",
+      width: 225,
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      sortable: false,
+      width: 225,
+    },
+    {
+      field: "time",
+      headerName: "Time",
+      width: 225,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 300,
+      renderCell: (params) => {
+        return (
+          <div className="actions">
+            <Popup
+              trigger={<button className="declineBtn"> Watch Video </button>}
+              modal
+              nested
+            >
+              {(close) => (
+                <div className="modal">
+                  <button className="close" onClick={close}>
+                    &times;
+                  </button>
+                  <div className="header"> Intrusion video </div>
+                  <div className="player-wrapper" >
+                    <video
+                      id="vidObj1"
+                      width="50%"
+                      height="50%"
+                      controls
+                      loop
+                      muted
+                      autoplay
+                      style={{position: "relative", left: "25%", top: "25%"}}
+                    >
+                      <source
+                        // src="http://localhost:6869/intrusion-management-api/cameras/intrusions-videos/download-video.mp4"
+                        src={ apiBaseUrl + "/cameras/intrusions-videos/" + params.row.video_name}
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
+                </div>
+              )}
+            </Popup>
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
     <>
       <h2 className="title">Intrusions</h2>
-      <div
-        className="userList"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div className="player-wrapper">
-          <video
-            id="vidObj1"
-            width="50%"
-            height="50%"
-            controls
-            loop
-            muted
-            autoplay
-          >
-            <source
-              src="http://localhost:5000/intrusion-management-api/cameras/intrusions-videos"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <div className="player-wrapper">
-        {/* <video
-            id="vidObj"
-            width="50%"
-            height="50%"
-            controls
-            loop
-            muted
-            autoplay
-          >
-            <source
-              type="video/mp4"
-            />
-          </video> */}
-        </div>
+      <div className="userList">
+        <DataGrid
+          rows={data}
+          columns={columns}
+          disableSelectionOnClick
+          pageSize={6}
+          getRowId={(row) => row.id}
+        />
       </div>
     </>
   );
