@@ -32,7 +32,7 @@ class Human_Detection_Worker(ConsumerMixin):
             self.r = redis.Redis(
                         host = redis_url,
                         port = 6379,
-                        ssl = True,
+                        #ssl = True,
                         ssl_cert_reqs = None
                     )
             print(self.r)
@@ -140,6 +140,7 @@ class Human_Detection_Worker(ConsumerMixin):
         print("ENTROU AQUI")
         timestamp = timestamp.split(".")[0]
         ts = timestamp.split(" ")[1]
+        print(camera_id)
         data = {"camera_id": camera_id, "timestamp_intrusion": ts}
         reply = requests.post(f"{self.intrusion_management_api_url}/cameras/receive-intrusion-frame", json=data)
 
