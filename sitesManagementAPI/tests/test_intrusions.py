@@ -1,13 +1,15 @@
 from fastapi.testclient import TestClient
 from fastapi import status
+from fastapi_keycloak import OIDCUser
 import pytest
 
 from src.models import schemas
+from tests.conf_idp import setup_test_idp
 
 
-def test_create_valid_intrusion(client: TestClient, test_user: schemas.User, test_property: schemas.Property):
+def test_create_valid_intrusion(client: TestClient, test_user: OIDCUser, test_property: schemas.Property):
     
-    user_id = test_user.id
+    user_id = test_user.sub
     property_id = test_property.id
     post_body = {
         "description": "intrusion_1: main building",
@@ -23,9 +25,9 @@ def test_create_valid_intrusion(client: TestClient, test_user: schemas.User, tes
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_intrusion_invalid_user(client: TestClient, test_user: schemas.User):
+def test_create_intrusion_invalid_user(client: TestClient, test_user: OIDCUser):
 
-    user_id = test_user.id + 999
+    user_id = "1234-1234-1234-1234"
     post_body = {
         "description": "test_intrusion",
         "datetime": "14/11/2022 - 16:31h"
@@ -36,9 +38,9 @@ def test_create_intrusion_invalid_user(client: TestClient, test_user: schemas.Us
     assert res.status_code == status.HTTP_404_NOT_FOUND
     assert res.json().get("detail") == f"User with id {user_id} not found"
 
-def test_create_intrusion_invalid_property(client: TestClient, test_user: schemas.User, test_property: schemas.Property):
+def test_create_intrusion_invalid_property(client: TestClient, test_user: OIDCUser, test_property: schemas.Property):
 
-    user_id = test_user.id
+    user_id = test_user.sub
     property_id = test_property.id + 999
     post_body = {
         "description": "test_intrusion",
@@ -86,12 +88,12 @@ def test_read_intrusion_invalid_id(client: TestClient, test_intrusion: schemas.I
     assert res.status_code == status.HTTP_404_NOT_FOUND 
 
 
-def test_update_intrusion(client: TestClient, test_intrusion: schemas.Intrusion, test_users: list[schemas.User], test_property: schemas.Property):
+def test_update_intrusion(client: TestClient, test_intrusion: schemas.Intrusion, test_users: list[OIDCUser], test_property: schemas.Property):
     
     new_user = test_users[-1]
     
     id = test_intrusion.id
-    new_user_id = new_user.id
+    new_user_id = new_user.sub
     new_property_id = test_property.id
     put_body = {
         "description": "new_description",
@@ -109,10 +111,10 @@ def test_update_intrusion(client: TestClient, test_intrusion: schemas.Intrusion,
     assert res.status_code == status.HTTP_200_OK
 
 
-def test_update_intrusion_invalid_user_id(client: TestClient, test_intrusion: schemas.Intrusion, test_user: schemas.User):
+def test_update_intrusion_invalid_user_id(client: TestClient, test_intrusion: schemas.Intrusion, test_user: OIDCUser):
 
     id = test_intrusion.id
-    new_user_id = test_user.id + 999
+    new_user_id = "1234-1234-1234-1234"
     put_body = {
         "description": "new_description",
         "datetime": "new_datetime"

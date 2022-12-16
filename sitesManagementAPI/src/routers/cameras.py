@@ -6,7 +6,7 @@ import src.db.repositories.cameras_crud as crud, src.models.schemas as schemas
 import src.db.repositories.properties_crud as properties_crud
 import src.db.repositories.alarms_crud as alarms_crud
 from src.db.database import get_db
-from idp.idp import idp
+from src.idp.idp import idp
 
 router = APIRouter(
     prefix="/sites-man-api/cameras",

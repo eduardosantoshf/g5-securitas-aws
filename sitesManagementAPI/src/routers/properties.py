@@ -1,11 +1,12 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, Response, HTTPException, status, APIRouter
 from fastapi_keycloak import OIDCUser
+from jose import ExpiredSignatureError
 
 import src.db.repositories.properties_crud as crud, src.models.schemas as schemas
 import src.db.repositories.users_crud as users_crud
 from src.db.database import get_db
-from idp.idp import idp
+from src.idp.idp import idp
 
 
 router = APIRouter(
@@ -18,7 +19,7 @@ router = APIRouter(
 def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session = Depends(get_db), \
                         user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
     try:
-        idp.get_user(user_id=owner_id, query=query)
+        print(idp.get_user(user_id=owner_id, query=None))
     except ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
     except: 
