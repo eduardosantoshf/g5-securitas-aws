@@ -37,7 +37,7 @@ def receive_intrusion_frame(frame: schemas.Frame):
     send_message_camera = camera_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_camera, kombu_queue_camera, frame)
     #send_message_alarm = alarm_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_alarm, kombu_queue_alarm, frame.camera_id)
     
-    #trigger_notification = notification_service.trigger_notification(frame.camera_id)
+    trigger_notification = notification_service.trigger_notification("sobral@ua.pt", frame.camera_id)
     
     #if (send_message_camera and send_message_alarm) and trigger_notification:
     if (send_message_camera):
