@@ -74,6 +74,7 @@ class Human_Detection_Worker(ConsumerMixin):
         frame_timestamp = message.headers["timestamp"]
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
+        frames_seconds = message.headers["frames_seconds"]
 
         # Debug
         print(f"I received the frame number {frame_count} from {msg_source}" +
@@ -134,16 +135,16 @@ class Human_Detection_Worker(ConsumerMixin):
         if num_humans > 0:
             self.r.hset(camera_id, frame_id, ts)
 
-    def notify_management_api(self, camera_id, timestamp):
+    def notify_management_api(self, camera_id, frame_seconds):
         print("ENTROU AQUI")
-        timestamp = timestamp.split(".")[0]
-        ts = timestamp.split(" ")[1]
+        #timestamp = timestamp.split(".")[0]
+        #ts = timestamp.split(" ")[1]
         print(camera_id)
-        data = {"camera_id": camera_id, "timestamp_intrusion": ts}
+        data = {"camera_id": camera_id, "timestamp_intrusion": frame_seconds}
         reply = requests.post(f"{self.intrusion_management_api_url}/cameras/receive-intrusion-frame", json=data)
 
 
-    def alarm_if_needed(self, camera_id, frame_id, frame_timestamp):
+    def alarm_if_needed(self, camera_id, frame_id, frame_seconds):
 
         prev1_frame_n_humans = self.r.hget(camera_id, frame_id - 1)
         prev2_frame_n_humans = self.r.hget(camera_id, frame_id - 2)
@@ -151,7 +152,7 @@ class Human_Detection_Worker(ConsumerMixin):
 
         if prev1_frame_n_humans and prev2_frame_n_humans and curr_frame_n_humans:
             print(f"A Human was found in frame {frame_id} on {curr_frame_n_humans.decode('utf-8')}")
-            self.notify_management_api(camera_id, frame_timestamp)
+            self.notify_management_api(camera_id, frame_seconds)
 
             return True
             
@@ -185,7 +186,6 @@ class Human_Detection_Module:
         connection_string = f"amqp://{broker_username}:{broker_password}" \
             f"@{broker_url}/"
 
-
         # Kombu Exchange
         self.kombu_exchange = kombu.Exchange(
             name=exchange_name,
@@ -204,7 +204,7 @@ class Human_Detection_Module:
         self.kombu_connection = kombu.Connection(
             connection_string,
             heartbeat=4,
-            ssl=True
+            #ssl=True
         )
         self.kombu_connection.connect()
         print("Successfully connected to the broker!")

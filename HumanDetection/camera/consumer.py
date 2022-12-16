@@ -48,16 +48,21 @@ class Cameras_worker(ConsumerMixin):
         fps = cap.get(cv2.CAP_PROP_FPS)
         clip_duration = math.trunc(frames / fps)
         
-        start = 0
-        end = clip_duration
         before_after = 10
-        # before_after = 180 
         
+        start = timestamp_intrusion - before_after
+        end = timestamp_intrusion + before_after
+        
+        print(f"Timestamp intrusion: {timestamp_intrusion}")
         #to not overclip the video
-        if timestamp_intrusion - before_after >= 0 :
-            start = timestamp_intrusion - before_after
-        if timestamp_intrusion + before_after <= clip_duration :
-            end = timestamp_intrusion + before_after
+        print("t1: ", timestamp_intrusion - before_after)
+        if start < 0:
+            start = 0
+        if end > clip_duration:
+            end = clip_duration
+
+        print("start: ", start)
+        print("end: ", end)
             
         parts = [(start, end)]
         ret, frame = cap.read()

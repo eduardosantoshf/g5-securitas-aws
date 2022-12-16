@@ -112,7 +112,8 @@ class Camera:
                             "source": f"camera_{self.camera_id}",
                             "timestamp": str(time_now),
                             "frame_count": frame_count,
-                            "frame_id": frame_id
+                            "frame_id": frame_id,
+                            "frame_seconds": frame_seconds
                         }
                     )
                     print(f"[Camera {self.camera_id}] Sent a frame to " +
