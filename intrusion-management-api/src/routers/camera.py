@@ -32,7 +32,7 @@ aws_secret_access_key = os.getenv('aws_secret_access_key')
 region_name = os.getenv('region_name')
 bucket_name = os.getenv('bucket_name')
 
-@router.get("/receive-intrusion-frame", response_model=schemas.Frame)
+@router.post("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
     send_message_camera = camera_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_camera, kombu_queue_camera, frame)
     #send_message_alarm = alarm_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_alarm, kombu_queue_alarm, frame.camera_id)
