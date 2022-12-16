@@ -32,8 +32,11 @@ class Human_Detection_Worker(ConsumerMixin):
             self.r = redis.Redis(
                         host = redis_url,
                         port = 6379,
+<<<<<<< HEAD
                         #ssl = True,
                         ssl_cert_reqs = None
+=======
+>>>>>>> f29b6d2b99a12eea67f5567d0ac2a44a29c329d2
                     )
             print(self.r)
 
