@@ -1,14 +1,14 @@
-from src.main import app
+import pytest
+from src.config import settings
 from fastapi.testclient import TestClient
 from fastapi_keycloak import OIDCUser
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.config import settings
 from src.db.database import get_db
 from src.models.models import Base
 from tests.conf_idp import setup_test_idp
-import pytest
 import src.models.schemas as schemas
+from tests.conf_idp import MockOIDCUser 
 
 
 
@@ -23,7 +23,12 @@ TestingSessionLocal = sessionmaker(
     autocommit=False, autoflush=False, bind=engine)
 
 @pytest.fixture(autouse=True, scope="function")
-def session(monkeypatch, mocker):
+def setup_idp(monkeypatch, mocker):
+    setup_test_idp(monkeypatch, mocker)
+
+
+@pytest.fixture(autouse=True, scope="function")
+def session():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     db = TestingSessionLocal()
@@ -41,53 +46,53 @@ def client(session):
         finally:
             session.close()
 
-    setup_test_idp(monkeypatch, mocker)
+    from src.main import app
     app.dependency_overrides[get_db] = override_get_db
     yield TestClient(app)
 
 
 @pytest.fixture(scope="function")
 def test_user(client: TestClient) -> OIDCUser:
-    new_user = MockOIDCUser().inject_mocked_oidc_user(
+    MockOIDCUser().inject_mocked_oidc_user(
         id="1111-1111-1111-1111",
         username="ttt@ttt.com",
-        roles=["g5-end-users"]
+        roles=["g5-admin"]
     )
 
-    return new_user.get_mocked_oidc_user()
+    return MockOIDCUser().get_mocked_oidc_user()
 
 
 @pytest.fixture(scope="function")
 def test_users(client: TestClient) -> list[OIDCUser]:
     users = []
 
-    new_user = MockOIDCUser().inject_mocked_oidc_user(
+    MockOIDCUser().inject_mocked_oidc_user(
         id="2222-2222-2222-2222",
         username="qqq@qqq.com",
-        roles=["g5-end-users"]
+        roles=["g5-admin"]
     )
-    users.append(new_user.get_mocked_oidc_user())
+    users.append(MockOIDCUser().get_mocked_oidc_user())
 
-    new_user = MockOIDCUser().inject_mocked_oidc_user(
+    MockOIDCUser().inject_mocked_oidc_user(
         id="3333-3333-3333-3333",
         username="www@www.com",
-        roles=["g5-end-users"]
+        roles=["g5-admin"]
     )
-    users.append(new_user.get_mocked_oidc_user())
+    users.append(MockOIDCUser().get_mocked_oidc_user())
 
-    new_user = MockOIDCUser().inject_mocked_oidc_user(
+    MockOIDCUser().inject_mocked_oidc_user(
         id="4444-4444-4444-4444",
         username="eee@eee.com",
-        roles=["g5-end-users"]
+        roles=["g5-admin"]
     )
-    users.append(new_user.get_mocked_oidc_user())
+    users.append(MockOIDCUser().get_mocked_oidc_user())
 
-    new_user = MockOIDCUser().inject_mocked_oidc_user(
+    MockOIDCUser().inject_mocked_oidc_user(
         id="5555-5555-5555-5555",
         username="rrr@rrr.com",
-        roles=["g5-end-users"]
+        roles=["g5-admin"]
     )
-    users.append(new_user.get_mocked_oidc_user())
+    users.append(MockOIDCUser().get_mocked_oidc_user())
 
     return users
 
