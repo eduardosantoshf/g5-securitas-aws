@@ -8,6 +8,7 @@ function Intrusions() {
   const [data, setData] = React.useState([]);
 
   const loadData = () => {
+    console.log(localStorage.getItem('token_id'))
     api.get("/intrusion/events-triggered/1").then((res) => {
         res.data.forEach((element) => {
         element.date = element.video_date.split("T")[0];

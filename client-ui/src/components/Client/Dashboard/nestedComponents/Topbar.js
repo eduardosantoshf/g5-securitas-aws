@@ -15,6 +15,15 @@ function Topbar() {
   //   });
   // }, []);
 
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      console.log(keycloak.tokenParsed.sub);
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
+    }
+  }, [keycloak.authenticated]);
+
+
 
   return (
     <div className="topbar">
@@ -31,22 +40,25 @@ function Topbar() {
                 keycloak.login()
                 .then(() => {
                   // The request to the token endpoint was successful
-                  console.log(keycloak.token)
+                  console.log("success")
                 })
                 .catch(error => {
                   // There was an error with the request to the token endpoint
+                  console.log("error")
                   console.log(error)
+                  
                 });
+
               }}
             >
               Login
             </div>
           )}
           {!!keycloak.authenticated && (
-            <div className="icons" onClick={() => keycloak.logout()}>
+            <div className="icons" onClick={() => {console.log(keycloak.tokenParsed.sub); alert(localStorage.getItem('token_id')); keycloak.logout()}}>
               Logout
               <PersonOutlineRoundedIcon />(
-              {keycloak.tokenParsed.preferred_username})
+              {keycloak.tokenParsed.given_name})
             </div>
           )}
         </div>

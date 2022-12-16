@@ -23,7 +23,7 @@ def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session
     except ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
     except: 
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {owner_id} not found")
 
     query = crud.create_property(property=property, owner_id=owner_id, db=db)
     
