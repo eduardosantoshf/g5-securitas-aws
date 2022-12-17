@@ -3,7 +3,7 @@ name: Sites Management API Coverage and Testing
 on:
   push:
     paths:
-      - '.github/workflows/sites-management-api.yaml'
+      - '.github/workflows/sites-management-api-coverage.yaml'
       - sitesManagementAPI/**
       - '!**.md'
       - '!**.pdf'
