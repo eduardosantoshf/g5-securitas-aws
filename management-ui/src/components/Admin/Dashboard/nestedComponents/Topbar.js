@@ -3,13 +3,6 @@ import './Topbar.css';
 import { useKeycloak } from "@react-keycloak/web";
 import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
 
-const handleLogout = () => {
-  localStorage.removeItem('token');
-  window.location.href = 'http://localhost:3000';
-  localStorage.removeItem('user');
-  localStorage.removeItem('type_user');
-};
-
 function Topbar() {
   const { keycloak, initialized } = useKeycloak();
   return (

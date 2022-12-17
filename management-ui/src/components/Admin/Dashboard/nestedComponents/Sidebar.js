@@ -5,8 +5,9 @@ import { useKeycloak } from "@react-keycloak/web";
 import { useHistory } from "react-router-dom";
 
 import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
-import DashboardOut from "@material-ui/icons/BarChartRounded";
+import DashboardOut from "@material-ui/icons/Home";
 import Camera from "@material-ui/icons/Camera";
+import Property from "@material-ui/icons/Domain";
 import Alarm from "@material-ui/icons/Alarm";
 
 import { slide as Menu } from "react-burger-menu";
@@ -23,6 +24,10 @@ function Sidebar() {
     history.push("/cameras");
   };
 
+  const properties = () => {
+    history.push("/properties");
+  };
+
   const alarms = () => {
     history.push("/alarms");
   };
@@ -35,7 +40,7 @@ function Sidebar() {
     return (
       <Menu>
         <a className="menu-item" onClick={initDashboard}>
-          <span className="lefti">Dashboard </span>
+          <span className="lefti">Home </span>
           <span className="righti">
             <DashboardOut />
           </span>
@@ -44,6 +49,12 @@ function Sidebar() {
           <span className="lefti">Users </span>
           <span className="righti">
             <PeopleRoundedIcon />
+          </span>
+        </a>
+        <a className="menu-item" onClick={properties}>
+          <span className="lefti">Properties </span>
+          <span className="righti">
+            <Property />
           </span>
         </a>
         <a className="menu-item" onClick={cameras}>
@@ -65,7 +76,7 @@ function Sidebar() {
   return (
     <Menu>
       <a className="menu-item" onClick={initDashboard}>
-        <span className="lefti">Dashboard </span>
+        <span className="lefti">Home </span>
         <span className="righti">
           <DashboardOut />
         </span>

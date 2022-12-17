@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Cameras from './pages/UsersManagement/Cameras/Cameras';
 import InitialDashboard from './pages/UsersManagement/InitialDashboard/InitialDashboard';
 import Alarms from "./pages/UsersManagement/Alarms/Alarms";
+import Properties from "./pages/UsersManagement/Properties/Properties";
 import Users from './pages/UsersManagement/Users/Users';
 function Dashboard() {
   return (
@@ -18,6 +19,11 @@ function Dashboard() {
             <Route exact path="/">
               <div className="middle">
                 <InitialDashboard />
+              </div>
+            </Route>
+            <Route path="/properties">
+              <div className="middle">
+                <Properties />
               </div>
             </Route>
             <Route path="/cameras">
