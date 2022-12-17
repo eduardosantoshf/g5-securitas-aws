@@ -19,11 +19,11 @@ def test_create_valid_property(client: TestClient, test_user: OIDCUser):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_existing_property(client: TestClient, test_property: schemas.Property):
+def test_create_existing_property(client: TestClient, test_property: schemas.Property, test_user: OIDCUser):
     
     post_body = {"address": test_property.address}
     
-    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_property.id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_user.sub)}, json=post_body)
 
     assert res.status_code == status.HTTP_400_BAD_REQUEST
     assert res.json().get("detail") == "Property already registred"
@@ -79,14 +79,15 @@ def test_update_property(client: TestClient, test_property: schemas.Property, te
     new_owner = test_users[-1]
     id = test_property.id
     new_owner_id = new_owner.sub
-    new_owner_address = new_owner.address
+    new_address = "Test address"
 
-    res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": str(new_owner_id), "new_address": str(new_owner_address)})
+    res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": str(new_owner_id), "new_address": str(new_address)})
 
+    print(res.json())
     res_property = schemas.Property(**res.json())
 
     assert res_property.owner_id == new_owner_id
-    assert res_property.address == new_owner_address
+    assert res_property.address == new_address
     assert res.status_code == status.HTTP_200_OK
 
 
@@ -99,7 +100,7 @@ def test_update_property_invalid_owner_id(client: TestClient, test_property: sch
     res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": new_owner_id})
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
-    assert res.json().get("detail") == f"No user with id {new_owner_id}"
+    assert res.json().get("detail") == f"User with id {new_owner_id} not found"
 
 
 def test_update_property_invalid_new_address(client: TestClient, test_property: schemas.Property, test_users: list[OIDCUser]):

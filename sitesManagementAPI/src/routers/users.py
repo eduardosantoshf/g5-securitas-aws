@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, Response, HTTPException, status, APIRouter
 from fastapi.responses import RedirectResponse
-from fastapi_keycloak import OIDCUser, KeycloakUser
+from fastapi_keycloak import OIDCUser, KeycloakUser, KeycloakError
+from jose import  ExpiredSignatureError
 
 import src.db.repositories.users_crud as crud, src.models.schemas as schemas
 from src.db.repositories import properties_crud
@@ -22,15 +23,24 @@ def read_users(user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5
 
 @router.get("/{user_id}", response_model=KeycloakUser)
 def read_user(user_id: str = None, query: str = "", user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
-    
-    return idp.get_user(user_id=user_id, query=query)
+    try:
+        return idp.get_user(user_id=user_id, query=query)
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
 
 
 @router.get("/{user_id}/cameras", response_model=list[schemas.Camera], status_code=status.HTTP_200_OK)
 def read_user_cameras(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))): 
     
-    idp.get_user(user_id=user_id, query=None)
-    
+    try:
+        idp.get_user(user_id=user_id, query="")
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
@@ -47,7 +57,13 @@ def read_user_cameras(user_id: str, db: Session = Depends(get_db), user: OIDCUse
 @router.get("/{user_id}/alarms", response_model=list[schemas.Alarm], status_code=status.HTTP_200_OK)
 def read_user_alarms(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     
-    idp.get_user(user_id=user_id, query=None)
+    try:
+        idp.get_user(user_id=user_id, query="")
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
@@ -64,9 +80,13 @@ def read_user_alarms(user_id: str, db: Session = Depends(get_db), user: OIDCUser
 @router.get("/{user_id}/properties", response_model=list[schemas.Property], status_code=status.HTTP_200_OK)
 def read_user_properties(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     
+    try:
+        idp.get_user(user_id=user_id, query=query)
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
     
-
-    idp.get_user(user_id=user_id, query=None)
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
