@@ -1,12 +1,35 @@
-.initialDashboard{
+.initialDashboard {
     padding-bottom: 75px;
-    
+
 }
 
-
-.titleDashboard{
-    font-size: 20px;
+.titleDashboard {
+    font-size: 40px;
     font-weight: 600;
-    color:aliceblue;
-    padding-top: 25px;
+    width: 100%;
+    display: flex;
+    color: #5F9EA0;
+    margin-top: 2%;
+    width: 80%;
+    margin-left: 11%;
+    margin-top: 7%;
+    margin-bottom:4%;
+    justify-content: center;
+    font-family: 'Courier New', monospace;
+}
+
+.contentDashboard {
+    font-size: 25px;
+    width: 100%;
+    display: flex;
+    color: #ffffff;
+    width: 80%;
+    margin-left: 11%;
+    font-family: 'Courier New', monospace;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.img{
+    display: grid;
+    place-items: center;
 }

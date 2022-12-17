@@ -4,9 +4,7 @@ import { useKeycloak } from "@react-keycloak/web";
 
 import { useNavigate } from "react-router-dom";
 
-import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
-import TreeRounded from "@material-ui/icons/AccountTreeRounded";
-import DashboardOut from "@material-ui/icons/BarChartRounded";
+import DashboardOut from "@material-ui/icons/Home";
 import Camera from "@material-ui/icons/Camera";
 import Alarm from "@material-ui/icons/Alarm";
 import Video from "@material-ui/icons/VideoLibrary";
@@ -37,7 +35,7 @@ function Sidebar() {
     return (
       <Menu>
         <a className="menu-item" onClick={initDashboard}>
-          <span className="lefti">Dashboard </span>
+          <span className="lefti">Home </span>
           <span className="righti">
             <DashboardOut />
           </span>
@@ -67,7 +65,7 @@ function Sidebar() {
   return (
     <Menu>
       <a className="menu-item" onClick={initDashboard}>
-        <span className="lefti">Dashboard </span>
+        <span className="lefti">Home </span>
         <span className="righti">
           <DashboardOut />
         </span>

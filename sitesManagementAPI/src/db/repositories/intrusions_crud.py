@@ -11,11 +11,11 @@ def get_intrusions(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Intrusion).offset(skip).limit(limit).all()
 
 
-def get_intrusion_by_user(db: Session, user_id: int):
+def get_intrusion_by_user(db: Session, user_id: str):
     return db.query(models.Intrusion).filter(models.Intrusion.user_id == user_id).all()
 
 
-def create_intrusion(db: Session, intrusion: schemas.IntrusionCreate, user_id: int, property_id: int | None = None):
+def create_intrusion(db: Session, intrusion: schemas.IntrusionCreate, user_id: str, property_id: int | None = None):
     db_intrusion = models.Intrusion(**intrusion.dict(), user_id=user_id, property_id=property_id)
     db.add(db_intrusion)
     db.commit()
@@ -24,16 +24,14 @@ def create_intrusion(db: Session, intrusion: schemas.IntrusionCreate, user_id: i
     return db_intrusion
 
 
-def update_intrusion(db: Session, intrusion_id: int, updated_intrusion: schemas.IntrusionBase, new_user_id: int | None = None, new_property_id: int | None = None):
+def update_intrusion(db: Session, intrusion_id: int, updated_intrusion: schemas.IntrusionBase, new_user_id: str | None = None, new_property_id: int | None = None):
     query = db.query(models.Intrusion).filter(models.Intrusion.id == intrusion_id).first()
     if query is None:
         return None
 
     if new_user_id:
-        query_user = db.query(models.User).filter(models.User.id == new_user_id).first()
-        if query_user is None:
-            return -1
         query.user_id = new_user_id
+        
 
     if new_property_id:
         query_property = db.query(models.Property).filter(models.Property.id == new_property_id).first()
