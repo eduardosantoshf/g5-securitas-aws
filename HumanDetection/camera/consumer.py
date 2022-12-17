@@ -35,8 +35,8 @@ class Cameras_worker(ConsumerMixin):
     # TODO function to handle video requests
     def on_message(self, body, message):
         camera_id = message.headers["camera_id"]
-        timestamp_intrusion_ = message.headers["timestamp_intrusion"]
-        timestamp_intrusion = self.get_sec(timestamp_intrusion_)
+        timestamp_intrusion = message.headers["timestamp_intrusion"]
+        timestamp_intrusion = float(timestamp_intrusion)
         
         print(f"Received frame from camera {camera_id} with timestamp {message.headers['timestamp_intrusion']}")    
         message.ack()

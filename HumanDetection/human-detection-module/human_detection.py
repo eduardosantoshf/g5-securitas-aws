@@ -77,6 +77,12 @@ class Human_Detection_Worker(ConsumerMixin):
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
         frame_seconds = message.headers["frame_seconds"]
+        
+        print("--------------------------------------------")
+        print("--------------------------------------------")
+        print(frame_seconds)
+        print("--------------------------------------------")
+        print("--------------------------------------------")
 
         # Debug
         print(f"I received the frame number {frame_count} from {msg_source}" +
@@ -142,8 +148,7 @@ class Human_Detection_Worker(ConsumerMixin):
         #timestamp = timestamp.split(".")[0]
         #ts = timestamp.split(" ")[1]
         print(camera_id)
-        timestamp_to_send = str(timedelta(seconds=frame_seconds))
-        data = {"camera_id": camera_id, "timestamp_intrusion": timestamp_to_send}
+        data = {"camera_id": camera_id, "timestamp_intrusion": frame_seconds}
         print(data)
         reply = requests.post(f"{self.intrusion_management_api_url}/cameras/receive-intrusion-frame", json=data)
         print(reply)
