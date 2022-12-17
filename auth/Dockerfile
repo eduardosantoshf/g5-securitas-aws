@@ -15,4 +15,4 @@ COPY realm-export-aws.json /opt/keycloak/data/import/
 ENV KEYCLOAK_ADMIN=kc_admin
 ENV KEYCLOAK_ADMIN_PASSWORD=kc_admin_pass
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
