@@ -17,6 +17,8 @@ function Cameras() {
     if (!!keycloak.authenticated) {
       console.log(keycloak.tokenParsed.sub);
       console.log(keycloak.token);
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
     }
   }, [keycloak.authenticated]);
   
@@ -54,7 +56,7 @@ function Cameras() {
   }, []);
 
   const handleDelete = id => {
-    api.delete(`/cameras/${id}`).then(res => {
+    api.delete(`/cameras/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
       loadData();

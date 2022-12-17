@@ -57,7 +57,7 @@ def update_alarm(alarm_id: int, new_description: str | None = None, new_property
 
 
 @router.delete("/{alarm_id}")
-def delete_alarm(alarm_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+def delete_alarm(alarm_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     alarm_deleted = crud.delete_alarm(db=db, alarm_id=alarm_id)
     if alarm_deleted is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Alarm with id {alarm_id} not found")
