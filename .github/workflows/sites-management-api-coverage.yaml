@@ -75,7 +75,7 @@ jobs:
       
       - name: Run tox
         working-directory: ./sitesManagementAPI
-        run: tox -c tox.ini -e py   
+        run: tox -c tox.ini -e py310   
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
