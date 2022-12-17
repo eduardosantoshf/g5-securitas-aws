@@ -6,31 +6,6 @@ import pytest
 
 from tests.conf_idp import setup_test_idp
 
-# def test_createUserValid(client: TestClient):
-#     # Arrange
-#     post_body = {"name": "joao",
-#                  "email": "joao@gmail.com",
-#                  "address": "myaddress"}
-#     # Act
-#     res = client.post("/sites-man-api/users/", json=post_body)
-
-#     # Assert
-#     new_user = schemas.User(**res.json())
-#     assert new_user.email == "joao@gmail.com"
-#     assert res.status_code == status.HTTP_201_CREATED
-
-# def test_create_user_alreadyRegisteredEmail(test_user: schemas.User, client: TestClient):
-#     # Arrange
-#     post_body = {"name": "joao",
-#                  "email": test_user.email,
-#                  "address": "myaddress"}
-
-#     # Act
-#     res = client.post("/sites-man-api/users/", json=post_body)
-
-#     # Assert
-#     assert res.status_code == status.HTTP_400_BAD_REQUEST
-#     assert res.json().get("detail") == "Email already registered"
 
 def test_read_users_shouldGetUsers(test_users: list[OIDCUser], client: TestClient):
     # Act
