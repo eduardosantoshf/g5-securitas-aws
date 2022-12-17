@@ -1,20 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import './Users.css';
 import Popup from 'reactjs-popup';
 import api from '../../ApiConnections/site-management-api';
+import { useKeycloak } from "@react-keycloak/web";
 
 import moment from 'moment'
 
 function Users() {
+  const { keycloak, initialized } = useKeycloak();
   const [data, setData] = React.useState([]);
 
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [address, setAddress] = React.useState('');
 
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      console.log(keycloak.tokenParsed.sub);
+      console.log(keycloak.token);
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
+    }
+  }, [keycloak.authenticated]);
+
   const loadData = () => {
-    api.get('/users').then(res => {
+    api.get('/users', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       setData(res.data);
       console.log(res.data);
     });
@@ -23,7 +34,7 @@ function Users() {
   const addUser = () => {
     const created_at = moment().format('YYYY-MM-DD');
     const user = { "name": name, "email": email, "address": address, "created_at": created_at };
-    api.post('/users', user).then(res => {
+    api.post('/users', user, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.data);
       loadData();
     });
@@ -34,7 +45,6 @@ function Users() {
   }, []);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 50 },
     {
       field: 'name',
       headerName: 'Name',
@@ -102,7 +112,7 @@ function Users() {
   ];
 
   const handleDelete = id => {
-    api.delete(`/users/${id}`).then(res => {
+    api.delete(`/users/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
       loadData();
@@ -195,7 +205,7 @@ function Users() {
           columns={columns}
           disableSelectionOnClick
           pageSize={6}
-          getRowId={row => row.email}
+          getRowId={row => row.id}
         />
       </div>
 
