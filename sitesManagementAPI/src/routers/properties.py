@@ -35,7 +35,7 @@ def create_property(property: schemas.PropertyCreate, owner_id: str, db: Session
 
 @router.get("/", response_model=list[schemas.Property])
 def read_properties(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), \
-                        user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+                        user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     try: 
         return crud.get_properties(skip=skip, limit=limit, db=db)
     except ExpiredSignatureError:
