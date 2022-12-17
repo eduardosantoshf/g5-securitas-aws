@@ -27,7 +27,7 @@ def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = 
 
 @router.get("/", response_model=list[schemas.Camera])
 def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), \
-                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
 
     return crud.get_cameras(db=db, skip=skip, limit=limit)
 
@@ -61,7 +61,7 @@ def update_camera(camera_id: int, new_description: str | None = None, new_proper
 
 @router.delete("/{camera_id}")
 def delete_camera(camera_id: int, db: Session = Depends(get_db), \
-                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users', 'g5-admin']))):
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     
     camera_deleted = crud.delete_camera(db=db, camera_id=camera_id)
     if camera_deleted is None:

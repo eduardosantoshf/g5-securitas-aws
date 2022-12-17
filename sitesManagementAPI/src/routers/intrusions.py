@@ -45,7 +45,7 @@ def read_intrusion(intrusion_id: int, db: Session = Depends(get_db), user: OIDCU
 
 
 @router.get("/", response_model=list[schemas.Intrusion], status_code=status.HTTP_200_OK)
-def read_intrusions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+def read_intrusions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     return crud.get_intrusions(db=db, skip=skip, limit=limit)
 
 
@@ -63,7 +63,7 @@ def read_intrusions_by_user(user_id: str, db: Session = Depends(get_db), user: O
 
 @router.put("/{intrusion_id}", response_model=schemas.Intrusion, status_code=status.HTTP_200_OK)
 def update_intrusion(intrusion_id: int, updated_intrusion: schemas.IntrusionBase, new_property_id: int | None = None, new_user_id: str | None = None, db: Session = Depends(get_db), \
-                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     
     if new_user_id:
         try:
@@ -86,7 +86,7 @@ def update_intrusion(intrusion_id: int, updated_intrusion: schemas.IntrusionBase
 
 
 @router.delete("/{intrusion_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_intrusion(intrusion_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+def delete_intrusion(intrusion_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     intrusion_deleted = crud.delete_intrusion(intrusion_id=intrusion_id, db=db)
 
     if intrusion_deleted is None:
