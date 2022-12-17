@@ -64,8 +64,7 @@ jobs:
           python-version: '3.10'
       - name: Install all dependencies
         run: |
-          apt-get update -y
-          apt install -y build-essential
+          apt-get update 
           apt install -y python3-dev
           apt install -y libmariadb3 libmariadb-dev
           python -m pip install --upgrade pip
@@ -75,7 +74,7 @@ jobs:
       
       - name: Run tox
         working-directory: ./sitesManagementAPI
-        run: tox -c tox.ini -e py310   
+        run: tox -c tox.ini 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
