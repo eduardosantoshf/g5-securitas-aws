@@ -14,7 +14,7 @@ import datetime
 import os
 import redis
 import requests
-
+from datetime import timedelta
 
 # Kombu Message Consuming Human_Detection_Worker
 class Human_Detection_Worker(ConsumerMixin):
@@ -32,6 +32,8 @@ class Human_Detection_Worker(ConsumerMixin):
             self.r = redis.Redis(
                         host = redis_url,
                         port = 6379,
+                        #ssl=True,
+                        ssl_cert_reqs = None
                     )
             print(self.r)
 
@@ -74,7 +76,7 @@ class Human_Detection_Worker(ConsumerMixin):
         frame_timestamp = message.headers["timestamp"]
         frame_count = message.headers["frame_count"]
         frame_id = message.headers["frame_id"]
-        frames_seconds = message.headers["frames_seconds"]
+        frame_seconds = message.headers["frame_seconds"]
 
         # Debug
         print(f"I received the frame number {frame_count} from {msg_source}" +
@@ -114,7 +116,7 @@ class Human_Detection_Worker(ConsumerMixin):
         alarm_raised = self.alarm_if_needed(
             camera_id=msg_source,
             frame_id=frame_id,
-            frame_timestamp=frame_timestamp
+            frame_seconds=frame_seconds
         )
 
         if alarm_raised:
@@ -140,9 +142,11 @@ class Human_Detection_Worker(ConsumerMixin):
         #timestamp = timestamp.split(".")[0]
         #ts = timestamp.split(" ")[1]
         print(camera_id)
-        data = {"camera_id": camera_id, "timestamp_intrusion": frame_seconds}
+        timestamp_to_send = str(timedelta(seconds=frame_seconds))
+        data = {"camera_id": camera_id, "timestamp_intrusion": timestamp_to_send}
+        print(data)
         reply = requests.post(f"{self.intrusion_management_api_url}/cameras/receive-intrusion-frame", json=data)
-
+        print(reply)
 
     def alarm_if_needed(self, camera_id, frame_id, frame_seconds):
 
@@ -204,7 +208,7 @@ class Human_Detection_Module:
         self.kombu_connection = kombu.Connection(
             connection_string,
             heartbeat=4,
-            #ssl=True
+            ssl=True
         )
         self.kombu_connection.connect()
         print("Successfully connected to the broker!")
