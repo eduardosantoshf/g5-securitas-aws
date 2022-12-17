@@ -33,7 +33,7 @@ class Human_Detection_Worker(ConsumerMixin):
                         host = redis_url,
                         port = 6379,
                         #ssl=True,
-                        ssl_cert_reqs = None
+                        #ssl_cert_reqs = None
                     )
             print(self.r)
 
@@ -78,12 +78,6 @@ class Human_Detection_Worker(ConsumerMixin):
         frame_id = message.headers["frame_id"]
         frame_seconds = message.headers["frame_seconds"]
         
-        print("--------------------------------------------")
-        print("--------------------------------------------")
-        print(frame_seconds)
-        print("--------------------------------------------")
-        print("--------------------------------------------")
-
         # Debug
         print(f"I received the frame number {frame_count} from {msg_source}" +
               f", with the timestamp {frame_timestamp}.")
