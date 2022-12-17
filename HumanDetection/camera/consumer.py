@@ -91,6 +91,11 @@ class Cameras_worker(ConsumerMixin):
             with open(f"./samples/intrusion_{camera_id}_{timestamp_intrusion}.mp4", 'rb') as f:
                 response = requests.post(os.getenv('INTRUSION_MANAGEMENT_API_URL') +'/cameras/store-video', files={'file': f})
                 print(f"Clipped video sent to intrusion-management-api with status code {response.status_code}")    
+            try:
+                os.remove(f"./samples/intrusion_{camera_id}_{timestamp_intrusion}.mp4")
+                print("Clipped video deleted")
+            except Exception as e:
+                print("Error: Deleting clipped video ", e)
         except Exception as e:
             print("Error: ", e)
 

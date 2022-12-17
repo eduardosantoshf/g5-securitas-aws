@@ -70,20 +70,21 @@ def receive_video_from_cameras_and_save(file: UploadFile, db: Session = Depends(
     elif res == NoCredentialsError:
         return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
     
-    try:
-        os.remove("./videos_/" + file.filename)
-        print("Video deleted")
-    except Exception as e:
-        print("Error deleting video: " +  e)
-        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    #try:
+    #    os.remove("./videos_/" + file.filename)
+    #    print("Video deleted")
+    #except Exception as e:
+    #    print("Error deleting video: " +  e)
+    #    return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
     
-@router.get("/intrusions-videos", status_code=status.HTTP_200_OK)
-def download_video_from_s3_and_send(db: Session = Depends(get_db)):
-    id = 2 #id (row de onde clica no watch video list do front end)
+@router.get("/intrusions-videos/{id}", status_code=status.HTTP_200_OK)
+def download_video_from_s3_and_send(id: int, db: Session = Depends(get_db)):
+    #id = 1 #id (row de onde clica no watch video list do front end)
     #id é o id da tabela user_videos
     user_video = camera_service.get_user_videos(db, id=id)
 
     video_name = user_video[0].video_name
+    
     print("nome do video q está na base de dados:", video_name)
     res = camera_service.get_from_s3_bucket(aws_access_key_id, aws_secret_access_key, region_name, bucket_name, video_name)
     
@@ -92,15 +93,13 @@ def download_video_from_s3_and_send(db: Session = Depends(get_db)):
     elif res == NoCredentialsError:
         return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Credentials not available")
         
-        #return FileResponse("./videos_/" + video.video_name)
-
-        #try:
-        #    return FileResponse("./videos_/" + video.video_name, media_type="video/mp4")
-        #except FileNotFoundError:
-        #    return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
-        #finally:
-            #try:
-            #    os.remove("./videos/" + filename)
-            #except Exception as e:
-            #    print("Error deleting video: " +  e)
-            #    return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    try:
+        return FileResponse("./videos_/" + video_name, media_type="video/mp4")
+    except FileNotFoundError:
+        return Response(status_code=status.HTTP_404_NOT_FOUND, content="File not found")
+    #finally:
+    #    try:
+    #        os.remove("./videos_/" + video_name)
+    #    except Exception as e:
+    #        print("Error deleting video: " +  e)
+    #        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")

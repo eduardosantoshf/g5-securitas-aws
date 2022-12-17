@@ -82,10 +82,8 @@ def get_from_s3_bucket(access_key_id, secret_access_key, region_name, bucket_nam
     )
     
     try:
-        with open('./videos_/' + filename, 'wb') as data:
-            client.download_fileobj(bucket_name, filename, data)
+        client.download_file(Bucket=bucket_name, Key=filename, Filename="./videos_/" + filename)
         print("Downloaded file: " + filename)
-        #client.download_file(Bucket=bucket_name, Key=filename, Filename="./videos_/" + filename)
         return True
     except FileNotFoundError:
         return FileNotFoundError
