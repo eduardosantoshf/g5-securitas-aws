@@ -56,7 +56,7 @@ def test_user(client: TestClient) -> OIDCUser:
     MockOIDCUser().inject_mocked_oidc_user(
         id="1111-1111-1111-1111",
         username="ttt@ttt.com",
-        roles=["g5-admin"]
+        roles=["g5-end-users", "g5-admin"]
     )
 
     return MockOIDCUser().get_mocked_oidc_user()
@@ -69,28 +69,28 @@ def test_users(client: TestClient) -> list[OIDCUser]:
     MockOIDCUser().inject_mocked_oidc_user(
         id="2222-2222-2222-2222",
         username="qqq@qqq.com",
-        roles=["g5-admin"]
+        roles=["g5-admin", "g5-end-users"]
     )
     users.append(MockOIDCUser().get_mocked_oidc_user())
 
     MockOIDCUser().inject_mocked_oidc_user(
         id="3333-3333-3333-3333",
         username="www@www.com",
-        roles=["g5-admin"]
+        roles=["g5-admin", "g5-end-users"]
     )
     users.append(MockOIDCUser().get_mocked_oidc_user())
 
     MockOIDCUser().inject_mocked_oidc_user(
         id="4444-4444-4444-4444",
         username="eee@eee.com",
-        roles=["g5-admin"]
+        roles=["g5-admin", "g5-end-users"]
     )
     users.append(MockOIDCUser().get_mocked_oidc_user())
 
     MockOIDCUser().inject_mocked_oidc_user(
         id="5555-5555-5555-5555",
         username="rrr@rrr.com",
-        roles=["g5-admin"]
+        roles=["g5-admin", "g5-end-users"]
     )
     users.append(MockOIDCUser().get_mocked_oidc_user())
 
@@ -179,19 +179,20 @@ def test_intrusion(client: TestClient, test_user: OIDCUser, test_property: schem
 
 
 @pytest.fixture(scope="function")
-def test_intrusions(client: TestClient, test_user: OIDCUser) -> list[schemas.Intrusion]:
+def test_intrusions(client: TestClient, test_user: OIDCUser, test_property: schemas.Property) -> list[schemas.Intrusion]:
     intrusions = []
 
     post_body = {"description": "test_intrusion1", "datetime": "13/12/2022 - 13:23h"}
-    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.sub)}, json=post_body)
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.sub), "property_id": str(test_property.id)}, json=post_body)
+    
     intrusions.append(schemas.Intrusion(**res.json()))
 
     post_body = {"description": "test_intrusion2", "datetime": "13/12/2022 - 14:23h"}
-    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.sub)}, json=post_body)
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.sub), "property_id": str(test_property.id)}, json=post_body)
     intrusions.append(schemas.Intrusion(**res.json()))
 
     post_body = {"description": "test_intrusion3", "datetime": "13/12/2022 - 15:23h"}
-    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.sub)}, json=post_body)
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": str(test_user.sub), "property_id": str(test_property.id)}, json=post_body)
     intrusions.append(schemas.Intrusion(**res.json()))
 
     return intrusions

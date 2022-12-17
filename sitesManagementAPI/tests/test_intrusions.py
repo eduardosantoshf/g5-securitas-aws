@@ -25,7 +25,7 @@ def test_create_valid_intrusion(client: TestClient, test_user: OIDCUser, test_pr
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_intrusion_invalid_user(client: TestClient, test_user: OIDCUser):
+def test_create_intrusion_invalid_user(client: TestClient, test_user: OIDCUser, test_property: schemas.Property):
 
     user_id = "1234-1234-1234-1234"
     post_body = {
@@ -33,7 +33,8 @@ def test_create_intrusion_invalid_user(client: TestClient, test_user: OIDCUser):
         "datetime": "14/11/2022 - 16:31h"
     }
 
-    res = client.post("/sites-man-api/intrusions/", params={"user_id": user_id}, json=post_body)
+    res = client.post("/sites-man-api/intrusions/", params={"user_id": user_id, "property_id": test_property.id}, json=post_body)
+    print(res.json())
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
     assert res.json().get("detail") == f"User with id {user_id} not found"
@@ -102,6 +103,7 @@ def test_update_intrusion(client: TestClient, test_intrusion: schemas.Intrusion,
  
     res = client.put(f"/sites-man-api/intrusions/{id}", params={"new_user_id": str(new_user_id), "new_property_id": str(new_property_id)}, json=put_body)
 
+    print(res.json())
     res_intrusion = schemas.Intrusion(**res.json())
 
     assert res_intrusion.user_id == new_user_id
