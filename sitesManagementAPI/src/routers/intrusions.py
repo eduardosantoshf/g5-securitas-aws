@@ -6,7 +6,7 @@ import src.db.repositories.intrusions_crud as crud, src.models.schemas as schema
 import src.db.repositories.properties_crud as properties_crud
 import src.db.repositories.users_crud as users_crud
 from src.db.database import get_db
-from idp.idp import idp
+from src.idp.idp import idp
 
 router = APIRouter(
     prefix="/sites-man-api/intrusions",

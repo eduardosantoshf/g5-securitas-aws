@@ -26,7 +26,7 @@ app.include_router(properties.router)
 app.include_router(cameras.router)
 app.include_router(intrusions.router)
 
-idp.add_swagger_config(app)
+#idp.add_swagger_config(app)
 
 @app.get("/sites-man-api")
 def root():

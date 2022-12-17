@@ -5,7 +5,7 @@ from fastapi_keycloak import OIDCUser
 import src.db.repositories.alarms_crud as crud, src.models.schemas as schemas
 import src.db.repositories.properties_crud as properties_crud
 from src.db.database import get_db
-from idp.idp import idp
+from src.idp.idp import idp
 
 router = APIRouter(
     prefix="/sites-man-api/alarms",
@@ -57,7 +57,7 @@ def update_alarm(alarm_id: int, new_description: str | None = None, new_property
 
 
 @router.delete("/{alarm_id}")
-def delete_alarm(alarm_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+def delete_alarm(alarm_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     alarm_deleted = crud.delete_alarm(db=db, alarm_id=alarm_id)
     if alarm_deleted is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Alarm with id {alarm_id} not found")

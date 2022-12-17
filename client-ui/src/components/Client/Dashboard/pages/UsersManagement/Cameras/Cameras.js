@@ -1,15 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import './Cameras.css';
 import api from '../../ApiConnections/site-management-api';
 import Select from 'react-select';
+import { useKeycloak } from "@react-keycloak/web";
 
 import Popup from 'reactjs-popup';
 
 function Cameras() {
+  const { keycloak, initialized } = useKeycloak();
   const [data, setData] = React.useState([]);
   var [buildings] = React.useState([]);
   const [property_id, setPropertyId] = React.useState(0);
+
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      console.log(keycloak.tokenParsed.sub);
+      console.log(keycloak.token);
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
+    }
+  }, [keycloak.authenticated]);
   
   const customStyles = {
     option: (provided, state) => ({
@@ -21,11 +32,15 @@ function Cameras() {
   }
 
   const loadData = () => {
-    api.get('/users/1/cameras').then(res => {
+    console.log(localStorage.getItem('token_id'))
+    console.log(localStorage.getItem('token'))
+    // api.get('/users/1/cameras').then(res => {
+    api.get('/users/' + localStorage.getItem('token_id') + '/cameras', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       setData(res.data);
       console.log(res.data);
     });
-    api.get('/users/1/properties').then(res => {
+    // api.get('/users/1/properties').then(res => {
+    api.get('/users/' + localStorage.getItem('token_id') + '/properties', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.data);
       (res.data).forEach(element => {
         if (buildings.find(building => building.value === element.id) === undefined) {
@@ -41,7 +56,7 @@ function Cameras() {
   }, []);
 
   const handleDelete = id => {
-    api.delete(`/cameras/${id}`).then(res => {
+    api.delete(`/cameras/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
       loadData();
@@ -49,7 +64,7 @@ function Cameras() {
   };
 
   const addCamera = () => {
-    api.post('cameras/?property_id=' + property_id, {}).then(res => {
+    api.post('cameras/?property_id=' + property_id, {},{headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.data);
       loadData();
     });

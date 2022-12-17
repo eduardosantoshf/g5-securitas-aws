@@ -3,6 +3,7 @@ from fastapi import status
 import pytest
 
 from src.models import schemas
+from tests.conf_idp import setup_test_idp
 
 
 def test_create_valid_camera(client: TestClient, test_property: schemas.Property):

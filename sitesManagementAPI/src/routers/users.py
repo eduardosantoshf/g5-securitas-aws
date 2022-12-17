@@ -6,7 +6,7 @@ from fastapi_keycloak import OIDCUser, KeycloakUser
 import src.db.repositories.users_crud as crud, src.models.schemas as schemas
 from src.db.repositories import properties_crud
 from src.db.database import get_db
-from idp.idp import idp
+from src.idp.idp import idp
 
 
 router = APIRouter(
@@ -64,6 +64,8 @@ def read_user_alarms(user_id: str, db: Session = Depends(get_db), user: OIDCUser
 @router.get("/{user_id}/properties", response_model=list[schemas.Property], status_code=status.HTTP_200_OK)
 def read_user_properties(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     
+    
+
     idp.get_user(user_id=user_id, query=None)
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
