@@ -46,9 +46,6 @@ function Topbar() {
               className="icons"
               onClick={() => {
                 keycloak.logout();
-                window.location.href = "/";
-                localStorage.removeItem("token_id");
-                localStorage.removeItem("token");
               }}
             >
               Logout

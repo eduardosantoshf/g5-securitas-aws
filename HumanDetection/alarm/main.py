@@ -17,8 +17,8 @@ ALARM_ID = 1
 RABBIT_MQ_USERNAME = os.environ['RABBIT_MQ_USERNAME']
 RABBIT_MQ_PASSWORD = os.environ['RABBIT_MQ_PASSWORD']
 RABBIT_MQ_URL = os.environ['RABBIT_MQ_URL']
-RABBIT_MQ_EXCHANGE_NAME = "human-detection-exchange"    #?
-RABBIT_MQ_QUEUE_NAME = "human-detection-queue"          #?
+RABBIT_MQ_EXCHANGE_NAME = "activate-alarm-exchange"
+RABBIT_MQ_QUEUE_NAME = "activate-alarm-queue"      
 INTRUSION_MANAGEMENT_API_URL = os.environ['INTRUSION_MANAGEMENT_API_URL']
 
 alarm = Alarm(
