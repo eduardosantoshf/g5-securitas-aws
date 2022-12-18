@@ -27,7 +27,7 @@ def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = 
 
 @router.get("/", response_model=list[schemas.Camera])
 def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), \
-                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
 
     return crud.get_cameras(db=db, skip=skip, limit=limit)
 

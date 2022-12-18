@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import './Cameras.css';
+import './Alarms.css';
 import api from '../../ApiConnections/site-management-api';
-import { useKeycloak } from "@react-keycloak/web";
 import Select from 'react-select';
-
 import Popup from 'reactjs-popup';
+import { useKeycloak } from "@react-keycloak/web";
 
-function Cameras() {
+function Alarms() {
   const { keycloak, initialized } = useKeycloak();
   const [data, setData] = React.useState([]);
   var [buildings] = React.useState([]);
@@ -30,12 +29,10 @@ function Cameras() {
       padding: 20,
     }),
   }
-
+  
   const loadData = () => {
-    console.log(localStorage.getItem('token_id'))
-    console.log(localStorage.getItem('token'))
-    // api.get('/users/1/cameras').then(res => {
-    api.get('/cameras', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
+    api.get('/alarms', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
+      console.log("loadData");
       setData(res.data);
       console.log(res.data);
     });
@@ -55,15 +52,15 @@ function Cameras() {
   }, []);
 
   const handleDelete = id => {
-    api.delete(`/cameras/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
+    api.delete(`/alarms/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
       loadData();
     });
   };
 
-  const addCamera = () => {
-    api.post('cameras/?property_id=' + property_id, {},{headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
+  const addAlarm = () => {
+    api.post('alarms/?property_id=' + property_id, {}, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       console.log(res.data);
       loadData();
     });
@@ -73,7 +70,7 @@ function Cameras() {
     { field: 'id', headerName: 'ID', width: 50 },
     {
       field: 'id',
-      headerName: 'Camera Id',
+      headerName: 'Alarm Id',
       sortable: false,
       width: 225,
     },
@@ -83,13 +80,13 @@ function Cameras() {
       width: 250,
     },
     {
-      field: 'is_alive',
-      headerName: 'Alive',
+      field: 'is_active',
+      headerName: 'Active',
       width: 250,
     },
     {
-      field: 'is_streaming',
-      headerName: 'Streaming',
+      field: 'is_alive',
+      headerName: 'Alive',
       width: 250,
     },
     {
@@ -112,7 +109,7 @@ function Cameras() {
                   <div className="header"> Confirmation - Elimination </div>
                   <div className="header" style={{ color: "white" , align: "center", borderBottomWidth: 0 }}>
                     {' '}
-                    Are you sure you want to remove this camera ( {params.row.id} ) ?
+                    Are you sure you want to remove this alarm ( {params.row.id} ) ?
                   </div>
                   <div className="actions">
                     <button
@@ -144,7 +141,7 @@ function Cameras() {
 
   return (
     <>
-      <h2 className="title">Cameras</h2>
+      <h2 className="title">Alarms</h2>
       <div className="btns-wrapper">
         <div className="btns">
         <Popup
@@ -157,13 +154,13 @@ function Cameras() {
                   <button className="close" onClick={close}>
                     &times;
                   </button>
-                  <div className="header"> Add Camera </div>
+                  <div className="header"> Add Alarm </div>
                   <div className="header" style={{ color: "white", borderBottomWidth: 0 }}>
                     <div style={{display:"flex", justifyContent:"space-around"}}>
                        <div style={{ width:"100px", textAlign: "left"}}>
                         <label style={{width:"40px"}} for="fname">Building</label>
                       </div>
-                      <Select
+                    <Select
                       className="select"
                       placeholder="Select Building"
                       options={buildings}
@@ -176,7 +173,7 @@ function Cameras() {
                     <button
                       className="declineBtn"
                       onClick={() => {
-                        addCamera();
+                        addAlarm();
                         close();
                       }}
                     >
@@ -209,4 +206,4 @@ function Cameras() {
   );
 }
 
-export default Cameras;
+export default Alarms;

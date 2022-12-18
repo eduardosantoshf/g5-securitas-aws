@@ -1,9 +1,12 @@
 # base code by rafael-direito in ATNoG/VPilot/ResourceManager gh repository
 import pytest
-from fastapi_keycloak.model import OIDCUser
+from fastapi_keycloak.model import OIDCUser, KeycloakUser
+from fastapi_keycloak import KeycloakError
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import HTTPException, status
 
+
+mocked_user_db = []
 
 class Singleton(type):
     _instances = {}
@@ -23,7 +26,7 @@ class MockOIDCUser(metaclass=Singleton):
         email_verified=True,
         preferred_username="",
         realm_access={
-            "roles": ["g5-end-users"]
+            "roles": []
         },
     )
 
@@ -41,6 +44,22 @@ class MockOIDCUser(metaclass=Singleton):
                 "roles": roles
             },
         )
+        
+        if not self.mocked_oidc_user.sub in [i.id for i in mocked_user_db]:
+            mocked_user_db.append(
+                KeycloakUser(
+                    id=self.mocked_oidc_user.sub,
+                    createdTimestamp=0,
+                    username=self.mocked_oidc_user.preferred_username,
+                    enabled=True,
+                    totp=True,
+                    emailVerified=self.mocked_oidc_user.email_verified,
+                    disableableCredentialTypes=[],
+                    requiredActions=[],
+                    notBefore=0,
+                    access=self.mocked_oidc_user.realm_access,
+                )
+            )
 
 
 class MockFastAPIKeycloak(metaclass=Singleton):
@@ -49,7 +68,6 @@ class MockFastAPIKeycloak(metaclass=Singleton):
         return OAuth2PasswordBearer(tokenUrl="token_uri")
 
     def get_current_user(required_roles=None):
-
         def current_user():
             mocked_oidc_user = MockOIDCUser().get_mocked_oidc_user()
             if required_roles:
@@ -64,6 +82,21 @@ class MockFastAPIKeycloak(metaclass=Singleton):
 
         return current_user
 
+    # query search not implemented, returns None type, raise exception if user not found
+    def get_user(user_id=None, query=""):
+        if user_id is None:
+            return None
+        else:
+            for i in mocked_user_db:
+                if user_id == i.id:
+                    return i
+        raise KeycloakError(
+            status_code=status.HTTP_404_NOT_FOUND,
+            reason=f'User with id {user_id} not found'
+        )
+    
+    def get_all_users():
+        return mocked_user_db
 
 def setup_test_idp(monkeypatch, mocker):
     # mock IDP needed environment variables

@@ -1,15 +1,26 @@
-import React from "react";
+import React, {useEffect} from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import "./Intrusions.css";
 import Popup from "reactjs-popup";
 import api, {apiBaseUrl} from '../../ApiConnections/intrusion-management-api';
+import { useKeycloak } from "@react-keycloak/web";
 
 function Intrusions() {
   const [data, setData] = React.useState([]);
+  const { keycloak, initialized } = useKeycloak();
+
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      console.log(keycloak.tokenParsed.sub);
+      console.log(keycloak.token);
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
+    }
+  }, [keycloak.authenticated]);
 
   const loadData = () => {
     console.log(localStorage.getItem('token_id'))
-    api.get("/intrusion/events-triggered/1").then((res) => {
+    api.get("/intrusion/events-triggered/" + localStorage.getItem('token_id')).then((res) => {
         res.data.forEach((element) => {
         element.date = element.video_date.split("T")[0];
         element.time = element.video_date.split("T")[1];

@@ -55,7 +55,7 @@ function Topbar() {
             </div>
           )}
           {!!keycloak.authenticated && (
-            <div className="icons" onClick={() => {console.log(keycloak.tokenParsed.sub); alert(localStorage.getItem('token_id')); keycloak.logout()}}>
+            <div className="icons" onClick={() => {console.log(keycloak.tokenParsed.sub); console.log(localStorage.getItem('token_id')); keycloak.logout()}}>
               Logout
               <PersonOutlineRoundedIcon />(
               {keycloak.tokenParsed.given_name})

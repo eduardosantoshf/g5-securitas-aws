@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Cameras from "./pages/UsersManagement/Cameras/Cameras";
 import Alarms from "./pages/UsersManagement/Alarms/Alarms";
 import InitialDashboard from "./pages/UsersManagement/InitialDashboard/InitialDashboard";
-import ExtensionInstall from "./pages/UsersManagement/ExtensionInstall/ExtensionInstall";
 import Intrusions from "./pages/UsersManagement/Intrusions/Intrusions";
 
 function Dashboard() {
@@ -47,14 +46,6 @@ function Dashboard() {
               element={
                 <div className="middle">
                   <Intrusions />
-                </div>
-              }
-            ></Route>
-            <Route
-              path="/extInstallation"
-              element={
-                <div className="middle">
-                  <ExtensionInstall />
                 </div>
               }
             ></Route>
