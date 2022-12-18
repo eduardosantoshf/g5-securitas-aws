@@ -112,13 +112,15 @@ class Camera:
                             "source": f"camera_{self.camera_id}",
                             "timestamp": str(time_now),
                             "frame_count": frame_count,
-                            "frame_id": frame_id
+                            "frame_id": frame_id,
+                            "frame_seconds": frame_seconds
                         }
                     )
                     print(f"[Camera {self.camera_id}] Sent a frame to " +
                           "the human-detection module " +
                           f"(frame_number={frame_count}, " +
-                          f"frame_timestamp={time_now})")
+                          f"frame_timestamp={time_now}), " +
+                          f"(frame_seconds={frame_seconds} ")
 
                     frame_id += 1
                     #key = cv2.waitKey(1)

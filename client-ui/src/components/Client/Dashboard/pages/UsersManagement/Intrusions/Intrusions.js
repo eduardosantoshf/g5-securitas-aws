@@ -35,6 +35,11 @@ function Intrusions() {
 
   const columns = [
     {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+    },
+    {
       field: "building_id",
       headerName: "Building ID",
       width: 225,
@@ -86,7 +91,7 @@ function Intrusions() {
                     >
                       <source
                         // src="http://localhost:6869/intrusion-management-api/cameras/intrusions-videos/download-video.mp4"
-                        src={ apiBaseUrl + "/cameras/intrusions-videos/" + params.row.video_name}
+                        src={ apiBaseUrl + "/cameras/intrusions-videos/" + params.row.id}
                         type="video/mp4"
                       />
                     </video>
