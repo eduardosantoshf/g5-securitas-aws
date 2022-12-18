@@ -35,29 +35,34 @@ class Cameras_worker(ConsumerMixin):
     # TODO function to handle video requests
     def on_message(self, body, message):
         camera_id = message.headers["camera_id"]
-        timestamp_intrusion_ = message.headers["timestamp_intrusion"]
-        timestamp_intrusion = self.get_sec(timestamp_intrusion_)
+        timestamp_intrusion = message.headers["timestamp_intrusion"]
+        timestamp_intrusion = float(timestamp_intrusion)
         
         print(f"Received frame from camera {camera_id} with timestamp {message.headers['timestamp_intrusion']}")    
         message.ack()
 
-        video = "./samples/people-detection.mp4"
+        #source video
+        video = "./samples/people-detection.mp4" 
         
         cap = cv2.VideoCapture(video)
         frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
         fps = cap.get(cv2.CAP_PROP_FPS)
         clip_duration = math.trunc(frames / fps)
         
-        start = 0
-        end = clip_duration
         before_after = 10
-        # before_after = 180 
         
+        start = timestamp_intrusion - before_after
+        end = timestamp_intrusion + before_after
+        
+        print(f"Timestamp intrusion: {timestamp_intrusion}")
         #to not overclip the video
-        if timestamp_intrusion - before_after >= 0 :
-            start = timestamp_intrusion - before_after
-        if timestamp_intrusion + before_after <= clip_duration :
-            end = timestamp_intrusion + before_after
+        if start < 0:
+            start = 0
+        if end > clip_duration:
+            end = clip_duration
+
+        print("start: ", start)
+        print("end: ", end)
             
         parts = [(start, end)]
         ret, frame = cap.read()
@@ -65,7 +70,8 @@ class Cameras_worker(ConsumerMixin):
         fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
         client_id = "000"
         #writers = [cv2.VideoWriter(f"./samples/intrusion-{client_id}-{camera_id}-{timestamp_intrusion}.mp4", fourcc, 10.0, (w, h)) for start, end in parts]
-        writers = [cv2.VideoWriter(f"./samples/download-video.mp4", fourcc, 10.0, (w, h)) for start, end in parts]
+        writers = [cv2.VideoWriter(f"./samples/intrusion_{camera_id}_{timestamp_intrusion}.mp4", fourcc, 10.0, (w, h)) for start, end in parts]
+        #writers = [cv2.VideoWriter(f"./samples/download-video.mp4", fourcc, 10.0, (w, h)) for start, end in parts]
 
         f = 0
         while ret:
@@ -82,9 +88,14 @@ class Cameras_worker(ConsumerMixin):
         
         #*send the video through the HTTP to the API
         try:
-            with open(f"./samples/download-video.mp4", 'rb') as f:
+            with open(f"./samples/intrusion_{camera_id}_{timestamp_intrusion}.mp4", 'rb') as f:
                 response = requests.post(os.getenv('INTRUSION_MANAGEMENT_API_URL') +'/cameras/store-video', files={'file': f})
                 print(f"Clipped video sent to intrusion-management-api with status code {response.status_code}")    
+            try:
+                os.remove(f"./samples/intrusion_{camera_id}_{timestamp_intrusion}.mp4")
+                print("Clipped video deleted")
+            except Exception as e:
+                print("Error: Deleting clipped video ", e)
         except Exception as e:
             print("Error: ", e)
 

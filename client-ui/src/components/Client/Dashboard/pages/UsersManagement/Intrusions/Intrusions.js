@@ -18,7 +18,19 @@ function Intrusions() {
     }
   }, [keycloak.authenticated]);
 
+
   const loadData = () => {
+    console.log(localStorage.getItem('token_id'))
+    api.get("/intrusion/events-triggered/1").then((res) => {
+        res.data.forEach((element) => {
+        element.date = element.video_date.split("T")[0];
+        element.time = element.video_date.split("T")[1];
+      });     
+      setData(res.data);
+    });
+  }
+
+  /*const loadData = () => {
     console.log(localStorage.getItem('token_id'))
     api.get("/intrusion/events-triggered/" + localStorage.getItem('token_id')).then((res) => {
         res.data.forEach((element) => {
@@ -27,13 +39,18 @@ function Intrusions() {
       });     
       setData(res.data);
     });
-  };
+  };*/
 
   React.useEffect(() => {
     loadData();
   }, []);
 
   const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+    },
     {
       field: "building_id",
       headerName: "Building ID",
@@ -86,7 +103,7 @@ function Intrusions() {
                     >
                       <source
                         // src="http://localhost:6869/intrusion-management-api/cameras/intrusions-videos/download-video.mp4"
-                        src={ apiBaseUrl + "/cameras/intrusions-videos/" + params.row.video_name}
+                        src={ apiBaseUrl + "/cameras/intrusions-videos/" + params.row.id}
                         type="video/mp4"
                       />
                     </video>
