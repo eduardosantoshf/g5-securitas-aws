@@ -16,27 +16,27 @@ function Dashboard() {
         <div className="container">
           <Sidebar />
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/admin/">
               <div className="middle">
                 <InitialDashboard />
               </div>
             </Route>
-            <Route path="/properties">
+            <Route path="/admin/properties">
               <div className="middle">
                 <Properties />
               </div>
             </Route>
-            <Route path="/cameras">
+            <Route path="/admin/cameras">
               <div className="middle">
                 <Cameras />
               </div>
             </Route>
-            <Route path="/alarms">
+            <Route path="/admin/alarms">
               <div className="middle">
                 <Alarms />
               </div>
             </Route>
-            <Route path="/users">
+            <Route path="/admin/users">
               <div className="middle">
                 <Users />
               </div>

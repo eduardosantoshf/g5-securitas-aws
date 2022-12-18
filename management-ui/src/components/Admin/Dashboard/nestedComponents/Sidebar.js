@@ -17,23 +17,23 @@ function Sidebar() {
   const history = useHistory();
 
   const initDashboard = () => {
-    history.push("/");
+    history.push("/admin");
   };
 
   const cameras = () => {
-    history.push("/cameras");
+    history.push("/admin/cameras");
   };
 
   const properties = () => {
-    history.push("/properties");
+    history.push("/admin/properties");
   };
 
   const alarms = () => {
-    history.push("/alarms");
+    history.push("/admin/alarms");
   };
 
   const users = () => {
-    history.push("/users");
+    history.push("/admin/users");
   };
 
   if (!!keycloak.authenticated) {
