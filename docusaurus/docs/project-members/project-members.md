@@ -8,7 +8,7 @@ sidebar_position: 2
 
 * Eva Bartolomeu (Nmec: 98513)
 * Eduardo Santos (Nmec: 93107)
-* Diogo Vicente (Nmec: )
-* João Ferreira (Nmec: )
-* Pedro Bastos (Nmec: )
-* Pedro Sobral (Nmec: )
+* Diogo Vicente (Nmec: 93262)
+* João Ferreira (Nmec: 93305)
+* Pedro Bastos (Nmec: 93150)
+* Pedro Sobral (Nmec: 98491)

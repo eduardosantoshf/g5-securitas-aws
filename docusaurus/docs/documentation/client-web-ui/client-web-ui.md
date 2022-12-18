@@ -32,3 +32,4 @@ We implemented an "Intrusions" component with code for a table with information 
 ![](./img/listIntrusions.png)
 
 In addition, we have developed the functionality to view the intrusion video. We created a "Watch Video" button in each line of the table (in each intrusion), and a Popup associated with the button that shows the respective intrusion video.
+![](./img/intrusionVideo.png)
