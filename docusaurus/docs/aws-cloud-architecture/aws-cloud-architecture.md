@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # AWS cloud architecture
 
-![architecture image](images/AWS%20Cloud%20Architecture.drawio.png)
+![architecture image](images/AWS_cloud_architecture.jpg)
 
 ## VPC structure
 
@@ -62,9 +62,9 @@ For the inbound ssh traffic, we allow every ipv4 address to open ssh session fro
 
 ![security group image](images/web-ui-management-security-group.jpg)
 
-## S3 Bucket
+### IDP (idp-security-group)
 
-## Reddis
+![security group image](images/idp-security-group.jpg)
 
 ## Service deployment
 
