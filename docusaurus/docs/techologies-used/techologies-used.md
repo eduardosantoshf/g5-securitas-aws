@@ -17,7 +17,7 @@ We decide to use the following technologies to build our system:
 | Management Web UI   | React  |
 | Client’s UI   | React     |
 | Service Discovery   |  TbC   |
-| Identity Provider (IDP)   | TbC     |
+| Identity Provider (IDP)   | Keycloack     |
 | Logs Monitor   | TbC    |
 | ParaMetrics Monitorgraph   | TbC    |
 
