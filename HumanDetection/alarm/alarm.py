@@ -12,7 +12,7 @@ class Consumer(ConsumerMixin):
         ]
 
     def on_message(self, body, message):
-        print("Alarm triggered!")
+        print("\n------ Alarm triggered! ------\n")
         message.ack()
 
 class Alarm:

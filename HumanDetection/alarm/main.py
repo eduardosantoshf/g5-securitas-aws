@@ -21,6 +21,8 @@ RABBIT_MQ_EXCHANGE_NAME = "activate-alarm-exchange"
 RABBIT_MQ_QUEUE_NAME = "activate-alarm-queue"      
 INTRUSION_MANAGEMENT_API_URL = os.environ['INTRUSION_MANAGEMENT_API_URL']
 
+print("\nSTARTING ALARM SERVICE\n\n\n")
+
 alarm = Alarm(
     alarm_id=ALARM_ID,
     )
