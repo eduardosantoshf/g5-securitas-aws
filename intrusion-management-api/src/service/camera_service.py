@@ -50,7 +50,8 @@ def get_user_videos(db: Session, id: int) -> list:
     return db.query(models.VideoUsers).filter(models.VideoUsers.id == id)
 
 def get_user_id_and_building_id(API_URL: str, camera_id: int):
-    res = requests.get(API_URL + "/users/{camera_id}/user")
+    
+    res = requests.get(API_URL + f"/users/{camera_id}/user")
     res_json =  res.json()
     return res_json.get("user_id"), res_json.get("property")
     
