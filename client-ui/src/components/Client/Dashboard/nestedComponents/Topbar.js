@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./Topbar.css";
 import { useKeycloak } from "@react-keycloak/web";
 
@@ -7,23 +7,12 @@ import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
 function Topbar() {
   const { keycloak, initialized } = useKeycloak();
 
-  // useEffect(() => {
-  //   keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
-  //     if (!authenticated) {
-  //       keycloak.login();
-  //     }
-  //   });
-  // }, []);
-
   useEffect(() => {
     if (!!keycloak.authenticated) {
-      console.log(keycloak.tokenParsed.sub);
-      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
-      localStorage.setItem('token', keycloak.token);
+      localStorage.setItem("token_id", keycloak.tokenParsed.sub);
+      localStorage.setItem("token", keycloak.token);
     }
   }, [keycloak.authenticated]);
-
-
 
   return (
     <div className="topbar">
@@ -36,29 +25,34 @@ function Topbar() {
             <div
               className="icons"
               onClick={() => {
-
-                keycloak.login()
-                .then(() => {
-                  // The request to the token endpoint was successful
-                  console.log("success")
-                })
-                .catch(error => {
-                  // There was an error with the request to the token endpoint
-                  console.log("error")
-                  console.log(error)
-                  
-                });
-
+                keycloak
+                  .login()
+                  .then(() => {
+                    // The request to the token endpoint was successful
+                    console.log("success");
+                  })
+                  .catch((error) => {
+                    // There was an error with the request to the token endpoint
+                    console.log("error");
+                    console.log(error);
+                  });
               }}
             >
               Login
             </div>
           )}
           {!!keycloak.authenticated && (
-            <div className="icons" onClick={() => {console.log(keycloak.tokenParsed.sub); console.log(localStorage.getItem('token_id')); keycloak.logout()}}>
+            <div
+              className="icons"
+              onClick={() => {
+                keycloak.logout();
+                window.location.href = "/";
+                localStorage.removeItem("token_id");
+                localStorage.removeItem("token");
+              }}
+            >
               Logout
-              <PersonOutlineRoundedIcon />(
-              {keycloak.tokenParsed.given_name})
+              <PersonOutlineRoundedIcon />({keycloak.tokenParsed.given_name})
             </div>
           )}
         </div>

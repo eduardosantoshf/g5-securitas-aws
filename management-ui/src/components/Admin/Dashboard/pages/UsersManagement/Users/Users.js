@@ -10,8 +10,6 @@ function Users() {
 
   useEffect(() => {
     if (!!keycloak.authenticated) {
-      console.log(keycloak.tokenParsed.sub);
-      console.log(keycloak.token);
       localStorage.setItem('token_id', keycloak.tokenParsed.sub);
       localStorage.setItem('token', keycloak.token);
     }
@@ -20,7 +18,6 @@ function Users() {
   const loadData = () => {
     api.get('/users', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       setData(res.data);
-      console.log(res.data);
     });
   };
 

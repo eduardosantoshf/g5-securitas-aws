@@ -15,8 +15,6 @@ function Cameras() {
 
   useEffect(() => {
     if (!!keycloak.authenticated) {
-      console.log(keycloak.tokenParsed.sub);
-      console.log(keycloak.token);
       localStorage.setItem('token_id', keycloak.tokenParsed.sub);
       localStorage.setItem('token', keycloak.token);
     }
@@ -32,21 +30,16 @@ function Cameras() {
   }
 
   const loadData = () => {
-    console.log(localStorage.getItem('token_id'))
-    console.log(localStorage.getItem('token'))
     // api.get('/users/1/cameras').then(res => {
     api.get('/cameras', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       setData(res.data);
-      console.log(res.data);
     });
     api.get('/properties', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-      console.log(res.data);
       (res.data).forEach(element => {
         if (buildings.find(building => building.value === element.id) === undefined) {
           buildings.push({ value: element.id, label: element.id });
         }
       });
-      console.log(buildings);
     });
   };
 
@@ -56,7 +49,6 @@ function Cameras() {
 
   const handleDelete = id => {
     api.delete(`/cameras/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-      console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
       loadData();
     });
@@ -64,7 +56,6 @@ function Cameras() {
 
   const addCamera = () => {
     api.post('cameras/?property_id=' + property_id, {},{headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-      console.log(res.data);
       loadData();
     });
   };
