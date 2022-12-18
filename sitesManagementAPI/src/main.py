@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Depends, HTTPException, status
 
 from src.routers import users, alarms, properties, intrusions, cameras
+from src.db.database import get_db
 from src.idp.idp import idp
 
 origins = [

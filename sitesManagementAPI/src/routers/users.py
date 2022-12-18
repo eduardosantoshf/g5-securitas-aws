@@ -98,6 +98,10 @@ def read_user_properties(user_id: str, db: Session = Depends(get_db), user: OIDC
     except KeycloakError: 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
     
+    prpty = schemas.PropertyCreate(address=f"{user.sub}'s address")
+
+    query = properties_crud.create_property(property=prpty, owner_id=user.sub, db=db)
+    
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
