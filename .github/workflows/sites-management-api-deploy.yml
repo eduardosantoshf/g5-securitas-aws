@@ -112,6 +112,12 @@ jobs:
             MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}
             MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
             MARIADB_USER=${{ secrets.MARIADB_USER }}
+            IDP_SERVER_URL=${{ secrets.IDP_SERVER_URL }}
+            IDP_CLIENT_ID=${{ secrets.IDP_CLIENT_ID }}
+            IDP_CLIENT_SECRET=${{ secrets.IDP_CLIENT_SECRET }}
+            IDP_ADMIN_CLIENT_SECRET=${{ secrets.IDP_ADMIN_CLIENT_SECRET }}
+            IDP_REALM=${{ secrets.IDP_REALM }}
+            IDP_CALLBACK_URI=${{ secrets.IDP_CALLBACK_URI }}
             
 
       - name: Deploy Amazon ECS task definition
