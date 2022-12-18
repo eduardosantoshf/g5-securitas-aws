@@ -7,6 +7,8 @@ from fastapi import Response, status
 import kombu
 import json
 import boto3
+import requests
+
 
 import src.models.models as models
 
@@ -46,8 +48,13 @@ def send_message_to_broker(broker_url, broker_username, broker_password, exchang
     
 def get_user_videos(db: Session, id: int) -> list:
     return db.query(models.VideoUsers).filter(models.VideoUsers.id == id)
+
+def get_user_id_and_building_id(API_URL: str, camera_id: int):
+    res = requests.get(API_URL + "/users/{camera_id}/user")
+    res_json =  res.json()
+    return res_json.get("user_id"), res_json.get("property")
     
-def add_user_video(db: Session, user_id: int, video_name: str, video_path: str, camera_id: int, building_id: int):
+def add_user_video(db: Session, user_id: str, video_name: str, video_path: str, camera_id: int, building_id: int):
     already_exists = db.query(models.VideoUsers).filter(models.VideoUsers.video_name == video_name).first()
     print("ja exizte?: ", already_exists)
     if already_exists is None:

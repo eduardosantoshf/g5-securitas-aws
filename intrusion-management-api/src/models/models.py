@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship
 class VideoUsers(Base):
     __tablename__ = "videos_user"
     id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False)
+    user_id = Column(String(100), nullable=False)
     video_name = Column(String(100), nullable=False)
     video_path = Column(String(100), nullable=False)
     video_date = Column(TIMESTAMP(timezone=True), nullable=True, server_default=text('now()'))
