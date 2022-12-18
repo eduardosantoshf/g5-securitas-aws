@@ -66,10 +66,6 @@ For the inbound ssh traffic, we allow every ipv4 address to open ssh session fro
 
 ![security group image](images/idp-security-group.jpg)
 
-## S3 Bucket
-
-## Reddis
-
 ## Service deployment
 
 Every service is deployed using the elastic container service (ECS). This allows us to scale our services up and down at any time and to easily shut them down when they are not in use. The deployment workflow is automated using github actions.
