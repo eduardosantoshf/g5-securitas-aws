@@ -11,8 +11,6 @@ function Intrusions() {
 
   useEffect(() => {
     if (!!keycloak.authenticated) {
-      console.log(keycloak.tokenParsed.sub);
-      console.log(keycloak.token);
       localStorage.setItem('token_id', keycloak.tokenParsed.sub);
       localStorage.setItem('token', keycloak.token);
     }
@@ -20,7 +18,6 @@ function Intrusions() {
 
 
   const loadData = () => {
-    console.log(localStorage.getItem('token_id'))
     api.get("/intrusion/events-triggered/1").then((res) => {
         res.data.forEach((element) => {
         element.date = element.video_date.split("T")[0];
@@ -31,7 +28,6 @@ function Intrusions() {
   }
 
   /*const loadData = () => {
-    console.log(localStorage.getItem('token_id'))
     api.get("/intrusion/events-triggered/" + localStorage.getItem('token_id')).then((res) => {
         res.data.forEach((element) => {
         element.date = element.video_date.split("T")[0];

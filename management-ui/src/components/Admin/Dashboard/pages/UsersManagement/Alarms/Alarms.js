@@ -14,8 +14,6 @@ function Alarms() {
 
   useEffect(() => {
     if (!!keycloak.authenticated) {
-      console.log(keycloak.tokenParsed.sub);
-      console.log(keycloak.token);
       localStorage.setItem('token_id', keycloak.tokenParsed.sub);
       localStorage.setItem('token', keycloak.token);
     }
@@ -32,18 +30,14 @@ function Alarms() {
   
   const loadData = () => {
     api.get('/alarms', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-      console.log("loadData");
       setData(res.data);
-      console.log(res.data);
     });
     api.get('/properties', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-      console.log(res.data);
       (res.data).forEach(element => {
         if (buildings.find(building => building.value === element.id) === undefined) {
           buildings.push({ value: element.id, label: element.id });
         }
       });
-      console.log(buildings);
     });
   };
 
@@ -53,7 +47,6 @@ function Alarms() {
 
   const handleDelete = id => {
     api.delete(`/alarms/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-      console.log(res.affectedRows);
       setData(data.filter(item => item.id !== id));
       loadData();
     });
@@ -61,7 +54,6 @@ function Alarms() {
 
   const addAlarm = () => {
     api.post('alarms/?property_id=' + property_id, {}, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-      console.log(res.data);
       loadData();
     });
   };

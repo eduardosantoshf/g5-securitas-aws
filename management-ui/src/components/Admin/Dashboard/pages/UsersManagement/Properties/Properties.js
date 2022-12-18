@@ -4,7 +4,6 @@ import './Properties.css';
 import api from '../../ApiConnections/site-management-api';
 import { useKeycloak } from "@react-keycloak/web";
 import Select from 'react-select';
-
 import Popup from 'reactjs-popup';
 
 function Properties() {
@@ -15,8 +14,6 @@ function Properties() {
 
   useEffect(() => {
     if (!!keycloak.authenticated) {
-      console.log(keycloak.tokenParsed.sub);
-      console.log(keycloak.token);
       localStorage.setItem('token_id', keycloak.tokenParsed.sub);
       localStorage.setItem('token', keycloak.token);
     }
@@ -32,21 +29,16 @@ function Properties() {
   }
 
   const loadData = () => {
-    console.log(localStorage.getItem('token_id'))
-    console.log(localStorage.getItem('token'))
     // api.get('/users/1/properties').then(res => {
     api.get('/properties', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       setData(res.data);
-      console.log(res.data);
     });
     // api.get('/users', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-    //   console.log(res.data);
     //   (res.data).forEach(element => {
     //     if (users_ids.find(user => user.id === element.id) === undefined) {
     //       users_ids.push({ value: element.id, label: element.id });
     //     }
     //   });
-    //   console.log(users_ids);
     // });
   };
 
@@ -56,7 +48,6 @@ function Properties() {
 
   // const handleDelete = id => {
   //   api.delete(`/properties/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-  //     console.log(res.affectedRows);
   //     setData(data.filter(item => item.id !== id));
   //     loadData();
   //   });
@@ -64,7 +55,6 @@ function Properties() {
 
   // const addProperty = () => {
   //   api.post('properties/?owner_id=' + owner_id, {},{headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
-  //     console.log(res.data);
   //     loadData();
   //   });
   // };
