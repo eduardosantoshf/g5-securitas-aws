@@ -10,6 +10,7 @@ import src.db.repositories.properties_crud as properties_crud
 from src.db.repositories import properties_crud
 from src.db.database import get_db
 from src.idp.idp import idp
+import json
 
 
 router = APIRouter(
@@ -110,7 +111,7 @@ def read_user_properties(user_id: str, db: Session = Depends(get_db), user: OIDC
 
 
 @router.get("/{camera_id}/user", status_code=status.HTTP_200_OK)
-def get_user_by_camera(camera_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+def get_user_by_camera(camera_id: int, db: Session = Depends(get_db)):
 
     db_camera = cameras_crud.get_camera(db=db, camera_id=camera_id)
 
@@ -122,8 +123,9 @@ def get_user_by_camera(camera_id: int, db: Session = Depends(get_db), user: OIDC
     if db_property is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No cameras for such property")
 
-    print(db_property.owner_id)
+    data = {
+        "user_id": str(db_property.owner_id),
+        "property": str(db_property.id),
+    }
 
-    return idp.get_user(user_id=db_property.owner_id)
-
-
+    return json.dumps(data)
