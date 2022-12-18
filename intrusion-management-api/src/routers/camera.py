@@ -33,16 +33,15 @@ aws_secret_access_key = os.getenv('aws_secret_access_key')
 region_name = os.getenv('region_name')
 bucket_name = os.getenv('bucket_name')
 
-#API_URL = os.getenv('SITES_MAN_API_URL')
-API_URL = "http://15.236.64.199/sites-man-api" #! por isto para o .env
+API_URL = os.getenv('SITES_MAN_API_URL')
 
 
 @router.post("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
     send_message_camera = camera_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_camera, kombu_queue_camera, frame)
-    #send_message_alarm = alarm_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_alarm, kombu_queue_alarm, frame.camera_id)
+    send_message_alarm = alarm_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_alarm, kombu_queue_alarm, frame.camera_id)
     
-    trigger_notification = notification_service.trigger_notification("sobral@ua.pt", frame.camera_id)
+    trigger_notification = notification_service.trigger_notification("fernando.silva.g5securitas@gmail.com", frame.camera_id)
     
     #if (send_message_camera and send_message_alarm) and trigger_notification:
     if (send_message_camera):
