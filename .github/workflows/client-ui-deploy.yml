@@ -46,7 +46,7 @@ env:
   CONTAINER_NAME: client-ui-container           # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
   REACT_APP_INTRUSION_MANAGEMENT_API_URL: https://hllwa7dyek.execute-api.eu-west-3.amazonaws.com/v1/intrusion-management-api
-  REACT_APP_SITE_MANAGEMENT_API_URL: https://hllwa7dyek.execute-api.eu-west-3.amazonaws.com/v1/sites-man-api
+  REACT_APP_SITE_MANAGEMENT_API_URL: http://securitas-lb-1725284772.eu-west-3.elb.amazonaws.com/sites-man-api
 
 jobs:
   deploy:
