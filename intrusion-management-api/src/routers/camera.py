@@ -34,7 +34,7 @@ region_name = os.getenv('region_name')
 bucket_name = os.getenv('bucket_name')
 
 #API_URL = os.getenv('SITES_MAN_API_URL')
-API_URL = "http://securitas-lb-1725284772.eu-west-3.elb.amazonaws.com/sites-man-api" #! por isto para o .env
+API_URL = "http://15.236.64.199/sites-man-api" #! por isto para o .env
 
 
 @router.post("/receive-intrusion-frame", response_model=schemas.Frame)
