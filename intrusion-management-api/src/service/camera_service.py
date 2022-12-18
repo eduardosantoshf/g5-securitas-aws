@@ -50,14 +50,12 @@ def get_user_videos(db: Session, id: int) -> list:
     return db.query(models.VideoUsers).filter(models.VideoUsers.id == id)
 
 def get_user_id_and_building_id(API_URL: str, camera_id: int):
-    
     res = requests.get(API_URL + f"/users/{camera_id}/user")
     res_json =  res.json()
-    return res_json.get("user_id"), res_json.get("property")
+    return res_json["user_id"], res_json["property"]
     
 def add_user_video(db: Session, user_id: str, video_name: str, video_path: str, camera_id: int, building_id: int):
     already_exists = db.query(models.VideoUsers).filter(models.VideoUsers.video_name == video_name).first()
-    print("ja exizte?: ", already_exists)
     if already_exists is None:
         try:
             db_user_video = models.VideoUsers(user_id=user_id, video_name=video_name, video_path=video_path, camera_id=camera_id, building_id=building_id)
@@ -74,7 +72,6 @@ def add_user_video(db: Session, user_id: str, video_name: str, video_path: str, 
             new_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             db.query(models.VideoUsers).filter(models.VideoUsers.video_name == video_name).update({models.VideoUsers.video_date: new_date}, synchronize_session=False)
             db.commit()
-            print("pelos vistos deu...")
             return True
         except Exception as e:
             print(f"Error updating user video: {e}")
