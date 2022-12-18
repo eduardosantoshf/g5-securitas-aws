@@ -6,12 +6,12 @@ services:
 
     hostname: db
     ports:
-      - 3307:3306
+      - 3306:3306
 
     restart: always
 
     environment:
-      - MARIADB_DATABASE=sites_man_db
+      - MARIADB_DATABASE=intrusion_man_db
       - MARIADB_ROOT_PASSWORD=root 
       - MARIADB_USER=dev_user
       - MARIADB_PASSWORD=dev_pass
@@ -26,7 +26,7 @@ services:
     
     hostname: api
     ports:
-      - 6869:8001
+      - 8000:8000
     
     depends_on:
       - mariadb
@@ -34,15 +34,12 @@ services:
     restart: always
     
     environment:
-      - MARIADB_DATABASE=sites_man_db
+      - MARIADB_DATABASE=intrusion_man_db
       - MARIADB_USER=dev_user
       - MARIADB_PASSWORD=dev_pass 
       - MARIADB_HOST=mariadb
       - MARIADB_PORT=3306
       
-    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8001 --reload"
-    volumes:
-      - ./:/usr/app:ro
-
+    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
 volumes:
   mariadb-volume:

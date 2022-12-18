@@ -1,12 +1,13 @@
 from fastapi.testclient import TestClient
 from fastapi import status
+
 import pytest
 
 from src.models import schemas
+from tests.conf_idp import setup_test_idp
 
 
 def test_create_valid_alarm(client: TestClient, test_property: schemas.Property):
-    
     property_id = test_property.id
     post_body = {
         "description": "alarm_1: main building"

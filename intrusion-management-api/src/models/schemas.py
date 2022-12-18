@@ -1,9 +1,8 @@
 from pydantic import BaseModel
-import datetime
 
 class Frame(BaseModel):
     camera_id: int
-    timestamp_intrusion: datetime.time
+    timestamp_intrusion: float
     
     class Config:
         orm_mode = True

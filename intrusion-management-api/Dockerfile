@@ -2,7 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /usr/app
 COPY ./requirements.txt .
-ENV PYTHONPATH "${PYTHONPATH}:/usr/app/src"
+RUN mkdir /usr/app/videos_
+ENV PYTHONPATH "${PYTHONPATH}:/usr/app/src:/usr/app"
 
 RUN apt-get update
 RUN apt-get install -y libmariadb3 libmariadb-dev

@@ -1,14 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import './Alarms.css';
 import api from '../../ApiConnections/site-management-api';
 import Select from 'react-select';
 import Popup from 'reactjs-popup';
+import { useKeycloak } from "@react-keycloak/web";
 
 function Alarms() {
+  const { keycloak, initialized } = useKeycloak();
   const [data, setData] = React.useState([]);
   var [buildings] = React.useState([]);
   const [property_id, setPropertyId] = React.useState(0);
+
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
+    }
+  }, [keycloak.authenticated]);
 
   const customStyles = {
     option: (provided, state) => ({
@@ -20,19 +29,15 @@ function Alarms() {
   }
   
   const loadData = () => {
-    api.get('/users/1/alarms').then(res => {
-      console.log("loadData");
+    api.get('/users/' + localStorage.getItem('token_id') + '/alarms', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       setData(res.data);
-      console.log(res.data);
     });
-    api.get('/users/1/properties').then(res => {
-      console.log(res.data);
+    api.get('/users/' + localStorage.getItem('token_id') + '/properties', {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       (res.data).forEach(element => {
         if (buildings.find(building => building.value === element.id) === undefined) {
           buildings.push({ value: element.id, label: element.id });
         }
       });
-      console.log(buildings);
     });
   };
 
@@ -41,16 +46,14 @@ function Alarms() {
   }, []);
 
   const handleDelete = id => {
-    api.delete(`/alarms/${id}`).then(res => {
-      console.log(res.affectedRows);
+    api.delete(`/alarms/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       setData(data.filter(item => item.id !== id));
       loadData();
     });
   };
 
   const addAlarm = () => {
-    api.post('alarms/?property_id=' + property_id, {}).then(res => {
-      console.log(res.data);
+    api.post('alarms/?property_id=' + property_id, {}, {headers:{'Authorization': `Bearer ${localStorage.getItem('token')}`}}).then(res => {
       loadData();
     });
   };

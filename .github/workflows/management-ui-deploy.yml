@@ -45,6 +45,7 @@ env:
                                                     # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: management-ui-container           # set this to the name of the API container in the
                                                     # containerDefinitions section of your task definition
+  REACT_APP_SITE_MANAGEMENT_API_URL: http://securitas-lb-1725284772.eu-west-3.elb.amazonaws.com/sites-man-api
 
 jobs:
   deploy:
@@ -95,6 +96,8 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-management-ui-image.outputs.image }}
+          environment-variables: |
+            REACT_APP_SITE_MANAGEMENT_API_URL=${{ env.REACT_APP_SITE_MANAGEMENT_API_URL}}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10

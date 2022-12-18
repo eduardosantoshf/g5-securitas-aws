@@ -10,7 +10,7 @@ def get_property(db: Session, property_id: int):
 def get_properties(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Property).offset(skip).limit(limit).all()
 
-def create_property(db: Session, property: schemas.PropertyCreate, owner_id: int):
+def create_property(db: Session, property: schemas.PropertyCreate, owner_id: str):
     query = db.query(models.Property).filter(models.Property.address == property.address, models.Property.owner_id == owner_id).first()
     if query is not None:
         return None
@@ -22,15 +22,12 @@ def create_property(db: Session, property: schemas.PropertyCreate, owner_id: int
 
     return db_property
 
-def update_property(db: Session, property_id: int, new_owner_id: int, new_address: str):
+def update_property(db: Session, property_id: int, new_owner_id: str, new_address: str):
     query = db.query(models.Property).filter(models.Property.id == property_id).first()
     if query is None:
         return None
 
     if new_owner_id:
-        query_new_owner = db.query(models.User).filter(models.User.id == new_owner_id).first()
-        if query_new_owner is None:
-            return -1
         query.owner_id = new_owner_id
         
     if new_address:
@@ -39,7 +36,7 @@ def update_property(db: Session, property_id: int, new_owner_id: int, new_addres
         if query_new_address is None:
             query.address = new_address
         else: 
-            return -2
+            return -1
 
     db.commit()
     return query

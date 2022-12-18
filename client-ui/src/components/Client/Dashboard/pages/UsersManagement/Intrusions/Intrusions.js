@@ -1,44 +1,42 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, {useEffect} from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import "./Intrusions.css";
 import Popup from "reactjs-popup";
-import api from '../../ApiConnections/intrusion-management-api';
-
+import api, {apiBaseUrl} from '../../ApiConnections/intrusion-management-api';
+import { useKeycloak } from "@react-keycloak/web";
 
 function Intrusions() {
   const [data, setData] = React.useState([]);
+  const { keycloak, initialized } = useKeycloak();
 
-  const loadTheFuckingData = () => {
-    api.get("/staff").then((res) => {
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
+    }
+  }, [keycloak.authenticated]);
+
+
+  const loadData = () => {
+    api.get("/intrusion/events-triggered/" + localStorage.getItem('token_id')).then((res) => {
+        res.data.forEach((element) => {
+        element.date = element.video_date.split("T")[0];
+        element.time = element.video_date.split("T")[1];
+      });     
       setData(res.data);
-      console.log(res.data);
     });
   };
 
   React.useEffect(() => {
-    loadTheFuckingData();
+    loadData();
   }, []);
 
-  const history = useHistory();
-
-  const data_static = [
-    {
-      date: "01/12/2022",
-      time: "15:12:12",
-      building_id: "1",
-      camera_id: "123456789",
-    },
-    {
-      date: "30/11/2022",
-      time: "16:12:12",
-      building_id: "1",
-      camera_id: "987654321",
-    },
-  ];
-
   const columns = [
-    { field: "id", headerName: "ID", width: 50 },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+    },
     {
       field: "building_id",
       headerName: "Building ID",
@@ -90,7 +88,8 @@ function Intrusions() {
                       style={{position: "relative", left: "25%", top: "25%"}}
                     >
                       <source
-                        src="http://localhost:6869/intrusion-management-api/cameras/intrusions-videos/download-video.mp4"
+                        // src="http://localhost:6869/intrusion-management-api/cameras/intrusions-videos/download-video.mp4"
+                        src={ apiBaseUrl + "/cameras/intrusions-videos/" + params.row.id}
                         type="video/mp4"
                       />
                     </video>
@@ -104,24 +103,16 @@ function Intrusions() {
     },
   ];
 
-  const handleDelete = (id) => {
-    api.get(`/staff_delete/${id}`).then((res) => {
-      console.log(res.affectedRows);
-      setData(data.filter((item) => item.id !== id));
-    });
-    loadTheFuckingData();
-  };
-
   return (
     <>
       <h2 className="title">Intrusions</h2>
       <div className="userList">
         <DataGrid
-          rows={data_static}
+          rows={data}
           columns={columns}
           disableSelectionOnClick
           pageSize={6}
-          getRowId={(row) => row.time}
+          getRowId={(row) => row.id}
         />
       </div>
     </>

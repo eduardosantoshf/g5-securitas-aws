@@ -5,9 +5,9 @@ import Topbar from './nestedComponents/Topbar';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Cameras from './pages/UsersManagement/Cameras/Cameras';
 import InitialDashboard from './pages/UsersManagement/InitialDashboard/InitialDashboard';
+import Alarms from "./pages/UsersManagement/Alarms/Alarms";
+import Properties from "./pages/UsersManagement/Properties/Properties";
 import Users from './pages/UsersManagement/Users/Users';
-import Nodes from './pages/UsersManagement/DicomNodes/Nodes';
-import ExtensionInstall from './pages/UsersManagement/ExtensionInstall/ExtensionInstall';
 function Dashboard() {
   return (
     <Router>
@@ -16,29 +16,29 @@ function Dashboard() {
         <div className="container">
           <Sidebar />
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/admin/">
               <div className="middle">
                 <InitialDashboard />
               </div>
             </Route>
-            <Route path="/cameras">
+            <Route path="/admin/properties">
+              <div className="middle">
+                <Properties />
+              </div>
+            </Route>
+            <Route path="/admin/cameras">
               <div className="middle">
                 <Cameras />
               </div>
             </Route>
-            <Route path="/users">
+            <Route path="/admin/alarms">
+              <div className="middle">
+                <Alarms />
+              </div>
+            </Route>
+            <Route path="/admin/users">
               <div className="middle">
                 <Users />
-              </div>
-            </Route>
-            <Route path="/nodes">
-              <div className="middle">
-                <Nodes />
-              </div>
-            </Route>
-            <Route path="/extInstallation">
-              <div className="middle">
-                <ExtensionInstall />
               </div>
             </Route>
           </Switch>
