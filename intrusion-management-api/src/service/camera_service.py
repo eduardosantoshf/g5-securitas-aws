@@ -51,8 +51,10 @@ def get_user_videos(db: Session, id: int) -> list:
 
 def get_user_id_and_building_id(API_URL: str, camera_id: int):
     res = requests.get(API_URL + f"/cameras/get_user/{camera_id}")
-    res_json =  res.json()
-    return res_json["user_id"], res_json["property"]
+    res_json = res.json()
+
+    res = json.loads(res_json)
+    return res.get("user_id"), res.get("property")    
     
 def add_user_video(db: Session, user_id: str, video_name: str, video_path: str, camera_id: int, building_id: int):
     already_exists = db.query(models.VideoUsers).filter(models.VideoUsers.video_name == video_name).first()
