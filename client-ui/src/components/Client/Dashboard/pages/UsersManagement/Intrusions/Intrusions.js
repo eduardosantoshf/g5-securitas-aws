@@ -18,16 +18,6 @@ function Intrusions() {
 
 
   const loadData = () => {
-    api.get("/intrusion/events-triggered/1").then((res) => {
-        res.data.forEach((element) => {
-        element.date = element.video_date.split("T")[0];
-        element.time = element.video_date.split("T")[1];
-      });     
-      setData(res.data);
-    });
-  }
-
-  /*const loadData = () => {
     api.get("/intrusion/events-triggered/" + localStorage.getItem('token_id')).then((res) => {
         res.data.forEach((element) => {
         element.date = element.video_date.split("T")[0];
@@ -35,7 +25,7 @@ function Intrusions() {
       });     
       setData(res.data);
     });
-  };*/
+  };
 
   React.useEffect(() => {
     loadData();
