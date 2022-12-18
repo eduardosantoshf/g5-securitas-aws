@@ -1,9 +1,16 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, Response, HTTPException, status, APIRouter
+from fastapi.responses import RedirectResponse
+from fastapi_keycloak import OIDCUser, KeycloakUser, KeycloakError
+from jose import  ExpiredSignatureError
 
-from src.db.repositories import properties_crud
 import src.db.repositories.users_crud as crud, src.models.schemas as schemas
+import src.db.repositories.cameras_crud as cameras_crud
+import src.db.repositories.properties_crud as properties_crud
+from src.db.repositories import properties_crud
 from src.db.database import get_db
+from src.idp.idp import idp
+import json
 
 
 router = APIRouter(
@@ -12,51 +19,40 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db=db, email=user.email)
-    if db_user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
-    
-    return crud.create_user(db=db, user=user)
-
-@router.get("/", response_model=list[schemas.UserOut])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db=db, skip=skip, limit=limit)
-    print(f'NNNNNNNNNNNNNNNNNN {users}')
-    return users
-
-@router.get("/{user_id}", response_model=schemas.UserOut)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db=db, user_id=user_id)
-    if db_user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
-    
-    return db_user
-
-@router.put("/{user_id}", response_model=schemas.User, status_code=status.HTTP_200_OK)
-def update_user(user_id: int, updated_user: schemas.UserBase, db: Session = Depends(get_db)):
-    db_user = crud.update_user(db=db, user_id=user_id, updated_user=updated_user)
-    if db_user is None:
+@router.get("/", response_model=list[KeycloakUser])
+def read_users(user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+    try:
+        return idp.get_all_users()
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
 
-    return db_user  
-
-@router.delete("/{user_id}")
-def delete_user(user_id: int, db: Session = Depends(get_db)):
-    user_deleted = crud.delete_user(db=db, user_id=user_id)
-    if user_deleted is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
     
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/{user_id}", response_model=KeycloakUser)
+def read_user(user_id: str = None, query: str = "", user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-admin']))):
+    try:
+        user = idp.get_user(user_id=user_id, query=query)
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+
+    return user
 
 
 @router.get("/{user_id}/cameras", response_model=list[schemas.Camera], status_code=status.HTTP_200_OK)
-def read_user_cameras(user_id: int, db: Session = Depends(get_db)):
-    valid_id = crud.verify_user_id(db=db, user_id=user_id)
-    if not valid_id:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+def read_user_cameras(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))): 
     
+    try:
+        idp.get_user(user_id=user_id, query="")
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
@@ -71,11 +67,15 @@ def read_user_cameras(user_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/{user_id}/alarms", response_model=list[schemas.Alarm], status_code=status.HTTP_200_OK)
-def read_user_alarms(user_id: int, db: Session = Depends(get_db)):
-    valid_id = crud.verify_user_id(db=db, user_id=user_id)
-    if not valid_id:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+def read_user_alarms(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     
+    try:
+        idp.get_user(user_id=user_id, query="")
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:
         return []
@@ -88,11 +88,20 @@ def read_user_alarms(user_id: int, db: Session = Depends(get_db)):
 
     return alarms
 
+
 @router.get("/{user_id}/properties", response_model=list[schemas.Property], status_code=status.HTTP_200_OK)
-def read_user_properties(user_id: int, db: Session = Depends(get_db)):
-    valid_id = crud.verify_user_id(db=db, user_id=user_id)
-    if not valid_id:
+def read_user_properties(user_id: str, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+    
+    try:
+        idp.get_user(user_id=user_id, query="")
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Signature expired")
+    except KeycloakError: 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {user_id} not found")
+    
+    prpty = schemas.PropertyCreate(address=f"{user.sub}'s address")
+
+    query = properties_crud.create_property(property=prpty, owner_id=user.sub, db=db)
     
     db_properties = crud.get_properties_by_owner(db=db, owner_id=user_id)
     if db_properties is None:

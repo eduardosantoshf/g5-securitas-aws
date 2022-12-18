@@ -1,0 +1,53 @@
+name: Intrusion Management API testing
+
+on:
+  push:
+    paths:
+      - intrusion-management-api/**
+      - '!**.md'
+      - '!**.pdf'
+      - '!**.docx'
+      - '!**.gitignore'
+      - '!**.txt'
+  pull_request:
+    paths:
+      - intrusion-management-api/**
+      - '!**.md'
+      - '!**.pdf'
+      - '!**.docx'
+      - '!**.gitignore'
+      - '!**.txt'
+
+# allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sonar:
+    name: Intrusion Management API SonarCloud Code Inspection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # shallow clones should be disabled for a better 
+                          # relevancy of analysis
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install tox and any other packages
+        run: pip install tox
+      - name: Run tox
+        run: | 
+          tox -c intrusion-management-api/tox.ini -e py
+      - name: Fix SonarClouds code coverage path bug
+        run: |
+          sed -i 's/\/home\/runner\/work\/es-project\/es-project\//\/github\/workspace\//g' coverage-intrusion-management-api.xml
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # needed to get PR 
+                                                     # information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_HUMAN_DETECTION }}
+        with:
+          projectBaseDir: HumanDetection/

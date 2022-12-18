@@ -14,12 +14,11 @@ on:
         - debug
 
   pull_request:
-    branches: [ development ]
+    branches: [ main ]
 
     paths:
       - HumanDetection/**
-      - .github/**
-      - .aws/**
+      - .github/human-detection-deployment.yaml
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -27,12 +26,11 @@ on:
       - '!**.txt'
     
   push:
-    branches: [ development, hdm-cd, feature/** ]
+    branches: [ main ]
 
     paths:
       - HumanDetection/**
-      - .github/**
-      - .aws/**
+      - .github/human-detection-deployment.yaml
       - '!**.md'
       - '!**.pdf'
       - '!**.docx'
@@ -51,7 +49,7 @@ env:
                                                     # containerDefinitions section of your task definition
   RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
   RABBIT_MQ_QUEUE_NAME: human-detection-queue
-
+  INTRUSION_MANAGEMENT_API_URL: https://hllwa7dyek.execute-api.eu-west-3.amazonaws.com/v1/intrusion-management-api
 jobs:
   deploy:
     name: Deploy
@@ -79,6 +77,10 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
+          RABBIT_MQ_URL: ${{ secrets.RABBIT_MQ_URL }}
+          RABBIT_MQ_USERNAME: ${{ secrets.RABBIT_MQ_USERNAME }}
+          RABBIT_MQ_PASSWORD: ${{ secrets.RABBIT_MQ_PASSWORD }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
 
         run: |
           cd HumanDetection/human-detection-module
@@ -106,8 +108,10 @@ jobs:
             RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
             RABBIT_MQ_EXCHANGE_NAME=${{ env.RABBIT_MQ_EXCHANGE_NAME }}
             RABBIT_MQ_QUEUE_NAME=${{ env.RABBIT_MQ_QUEUE_NAME }}
+
             REDIS_URL=${{ secrets.REDIS_URL }}
-            
+            INTRUSION_MANAGEMENT_API_URL=${{ env.INTRUSION_MANAGEMENT_API_URL }}
+
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10
         with:

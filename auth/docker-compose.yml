@@ -1,0 +1,49 @@
+version: '3'
+
+
+volumes:
+  db-volume:
+
+services:
+  postgres:
+    image: mariadb
+
+    hostname: db
+    ports:
+      - 3306:3306
+
+    restart: always
+
+    environment:
+      - MARIADB_DATABASE=keycloak_db
+      - MARIADB_ROOT_PASSWORD=root 
+      - MARIADB_USER=kc_dev
+      - MARIADB_PASSWORD=kc_pass 
+
+    volumes:
+      - db-volume:/var/lib/mysql/
+
+  keycloak:
+    build: 
+      context: .
+    
+    environment:
+      KC_HEALTH_ENABLED: 'true'
+      KC_METRICS_ENABLED: 'true'
+      KC_FEATURES: declarative-user-profile
+      DB_VENDOR: mariadb
+      DB_ADDR: db
+      DB_PORT: 3306
+
+      DB_DATABASE: keycloak_db
+      DB_USER: kc_dev
+      DB_PASSWORD: kc_pass
+      KEYCLOAK_ADMIN: kc_admin
+      KEYCLOAK_ADMIN_PASSWORD: kc_admin_pass
+
+    ports:
+      - '8443:8443'
+      - '8080:8080'
+    depends_on:
+      - postgres
+    restart: always

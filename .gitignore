@@ -7,6 +7,8 @@
 .AppleDouble
 .LSOverride
 
+
+mariadb-volume
 # Icon must end with two \r
 Icon
 
@@ -78,6 +80,7 @@ htmlcov/
 .tox/
 .nox/
 .coverage
+coverage*
 .coverage.*
 .cache
 nosetests.xml

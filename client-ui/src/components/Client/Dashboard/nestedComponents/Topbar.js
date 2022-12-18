@@ -1,16 +1,19 @@
-import React from 'react';
-import './Topbar.css';
+import React, { useEffect } from "react";
+import "./Topbar.css";
+import { useKeycloak } from "@react-keycloak/web";
 
-import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
-
-const handleLogout = () => {
-  localStorage.removeItem('token');
-  window.location.href = 'http://localhost:3000';
-  localStorage.removeItem('user');
-  localStorage.removeItem('type_user');
-};
+import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
 
 function Topbar() {
+  const { keycloak, initialized } = useKeycloak();
+
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      localStorage.setItem("token_id", keycloak.tokenParsed.sub);
+      localStorage.setItem("token", keycloak.token);
+    }
+  }, [keycloak.authenticated]);
+
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -18,10 +21,37 @@ function Topbar() {
           <div className="logo">G5 Securitas</div>
         </div>
         <div className="topRigth">
-          <div className="icons" onClick={() => handleLogout()}>
-            Logout
-            <PersonOutlineRoundedIcon />
-          </div>
+          {!keycloak.authenticated && (
+            <div
+              className="icons"
+              onClick={() => {
+                keycloak
+                  .login()
+                  .then(() => {
+                    // The request to the token endpoint was successful
+                    console.log("success");
+                  })
+                  .catch((error) => {
+                    // There was an error with the request to the token endpoint
+                    console.log("error");
+                    console.log(error);
+                  });
+              }}
+            >
+              Login
+            </div>
+          )}
+          {!!keycloak.authenticated && (
+            <div
+              className="icons"
+              onClick={() => {
+                keycloak.logout();
+              }}
+            >
+              Logout
+              <PersonOutlineRoundedIcon />({keycloak.tokenParsed.given_name})
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -42,7 +42,7 @@ class PropertyCreate(PropertyBase):
 
 class Property(PropertyBase):
     id: int
-    owner_id: int
+    owner_id: str
     alarms: list[Alarm] = []
     cameras: list[Camera] = []
 
@@ -59,7 +59,7 @@ class IntrusionCreate(IntrusionBase):
 
 class Intrusion(IntrusionBase):
     id: int
-    user_id: int
+    user_id: str
     property_id: int | None = None
 
     class Config:
@@ -67,6 +67,7 @@ class Intrusion(IntrusionBase):
 
 
 class UserBase(BaseModel):
+    id: str
     name: str
     email: str
     address: str
@@ -75,13 +76,10 @@ class UserCreate(UserBase):
     pass
 
 class UserOut(UserBase):
-    id: int
-
     class Config:
         orm_mode = True
 
 class User(UserBase):
-    id: int
     properties: list[Property] = []
     intrusions: list[Intrusion] = []
     

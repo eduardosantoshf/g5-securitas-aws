@@ -48,8 +48,19 @@ env:
   DB_CONTAINER_NAME: mariadb-container              # set this to the name of the DB container in the
                                                     # containerDefinitions section of your task definition
   DOCKER_FILE_DIR: intrusion-management-api
-  RABBIT_MQ_EXCHANGE_NAME: human-detection-exchange
-  RABBIT_MQ_QUEUE_NAME: human-detection-queue
+
+  region_name: eu-west-3
+  bucket_name: video-clips-archive
+
+  RABBIT_MQ_EXCHANGE_NAME: request-video-exchange
+  RABBIT_MQ_QUEUE_NAME: request-video-queue
+  RABBIT_MQ_EXCHANGE_NAME_ALARM: activate-alarm-exchange
+  RABBIT_MQ_QUEUE_NAME_ALARM: activate-alarm-queue
+
+  SITES_MAN_API_URL: https://hllwa7dyek.execute-api.eu-west-3.amazonaws.com/v1/sites-man-api
+
+  MARIADB_DATABASE: intrusion_man_db
+  MARIADB_PORT: 3306
 
 jobs:
   deploy:
@@ -114,7 +125,8 @@ jobs:
           container-name: ${{ env.API_CONTAINER_NAME }}
           image: ${{ steps.build-api-image.outputs.image }}
           environment-variables: |
-            MARIADB_DATABASE=intrusion_man_db
+            MARIADB_DATABASE=${{ env.MARIADB_DATABASE }}
+            MARIADB_PORT=${{ env.MARIADB_PORT }}
             MARIADB_USER=${{ secrets.MARIADB_USER }}
             MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}
             RABBIT_MQ_URL=${{ secrets.RABBIT_MQ_URL }}
@@ -122,10 +134,14 @@ jobs:
             RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }}
             RABBIT_MQ_EXCHANGE_NAME=${{ env.RABBIT_MQ_EXCHANGE_NAME }}
             RABBIT_MQ_QUEUE_NAME=${{ env.RABBIT_MQ_QUEUE_NAME }}
+            RABBIT_MQ_EXCHANGE_NAME_ALARM=${{ env.RABBIT_MQ_EXCHANGE_NAME_ALARM }}
+            RABBIT_MQ_QUEUE_NAME_ALARM=${{ env.RABBIT_MQ_QUEUE_NAME_ALARM }}
             aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
             aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            region_name=eu-west-3
-
+            region_name=${{ env.region_name }}
+            bucket_name=${{ env.bucket_name }}
+            SITES_MAN_API_URL=${{ env.SITES_MAN_API_URL }}
+            
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.10

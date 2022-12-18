@@ -1,67 +1,119 @@
-import React from "react";
+import React, {useEffect} from 'react';
+import { DataGrid } from "@material-ui/data-grid";
 import "./Intrusions.css";
-import api from '../../ApiConnections/intrusion-management-api';
+import Popup from "reactjs-popup";
+import api, {apiBaseUrl} from '../../ApiConnections/intrusion-management-api';
+import { useKeycloak } from "@react-keycloak/web";
 
 function Intrusions() {
-  // React.useEffect(() => {
-  //   console.log("Intrusions.js: useEffect() called");
-  //   api.get("/intrusion-management-api/cameras/intrusions-videos").then((res) => {
-  //     var myUrl = (window.URL || window.webkitURL).createObjectURL(
-  //       new Blob([res.data])
-  //     ); // response.data.data
+  const [data, setData] = React.useState([]);
+  const { keycloak, initialized } = useKeycloak();
 
-  //     var myVid = document.getElementById("vidObj");
-  //     myVid.setAttribute("src", myUrl);
-  //     myVid.play(); //# test playback
-  //     console.log("ACABOU");
+  useEffect(() => {
+    if (!!keycloak.authenticated) {
+      localStorage.setItem('token_id', keycloak.tokenParsed.sub);
+      localStorage.setItem('token', keycloak.token);
+    }
+  }, [keycloak.authenticated]);
 
-  //     //setVideo(url); //# is this needed?
-  //   });
-  //   console.log("ACABOU");
-  // });
+
+  const loadData = () => {
+    api.get("/intrusion/events-triggered/" + localStorage.getItem('token_id')).then((res) => {
+        res.data.forEach((element) => {
+        element.date = element.video_date.split("T")[0];
+        element.time = element.video_date.split("T")[1];
+      });     
+      setData(res.data);
+    });
+  };
+
+  React.useEffect(() => {
+    loadData();
+  }, []);
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+    },
+    {
+      field: "building_id",
+      headerName: "Building ID",
+      width: 225,
+    },
+    {
+      field: "camera_id",
+      headerName: "Camera ID",
+      width: 225,
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      sortable: false,
+      width: 225,
+    },
+    {
+      field: "time",
+      headerName: "Time",
+      width: 225,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 300,
+      renderCell: (params) => {
+        return (
+          <div className="actions">
+            <Popup
+              trigger={<button className="declineBtn"> Watch Video </button>}
+              modal
+              nested
+            >
+              {(close) => (
+                <div className="modal">
+                  <button className="close" onClick={close}>
+                    &times;
+                  </button>
+                  <div className="header"> Intrusion video </div>
+                  <div className="player-wrapper" >
+                    <video
+                      id="vidObj1"
+                      width="50%"
+                      height="50%"
+                      controls
+                      loop
+                      muted
+                      autoplay
+                      style={{position: "relative", left: "25%", top: "25%"}}
+                    >
+                      <source
+                        // src="http://localhost:6869/intrusion-management-api/cameras/intrusions-videos/download-video.mp4"
+                        src={ apiBaseUrl + "/cameras/intrusions-videos/" + params.row.id}
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
+                </div>
+              )}
+            </Popup>
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
     <>
       <h2 className="title">Intrusions</h2>
-      <div
-        className="userList"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div className="player-wrapper">
-          <video
-            id="vidObj1"
-            width="50%"
-            height="50%"
-            controls
-            loop
-            muted
-            autoplay
-          >
-            <source
-              src="http://localhost:5000/intrusion-management-api/cameras/intrusions-videos"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <div className="player-wrapper">
-        {/* <video
-            id="vidObj"
-            width="50%"
-            height="50%"
-            controls
-            loop
-            muted
-            autoplay
-          >
-            <source
-              type="video/mp4"
-            />
-          </video> */}
-        </div>
+      <div className="userList">
+        <DataGrid
+          rows={data}
+          columns={columns}
+          disableSelectionOnClick
+          pageSize={6}
+          getRowId={(row) => row.id}
+        />
       </div>
     </>
   );

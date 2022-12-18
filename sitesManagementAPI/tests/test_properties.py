@@ -1,14 +1,16 @@
 from fastapi.testclient import TestClient
 from fastapi import status
+from fastapi_keycloak import OIDCUser
 import pytest
 
 from src.models import schemas
+from tests.conf_idp import setup_test_idp
 
 
-def test_create_valid_property(client: TestClient, test_user: schemas.User):
+def test_create_valid_property(client: TestClient, test_user: OIDCUser):
     
     post_body = {"address": "test_address"}
-    owner_id = test_user.id
+    owner_id = test_user.sub
 
     res = client.post("/sites-man-api/properties/", params={"owner_id": str(owner_id)}, json=post_body)
 
@@ -17,19 +19,19 @@ def test_create_valid_property(client: TestClient, test_user: schemas.User):
     assert res.status_code == status.HTTP_201_CREATED
 
 
-def test_create_existing_property(client: TestClient, test_property: schemas.Property):
+def test_create_existing_property(client: TestClient, test_property: schemas.Property, test_user: OIDCUser):
     
     post_body = {"address": test_property.address}
     
-    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_property.id)}, json=post_body)
+    res = client.post("/sites-man-api/properties/", params={"owner_id": str(test_user.sub)}, json=post_body)
 
     assert res.status_code == status.HTTP_400_BAD_REQUEST
     assert res.json().get("detail") == "Property already registred"
 
 
-def test_create_property_non_existing_owner(client: TestClient, test_user: schemas.User):
+def test_create_property_non_existing_owner(client: TestClient, test_user: OIDCUser):
 
-    owner_id = test_user.id + 999
+    owner_id = "1234-1234-1234-1234"
     post_body = {"address": "test_address"}
 
     res = client.post("/sites-man-api/properties/", params={"owner_id": str(owner_id)}, json=post_body)
@@ -72,35 +74,36 @@ def test_read_property_invalid_id(client: TestClient, test_property: schemas.Pro
     assert res.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_update_property(client: TestClient, test_property: schemas.Property, test_users: list[schemas.User]):
+def test_update_property(client: TestClient, test_property: schemas.Property, test_users: list[OIDCUser]):
     
     new_owner = test_users[-1]
     id = test_property.id
-    new_owner_id = new_owner.id
-    new_owner_address = new_owner.address
+    new_owner_id = new_owner.sub
+    new_address = "Test address"
 
-    res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": str(new_owner_id), "new_address": str(new_owner_address)})
+    res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": str(new_owner_id), "new_address": str(new_address)})
 
+    print(res.json())
     res_property = schemas.Property(**res.json())
 
     assert res_property.owner_id == new_owner_id
-    assert res_property.address == new_owner_address
+    assert res_property.address == new_address
     assert res.status_code == status.HTTP_200_OK
 
 
-def test_update_property_invalid_owner_id(client: TestClient, test_property: schemas.Property, test_users: list[schemas.User]):
+def test_update_property_invalid_owner_id(client: TestClient, test_property: schemas.Property, test_users: list[OIDCUser]):
 
     new_owner = test_users[-1]
     id = test_property.id
-    new_owner_id = new_owner.id + 999
+    new_owner_id = "1234-1234-1234-1234"
 
     res = client.put(f"/sites-man-api/properties/{id}", params={"new_owner_id": new_owner_id})
 
     assert res.status_code == status.HTTP_404_NOT_FOUND
-    assert res.json().get("detail") == f"No user with id {new_owner_id}"
+    assert res.json().get("detail") == f"User with id {new_owner_id} not found"
 
 
-def test_update_property_invalid_new_address(client: TestClient, test_property: schemas.Property, test_users: list[schemas.User]):
+def test_update_property_invalid_new_address(client: TestClient, test_property: schemas.Property, test_users: list[OIDCUser]):
     
     new_owner = test_users[-1]
     id = test_property.id

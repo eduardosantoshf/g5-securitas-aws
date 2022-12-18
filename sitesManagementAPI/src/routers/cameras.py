@@ -1,10 +1,13 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, Response, HTTPException, status, APIRouter
+from fastapi_keycloak import OIDCUser
 
 import src.db.repositories.cameras_crud as crud, src.models.schemas as schemas
 import src.db.repositories.properties_crud as properties_crud
 import src.db.repositories.alarms_crud as alarms_crud
 from src.db.database import get_db
+from src.idp.idp import idp
+import json
 
 router = APIRouter(
     prefix="/sites-man-api/cameras",
@@ -13,7 +16,9 @@ router = APIRouter(
 
 
 @router.post("/", response_model=schemas.Camera, status_code=status.HTTP_201_CREATED)
-def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db)):
+def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = Depends(get_db), \
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+
     db_property = properties_crud.get_property(db, property_id)
     if db_property is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Property with id {property_id} not found")
@@ -22,12 +27,14 @@ def create_camera(camera: schemas.CameraCreate, property_id: int, db: Session = 
 
 
 @router.get("/", response_model=list[schemas.Camera])
-def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_cameras(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), \
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+
     return crud.get_cameras(db=db, skip=skip, limit=limit)
 
 
 @router.get("/{camera_id}", response_model=schemas.Camera)
-def read_camera_by_id(camera_id: int, db: Session = Depends(get_db)):
+def read_camera_by_id(camera_id: int, db: Session = Depends(get_db), user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
     
     db_camera = crud.get_camera(db=db, camera_id=camera_id)
     if db_camera is None:
@@ -37,7 +44,8 @@ def read_camera_by_id(camera_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{camera_id}", response_model=schemas.Camera, status_code=status.HTTP_200_OK)
-def update_camera(camera_id: int, new_description: str | None = None, new_property_id: int | None = None, db: Session = Depends(get_db)):
+def update_camera(camera_id: int, new_description: str | None = None, new_property_id: int | None = None, db: Session = Depends(get_db), \
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
 
     if new_property_id:
         query = properties_crud.get_property(db=db, property_id=new_property_id)
@@ -53,9 +61,32 @@ def update_camera(camera_id: int, new_description: str | None = None, new_proper
 
 
 @router.delete("/{camera_id}")
-def delete_camera(camera_id: int, db: Session = Depends(get_db)):
+def delete_camera(camera_id: int, db: Session = Depends(get_db), \
+                    user: OIDCUser = Depends(idp.get_current_user(required_roles=['g5-end-users']))):
+    
     camera_deleted = crud.delete_camera(db=db, camera_id=camera_id)
     if camera_deleted is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera with id {camera_id} not found")
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/get_user/{camera_id}", status_code=status.HTTP_200_OK)
+def get_user_by_camera(camera_id: int, db: Session = Depends(get_db)):
+
+    db_camera = crud.get_camera(db=db, camera_id=camera_id)
+
+    if db_camera is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera not found")
+
+    db_property =  properties_crud.get_property(db=db, property_id=db_camera.property_id)
+
+    if db_property is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No cameras for such property")
+
+    data = {
+        "user_id": str(db_property.owner_id),
+        "property": str(db_property.id),
+    }
+
+    return json.dumps(data)
