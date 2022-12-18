@@ -12,6 +12,7 @@ import src.service.notification_service as notification_service
 from sqlalchemy.orm import Session
 from src.database import get_db
 import time
+import json
 
 router = APIRouter(
     prefix="/intrusion-management-api/cameras",
@@ -33,16 +34,15 @@ aws_secret_access_key = os.getenv('aws_secret_access_key')
 region_name = os.getenv('region_name')
 bucket_name = os.getenv('bucket_name')
 
-#API_URL = os.getenv('SITES_MAN_API_URL')
-API_URL = "http://15.236.64.199/sites-man-api" #! por isto para o .env
+API_URL = os.getenv('SITES_MAN_API_URL')
 
 
 @router.post("/receive-intrusion-frame", response_model=schemas.Frame)
 def receive_intrusion_frame(frame: schemas.Frame):
     send_message_camera = camera_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_camera, kombu_queue_camera, frame)
-    #send_message_alarm = alarm_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_alarm, kombu_queue_alarm, frame.camera_id)
+    send_message_alarm = alarm_service.send_message_to_broker(kombu_connection, kombu_exchange, kombu_channel, kombu_producer_alarm, kombu_queue_alarm, frame.camera_id)
     
-    trigger_notification = notification_service.trigger_notification("sobral@ua.pt", frame.camera_id)
+    trigger_notification = notification_service.trigger_notification("fernando.silva.g5securitas@gmail.com", frame.camera_id)
     
     #if (send_message_camera and send_message_alarm) and trigger_notification:
     if (send_message_camera):
@@ -66,7 +66,7 @@ def receive_video_from_cameras_and_save(file: UploadFile, db: Session = Depends(
     print(camera_id)
 
     user_id, building_id = camera_service.get_user_id_and_building_id(API_URL=API_URL, camera_id=camera_id)
-    print(user_id, building_id)
+    #print(user_id, building_id)
     
     add_info = camera_service.add_user_video(db, user_id=user_id, video_name=file.filename, video_path="./videos_/" + file.filename, camera_id=camera_id, building_id=building_id)
     if add_info == False:
@@ -111,3 +111,12 @@ def download_video_from_s3_and_send(id: int, db: Session = Depends(get_db)):
     #    except Exception as e:
     #        print("Error deleting video: " +  e)
     #        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    
+@router.get("/teste", status_code=status.HTTP_200_OK)
+def teste():
+    data = {
+        "user_id": "asasas",
+        "property": "12122"
+    }
+
+    return json.dumps(data)

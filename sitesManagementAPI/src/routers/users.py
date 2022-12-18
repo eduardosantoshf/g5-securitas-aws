@@ -108,24 +108,3 @@ def read_user_properties(user_id: str, db: Session = Depends(get_db), user: OIDC
         return []
 
     return db_properties
-
-
-@router.get("/{camera_id}/user", status_code=status.HTTP_200_OK)
-def get_user_by_camera(camera_id: int, db: Session = Depends(get_db)):
-
-    db_camera = cameras_crud.get_camera(db=db, camera_id=camera_id)
-
-    if db_camera is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera not found")
-
-    db_property =  properties_crud.get_property(db=db, property_id=db_camera.property_id)
-
-    if db_property is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No cameras for such property")
-
-    data = {
-        "user_id": str(db_property.owner_id),
-        "property": str(db_property.id),
-    }
-
-    return json.dumps(data)

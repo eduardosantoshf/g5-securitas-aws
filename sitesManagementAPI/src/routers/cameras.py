@@ -7,6 +7,7 @@ import src.db.repositories.properties_crud as properties_crud
 import src.db.repositories.alarms_crud as alarms_crud
 from src.db.database import get_db
 from src.idp.idp import idp
+import json
 
 router = APIRouter(
     prefix="/sites-man-api/cameras",
@@ -68,3 +69,24 @@ def delete_camera(camera_id: int, db: Session = Depends(get_db), \
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera with id {camera_id} not found")
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/get_user/{camera_id}", status_code=status.HTTP_200_OK)
+def get_user_by_camera(camera_id: int, db: Session = Depends(get_db)):
+
+    db_camera = crud.get_camera(db=db, camera_id=camera_id)
+
+    if db_camera is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera not found")
+
+    db_property =  properties_crud.get_property(db=db, property_id=db_camera.property_id)
+
+    if db_property is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No cameras for such property")
+
+    data = {
+        "user_id": str(db_property.owner_id),
+        "property": str(db_property.id),
+    }
+
+    return json.dumps(data)

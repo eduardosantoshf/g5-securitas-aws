@@ -56,7 +56,9 @@ env:
   RABBIT_MQ_QUEUE_NAME: request-video-queue
   RABBIT_MQ_EXCHANGE_NAME_ALARM: activate-alarm-exchange
   RABBIT_MQ_QUEUE_NAME_ALARM: activate-alarm-queue
-  
+
+  SITES_MAN_API_URL: http://securitas-lb-1725284772.eu-west-3.elb.amazonaws.com/sites-man-api
+
   MARIADB_DATABASE: intrusion_man_db
   MARIADB_PORT: 3306
 
@@ -138,6 +140,7 @@ jobs:
             aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
             region_name=${{ env.region_name }}
             bucket_name=${{ env.bucket_name }}
+            SITES_MAN_API_URL=${{ env.SITES_MAN_API_URL }}
             
 
       - name: Deploy Amazon ECS task definition
