@@ -4,17 +4,31 @@ sidebar_position: 1
 
 # Identity Provider
 
-The [Keycloak](https://www.keycloak.org/) was the tool chosen to develop the Identity Provider.
+## Introduction
+
+
+The IDP will be used to provide authentication and authorization mechanisms for all the API's and UI's.
+The chosen technology for IDP was [Keycloak](https://www.keycloak.org/).
+
 
 ## Keycloak Configuration
 
-The first step was to create a realm for our project, "g5-securitas".
+### Realm
 
-Next, we created 2 roles for the realm in question, one for management users and another for client users, respectively "g5-admin" and "g5-end-users". The default role "default-roles-g5-securitas" is also a role that identifies users as clients.
+The first step was to create a realm for our project, "g5-securitas", it is in this realm where the users will be registred, the settings for such users will be configured and where users managements. 
 
-The management users are configured by the keycloak admin server, where credentials and the "g5-admin" role are assigned, in order to be able to authenticate in the Management UI.
+### Roles
 
-Finally, we created 3 clients, one for the Managment Web UI, another for the Client Web UI and for the Sites Managment API.
+Next, we created 2 roles for the realm in question, one for management users and another for client users, respectively "g5-admin" and "g5-end-users". By default all users registred using the IDP will get the role "g5-end-users".
+
+The management users are configured by the keycloak admin client, where credentials and the "g5-admin" role are assigned, in order to be able to authenticate in the Management UI.
+
+### Clients
+
+Clients are applications, in our case API's and UI's that can request the authentication of a certain user. Each of the UI's and API's has it's own client configuration that allows authenticate to users, these clients use their client Id and a server generated Secret, for authentication against the Keycloak Server 
+
+So finally, we created 3 clients, one for the Managment Web UI, another for the Client Web UI, for the Sites Managment API and Itrusion Management API, although it's methods were not set up for authentication.
+
 
 ## Frontend integration with IDP
 In order to integrate the IDP in the frontends we had to install the following dependencies:
@@ -62,4 +76,15 @@ We implemented code in the frontends that checks if there is an authenticated us
 
 In the frontends, in each call to the Sites Management API we add the 'Authorization' header with the authenticated user token.
 
-## Sites Managment API integration with IDP
+## API integration with IDP
+
+API authentication and authorization were implemented in our API's using the fastapi_keycloak library, as fastapi was our chosen technology for
+APIs. 
+
+
+For the API clients it was enabled both client authentication and authorization mechanisms. In terms of OpenID Connect, these clients, have the Authorization Code Flow enabled, which requires the user to first get an access token from the Keycloak server, and then add this token to the Authorization Header of all the requests to the API protected endpoints. 
+
+
+With the IDP integration, none of the APIs store any of the system's users information apart from his ID and property address.
+
+![](./img/protected_endpoints.png)
