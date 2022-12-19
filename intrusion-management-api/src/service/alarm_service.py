@@ -9,12 +9,12 @@ def send_message_to_broker(broker_url, broker_username, broker_password, exchang
     connection_string = f"amqp://{broker_username}:{broker_password}" \
         f"@{broker_url}/"        
     print(f"Connecting to {connection_string}")
-
+    
     try:
         # Kombu Connection
         kombu_connection = kombu.Connection(
             connection_string,
-            #ssl=True
+            ssl=True
         )
         kombu_channel = kombu_connection.channel()
     except Exception as e:
@@ -41,6 +41,8 @@ def send_message_to_broker(broker_url, broker_username, broker_password, exchang
     )
     kombu_queue.maybe_bind(kombu_connection)
     kombu_queue.declare()
+    
+    print("aqui")
     
     try:
         kombu_producer.publish(

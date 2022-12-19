@@ -12,6 +12,7 @@ import src.service.notification_service as notification_service
 from sqlalchemy.orm import Session
 from src.database import get_db
 import time
+import json
 
 router = APIRouter(
     prefix="/intrusion-management-api/cameras",
@@ -65,7 +66,7 @@ def receive_video_from_cameras_and_save(file: UploadFile, db: Session = Depends(
     print(camera_id)
 
     user_id, building_id = camera_service.get_user_id_and_building_id(API_URL=API_URL, camera_id=camera_id)
-    print(user_id, building_id)
+    #print(user_id, building_id)
     
     add_info = camera_service.add_user_video(db, user_id=user_id, video_name=file.filename, video_path="./videos_/" + file.filename, camera_id=camera_id, building_id=building_id)
     if add_info == False:
@@ -110,3 +111,12 @@ def download_video_from_s3_and_send(id: int, db: Session = Depends(get_db)):
     #    except Exception as e:
     #        print("Error deleting video: " +  e)
     #        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content="Error deleting video")
+    
+@router.get("/teste", status_code=status.HTTP_200_OK)
+def teste():
+    data = {
+        "user_id": "asasas",
+        "property": "12122"
+    }
+
+    return json.dumps(data)
