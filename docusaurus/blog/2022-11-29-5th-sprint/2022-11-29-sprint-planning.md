@@ -7,8 +7,8 @@ authors: eva
 **Attendees**: all 
 
 * **Define Team Roles**:
-  * Scrum Master (28/11/2022 - 12/12/2022) - Pedro Sobral
-  * Product Owner (28/11/2022 - 12/12/2022) - Eva Bartolomeu
+  * Scrum Master (28/11/2022 - 18/12/2022) - Pedro Sobral
+  * Product Owner (28/11/2022 - 18/12/2022) - Eva Bartolomeu
 
 * **Sprint Goals**:
   * Integrate user authentication to all services
