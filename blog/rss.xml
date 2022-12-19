@@ -4,17 +4,33 @@
         <title>G5 Securitas Blog</title>
         <link>https://eduardosantoshf.github.io /es-project/blog</link>
         <description>G5 Securitas Blog</description>
-        <lastBuildDate>Tue, 29 Nov 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 18 Dec 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[5th Sprint Retrospective]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/5th-sprint-retrospective</link>
+            <guid>5th-sprint-retrospective</guid>
+            <pubDate>Sun, 18 Dec 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>What went well?</strong></p><ul><li>We were able to show the working software to the stakeholders.</li></ul></li><li><p><strong>What were the problem?</strong></p></li><li><p><strong>Lesson learned</strong></p></li></ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[5th Sprint Review]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/5th-sprint-review</link>
+            <guid>5th-sprint-review</guid>
+            <pubDate>Sun, 18 Dec 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 23</p></li><li><p><strong>accomplished:</strong> 23</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong>  4</p></li><li><p><strong>Unfinished user stories:</strong> 4</p></li></ul><h1>Value added to the costumer</h1><ul><li>IDP configured on the system</li><li>Activate alarms when there is an intrusion</li><li>List all events triggered in the client's building</li></ul>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[5th Sprint Planning]]></title>
             <link>https://eduardosantoshf.github.io /es-project/blog/5th-sprint-planning</link>
             <guid>5th-sprint-planning</guid>
             <pubDate>Tue, 29 Nov 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (28/11/2022 - 12/12/2022) - Pedro Sobral</li><li>Product Owner (28/11/2022 - 12/12/2022) - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Integrate user authentication to all services</li><li>Enhance the client web UI interface to display all the triggered events and corresponding intrusion video and integrate alarms into our system.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Deploy IDP to AWS</li><li>Intrusion management API IDP integration</li><li>Sites management API IDP integration</li><li>Client UI IDP integration</li><li>Management UI IDP integration</li><li>Send a broker message to the target alarms</li><li>Endpoints to retrieve all events triggered</li><li>User interface to visualize all events triggered</li></ul></li></ul>]]></content:encoded>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (28/11/2022 - 18/12/2022) - Pedro Sobral</li><li>Product Owner (28/11/2022 - 18/12/2022) - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Integrate user authentication to all services</li><li>Enhance the client web UI interface to display all the triggered events and corresponding intrusion video and integrate alarms into our system.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Deploy IDP to AWS</li><li>Intrusion management API IDP integration</li><li>Sites management API IDP integration</li><li>Client UI IDP integration</li><li>Management UI IDP integration</li><li>Send a broker message to the target alarms</li><li>Endpoints to retrieve all events triggered</li><li>User interface to visualize all events triggered</li></ul></li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[4st Sprint Retrospective]]></title>
@@ -31,6 +47,14 @@
             <pubDate>Mon, 28 Nov 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
             <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 29</p></li><li><p><strong>accomplished:</strong> 0</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 0</p></li><li><p><strong>Unfinished user stories:</strong> 3</p></li></ul><p>Unfinished user stories don't meet the definition of ready.</p><h1>Value added to the costumer</h1><ul><li>Non</li></ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[3rd Sprint Review]]></title>
+            <link>https://eduardosantoshf.github.io /es-project/blog/3rd-sprint-review</link>
+            <guid>3rd-sprint-review</guid>
+            <pubDate>Mon, 14 Nov 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Attendees: all]]></description>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 7</p></li><li><p><strong>accomplished:</strong> 7</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 1</p></li><li><p><strong>Unfinished user stories:</strong> 1 </p></li></ul><h1>Value added to the costumer</h1><ul><li>List/add/remove alarms on clinet page</li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[4th Sprint Planning]]></title>

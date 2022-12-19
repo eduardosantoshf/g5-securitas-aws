@@ -2,18 +2,42 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://eduardosantoshf.github.io /es-project/blog</id>
     <title>G5 Securitas Blog</title>
-    <updated>2022-11-29T00:00:00.000Z</updated>
+    <updated>2022-12-18T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://eduardosantoshf.github.io /es-project/blog"/>
     <subtitle>G5 Securitas Blog</subtitle>
     <icon>https://eduardosantoshf.github.io /es-project/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[5th Sprint Retrospective]]></title>
+        <id>5th-sprint-retrospective</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/5th-sprint-retrospective"/>
+        <updated>2022-12-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Attendees: all]]></summary>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>What went well?</strong></p><ul><li>We were able to show the working software to the stakeholders.</li></ul></li><li><p><strong>What were the problem?</strong></p></li><li><p><strong>Lesson learned</strong></p></li></ul>]]></content>
+        <author>
+            <name>Eva Bartolomeu</name>
+            <uri>https://github.com/eva-pomposo</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[5th Sprint Review]]></title>
+        <id>5th-sprint-review</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/5th-sprint-review"/>
+        <updated>2022-12-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Attendees: all]]></summary>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 23</p></li><li><p><strong>accomplished:</strong> 23</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong>  4</p></li><li><p><strong>Unfinished user stories:</strong> 4</p></li></ul><h1>Value added to the costumer</h1><ul><li>IDP configured on the system</li><li>Activate alarms when there is an intrusion</li><li>List all events triggered in the client's building</li></ul>]]></content>
+        <author>
+            <name>Eva Bartolomeu</name>
+            <uri>https://github.com/eva-pomposo</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[5th Sprint Planning]]></title>
         <id>5th-sprint-planning</id>
         <link href="https://eduardosantoshf.github.io /es-project/blog/5th-sprint-planning"/>
         <updated>2022-11-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Attendees: all]]></summary>
-        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (28/11/2022 - 12/12/2022) - Pedro Sobral</li><li>Product Owner (28/11/2022 - 12/12/2022) - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Integrate user authentication to all services</li><li>Enhance the client web UI interface to display all the triggered events and corresponding intrusion video and integrate alarms into our system.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Deploy IDP to AWS</li><li>Intrusion management API IDP integration</li><li>Sites management API IDP integration</li><li>Client UI IDP integration</li><li>Management UI IDP integration</li><li>Send a broker message to the target alarms</li><li>Endpoints to retrieve all events triggered</li><li>User interface to visualize all events triggered</li></ul></li></ul>]]></content>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>Define Team Roles</strong>:</p><ul><li>Scrum Master (28/11/2022 - 18/12/2022) - Pedro Sobral</li><li>Product Owner (28/11/2022 - 18/12/2022) - Eva Bartolomeu</li></ul></li><li><p><strong>Sprint Goals</strong>:</p><ul><li>Integrate user authentication to all services</li><li>Enhance the client web UI interface to display all the triggered events and corresponding intrusion video and integrate alarms into our system.</li></ul></li><li><p><strong>What can be done this sprint?</strong></p><ul><li>Deploy IDP to AWS</li><li>Intrusion management API IDP integration</li><li>Sites management API IDP integration</li><li>Client UI IDP integration</li><li>Management UI IDP integration</li><li>Send a broker message to the target alarms</li><li>Endpoints to retrieve all events triggered</li><li>User interface to visualize all events triggered</li></ul></li></ul>]]></content>
         <author>
             <name>Eva Bartolomeu</name>
             <uri>https://github.com/eva-pomposo</uri>
@@ -41,6 +65,18 @@
         <author>
             <name>João Ferreira</name>
             <uri>https://github.com/joaodiogo10</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[3rd Sprint Review]]></title>
+        <id>3rd-sprint-review</id>
+        <link href="https://eduardosantoshf.github.io /es-project/blog/3rd-sprint-review"/>
+        <updated>2022-11-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Attendees: all]]></summary>
+        <content type="html"><![CDATA[<p><strong>Attendees</strong>: all </p><h1>Story points</h1><ul><li><p><strong>Total story points:</strong> 7</p></li><li><p><strong>accomplished:</strong> 7</p></li></ul><h1>User stories</h1><ul><li><p><strong>Finished user stories:</strong> 1</p></li><li><p><strong>Unfinished user stories:</strong> 1 </p></li></ul><h1>Value added to the costumer</h1><ul><li>List/add/remove alarms on clinet page</li></ul>]]></content>
+        <author>
+            <name>Eduardo Santos</name>
+            <uri>https://github.com/eduardosantoshf</uri>
         </author>
     </entry>
     <entry>
