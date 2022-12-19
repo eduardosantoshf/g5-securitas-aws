@@ -57,6 +57,7 @@ reportWebVitals();
 In both frontends, in the Sidebar we define that the Home page is a public page and the rest are private pages, that is, the Home page can be accessed without authentication, but the rest can only be accessed with authentication.
 
 We implemented code in the frontends that checks if there is an authenticated user, if there is it shows a Logout button and the name of the authenticated user, if not it shows the Login button. When the Login button is clicked, Keycloak's Login method is executed to authenticate the user. When the Logout button is clicked, Keycloak's Logout method is executed to Logout of the user's account.
+
 ![](./img/login.png)
 
 In the frontends, in each call to the Sites Management API we add the 'Authorization' header with the authenticated user token.
