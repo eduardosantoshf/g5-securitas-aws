@@ -14,7 +14,7 @@
             <guid>5th-sprint-retrospective</guid>
             <pubDate>Sun, 18 Dec 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[Attendees: all]]></description>
-            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>What went well?</strong></p><ul><li>We were able to show the working software to the stakeholders.</li></ul></li><li><p><strong>What were the problem?</strong></p></li><li><p><strong>Lesson learned</strong></p></li></ul>]]></content:encoded>
+            <content:encoded><![CDATA[<p><strong>Attendees</strong>: all </p><ul><li><p><strong>What went well?</strong></p><ul><li>We managed to test everything end-to-end, with the main objective of the work, showing the client's intrusions in the client's interface and alarming him with notifications.</li></ul></li><li><p><strong>What were the problem?</strong></p><ul><li>The implementation of the IDP was unfinished and we also had to remove the API Gateway due to lack of time to integrate it with the IDP. Despite this, the API Gateway exists, it is functional, but it is not integrated with the IDP.</li></ul></li><li><p><strong>Lesson learned</strong></p><ul><li>Architecture decisions must be made as soon as possible</li><li>Security in a project must be taken into account right from the start, and not leave it to the last.</li></ul></li></ul>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[5th Sprint Review]]></title>
