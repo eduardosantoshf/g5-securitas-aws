@@ -1,5 +1,7 @@
 # ES Project
 
+The objective of this project was to create an intrusion detection system that identifies intruders from CCTV cameras, alerting its owners of the intrusion, with the entire system deployed on AWS.
+
 ## G5 Securitas
 
 [![Human Detection Module Pipeline](https://github.com/eduardosantoshf/es-project/actions/workflows/human-detection.yaml/badge.svg)](https://github.com/eduardosantoshf/es-project/actions/workflows/human-detection.yaml)
@@ -9,6 +11,14 @@
 ## Course
 This project was developed under the [Software Engineering](https://www.ua.pt/en/uc/2381) course of [University of Aveiro](https://www.ua.pt/).
 
+## AWS' Services Used
+
+* Amazon MQ
+* Amazon ElastiCache
+* Amazon API Gateway
+* ECS
+* EC2
+* S3
 
 ## Jira
 
