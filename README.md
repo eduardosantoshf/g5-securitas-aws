@@ -28,6 +28,9 @@ The project management backlog and sprints can be accessed [here](https://g5-sec
 
 This project's documentation can be accessed [here](https://eduardosantoshf.github.io/es-project/).
 
+## Grade 
+This project's (individual) grade was **16.34** out of 20.
+
 ## Team Members
 * **Diogo Vicente**: [DVicas](https://github.com/DVicas)
 * **Eduardo Santos**: [eduardosantoshf](https://github.com/eduardosantoshf)
